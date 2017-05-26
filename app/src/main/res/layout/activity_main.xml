@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:background="@color/dark_grey"
-    android:padding="@dimen/box_inset_layout_padding" tools:context="com.lbbento.pitchup.MainActivity"
+    android:padding="@dimen/box_inset_layout_padding" tools:context="com.lbbento.pitchup.main.MainActivity"
     tools:deviceIds="wear">
 
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
