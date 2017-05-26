@@ -1,19 +1,20 @@
 package com.lbbento.pitchup
 
 import android.app.Application
-import com.lbbento.daydreamnasa.di.AppComponent
-import com.lbbento.daydreamnasa.di.AppModule
-import com.lbbento.daydreamnasa.di.DaggerAppComponent
+import com.lbbento.pitchup.di.AppComponent
+import com.lbbento.pitchup.di.AppModule
+import com.lbbento.pitchup.di.DaggerAppComponent
 
-class MainApplication: Application() {
+class MainApplication : Application() {
 
-    lateinit var component: AppComponent
+    val component: AppComponent
+        get() = DaggerAppComponent.builder()
+                .appModule(AppModule(this))
+                .build()
+
 
     override fun onCreate() {
         super.onCreate()
-        component = DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
         component.inject(this)
     }
 

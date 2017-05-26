@@ -1,13 +1,11 @@
-package com.lbbento.daydreamnasa.di
+package com.lbbento.pitchup.di
 
 import com.lbbento.pitchup.MainApplication
-import com.lbbento.pitchup.main.MainActivity
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
+@ForApplication
 @Component(modules = arrayOf(AppModule::class))
 interface AppComponent {
-    fun inject(mainApplication : MainApplication)
-    fun inject(mainActivity: MainActivity)
+    fun inject(mainApplication: MainApplication)
+    fun plus(module: ControllerModule): ControllerComponent
 }

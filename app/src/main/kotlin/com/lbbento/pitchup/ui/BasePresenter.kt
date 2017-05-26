@@ -1,7 +1,4 @@
-package com.lbbento.daydreamnasa.ui.presenter
-
-import com.lbbento.pitchup.ui.BaseView
-
+package com.lbbento.pitchup.ui
 
 abstract class BasePresenter<V : BaseView> {
 
