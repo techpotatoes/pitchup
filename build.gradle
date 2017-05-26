@@ -1,0 +1,36 @@
+buildscript {
+    ext.kotlin_version = '1.1.2-4'
+    ext.gradle_version = '3.0.0-alpha1'
+
+    repositories {
+        maven { url 'https://maven.google.com' }
+        jcenter()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradle_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.google.com' }
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    tests_junit_version = '4.12'
+    tests_mockito_version = '2.7.22'
+    wear_version = '2.0.1'
+    wear_gms_version = '10.2.1'
+    butter_knife_version = '8.5.1'
+    rx_kotlin = '2.0.0-RC1'
+    rx_android = '0.22.0'
+    dagger_version = '2.10'
+}
