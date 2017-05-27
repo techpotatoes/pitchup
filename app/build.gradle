@@ -10,6 +10,8 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -33,30 +35,30 @@ kapt {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     //Tests
-    testCompile "junit:junit:$tests_junit_version"
-    testCompile "org.mockito:mockito-core:$tests_mockito_version"
+    testImplementation "junit:junit:$tests_junit_version"
+    testImplementation "org.mockito:mockito-core:$tests_mockito_version"
 
     //Wear
     //noinspection GradleCompatible
-    compile "com.google.android.support:wearable:$wear_version"
-    provided "com.google.android.wearable:wearable:$wear_version"
-    compile "com.google.android.gms:play-services-wearable:$wear_gms_version"
+    implementation "com.google.android.support:wearable:$wear_version"
+    compileOnly "com.google.android.wearable:wearable:$wear_version"
+    implementation "com.google.android.gms:play-services-wearable:$wear_gms_version"
 
     //kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     //Butterknife
-    compile "com.jakewharton:butterknife:$butter_knife_version"
+    implementation "com.jakewharton:butterknife:$butter_knife_version"
     kapt "com.jakewharton:butterknife-compiler:$butter_knife_version"
 
     //RxKotlin
-    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin
-    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android
+    implementation group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin
+    implementation group: 'io.reactivex', name: 'rxandroid', version: rx_android
 
     //Dagger
-    compile "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
 }

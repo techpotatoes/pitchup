@@ -4,22 +4,21 @@ import com.lbbento.pitchup.util.PermissionHandler
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
+import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class MainPresenterTest {
 
-    @Mock
-    lateinit var view: MainView
+    val view: MainView
+        get() = mock(MainView::class.java)
 
-    @Mock
-    lateinit var permissionHandler: PermissionHandler
+    val permissionHandler: PermissionHandler
+        get() = mock(PermissionHandler::class.java)
 
-    @InjectMocks
-    lateinit var presenter: MainPresenter
+    val presenter: MainPresenter
+        get() = MainPresenter(permissionHandler)
 
     @Before
     fun setup() {
