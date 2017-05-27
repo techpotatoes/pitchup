@@ -27,8 +27,8 @@ class MainPresenterTest {
     }
 
     @Test
-    fun shouldCheckIfHaveRightPermissionsOnCreate() {
-        presenter.onCreate()
+    fun shouldCheckIfHaveRightPermissionsOnViewResuming() {
+        presenter.onViewResuming()
 
         verify(permissionHandler).handleMicrophonePermission()
     }

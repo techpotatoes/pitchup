@@ -14,6 +14,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //TODO - just enable when listening to a valid frequency
         // Enables Always-on
         setAmbientEnabled()
     }

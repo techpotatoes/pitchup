@@ -1,12 +1,16 @@
 package com.lbbento.pitchup.util
 
-import android.Manifest
+import android.Manifest.permission.RECORD_AUDIO
 import android.app.Activity
-import android.content.pm.PackageManager
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.support.v4.app.ActivityCompat.requestPermissions
+import android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale
+import android.support.v4.content.ContextCompat.checkSelfPermission
+import android.support.wearable.view.WearableDialogHelper.DialogBuilder
+import com.lbbento.pitchup.R
 import com.lbbento.pitchup.di.ForController
 import javax.inject.Inject
+
 
 @ForController
 class PermissionHandler @Inject constructor(val activity: Activity) {
@@ -15,15 +19,32 @@ class PermissionHandler @Inject constructor(val activity: Activity) {
 
     fun handleMicrophonePermission() {
         if (!hasMicrophonePermission()) {
-            ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.RECORD_AUDIO), AUDIO_PERMISSION_REQUEST_CODE)
+            if (shouldShowRequestPermissionRationale(activity, RECORD_AUDIO)) {
+                showMicPermissionDialog()
+            } else {
+                requestMicPermisson()
+            }
         }
     }
 
     private fun hasMicrophonePermission(): Boolean {
-        val permissionCheck = ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO)
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+        val permissionCheck = checkSelfPermission(activity.applicationContext, RECORD_AUDIO)
+        if (permissionCheck == PERMISSION_GRANTED) {
             return true
         }
         return false
+    }
+
+    private fun showMicPermissionDialog() {
+        DialogBuilder(activity, R.style.Theme_Wearable_Modal)
+                .setMessage(R.string.permisson_handler_mic_permission)
+                .setCancelable(false)
+                .setPositiveButton(R.string.permission_handler_mic_permission_button_ok, { _, _ -> requestMicPermisson() })
+                .create()
+                .show()
+    }
+
+    private fun requestMicPermisson() {
+        requestPermissions(activity, arrayOf(RECORD_AUDIO), AUDIO_PERMISSION_REQUEST_CODE)
     }
 }

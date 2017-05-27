@@ -29,5 +29,15 @@ abstract class BaseActivity<P : BasePresenterView> : WearableActivity(), BaseVie
         presenter.onAttachedToWindow(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.onViewResuming()
+    }
+
+    override fun onPostResume() {
+        super.onResume()
+        presenter.onViewResumed()
+    }
+
     abstract fun setupInjection()
 }
