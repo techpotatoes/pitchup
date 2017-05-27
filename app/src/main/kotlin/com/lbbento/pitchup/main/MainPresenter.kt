@@ -6,7 +6,7 @@ import com.lbbento.pitchup.util.PermissionHandler
 import javax.inject.Inject
 
 @ForController
-class MainPresenter @Inject constructor(var permissionHandler: PermissionHandler) : BasePresenter<MainView>() {
+class MainPresenter @Inject constructor(val permissionHandler: PermissionHandler) : BasePresenter<MainView>() {
 
     fun onCreate() {
         permissionHandler.handleMicrophonePermission()

@@ -4,7 +4,7 @@ import com.lbbento.pitchup.main.MainActivity
 import dagger.Subcomponent
 
 @ForController
-@Subcomponent(modules = arrayOf(ControllerModule::class))
-interface ControllerComponent {
+@Subcomponent(modules = arrayOf(ActivityModule::class))
+interface ActivityComponent {
     fun inject(mainActivity: MainActivity)
 }

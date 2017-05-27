@@ -1,10 +1,11 @@
 package com.lbbento.pitchup.ui
 
-abstract class BasePresenter<V : BaseView> {
+abstract class BasePresenter<V : BaseView> : BasePresenterView {
 
     lateinit var mView: V
 
-    fun onAttachedToWindow(view: V) {
-        this.mView = view
+    override fun onAttachedToWindow(view: BaseView) {
+        @Suppress("UNCHECKED_CAST")
+        this.mView = view as V
     }
 }

@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class ControllerModule(val activity: Activity) {
+class ActivityModule(val activity: Activity) {
 
     @Provides
     fun context(): Context {
