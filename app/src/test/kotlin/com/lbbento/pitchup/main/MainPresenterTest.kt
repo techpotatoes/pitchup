@@ -11,11 +11,11 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class MainPresenterTest {
 
-    val view: MainView
-        get() = mock(MainView::class.java)
-
     val permissionHandler: PermissionHandler
         get() = mock(PermissionHandler::class.java)
+
+    val view: MainView
+        get() = mock(MainView::class.java)
 
     val presenter: MainPresenter
         get() = MainPresenter(permissionHandler)

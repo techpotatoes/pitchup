@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "26.0.0-rc2"
     defaultConfig {
         applicationId "com.lbbento.pitchup"
         minSdkVersion 25
@@ -26,6 +26,7 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
     }
 
 }
@@ -34,31 +35,32 @@ kapt {
     generateStubs = true
 }
 
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     //Tests
-    testImplementation "junit:junit:$tests_junit_version"
-    testImplementation "org.mockito:mockito-core:$tests_mockito_version"
+    testCompile "junit:junit:$tests_junit_version"
+    testCompile "org.mockito:mockito-core:$tests_mockito_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     //Wear
     //noinspection GradleCompatible
-    implementation "com.google.android.support:wearable:$wear_version"
-    compileOnly "com.google.android.wearable:wearable:$wear_version"
-    implementation "com.google.android.gms:play-services-wearable:$wear_gms_version"
+    compile "com.google.android.support:wearable:$wear_version"
+    provided "com.google.android.wearable:wearable:$wear_version"
+    compile "com.google.android.gms:play-services-wearable:$wear_gms_version"
 
     //kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     //Butterknife
-    implementation "com.jakewharton:butterknife:$butter_knife_version"
+    compile "com.jakewharton:butterknife:$butter_knife_version"
     kapt "com.jakewharton:butterknife-compiler:$butter_knife_version"
 
     //RxKotlin
-    implementation group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin
-    implementation group: 'io.reactivex', name: 'rxandroid', version: rx_android
+    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin
+    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android
 
     //Dagger
-    implementation "com.google.dagger:dagger:$dagger_version"
+    compile "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-
 }

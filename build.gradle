@@ -1,6 +1,6 @@
 buildscript {
     ext.kotlin_version = '1.1.2-4'
-    ext.gradle_version = '3.0.0-alpha1'
+    ext.gradle_version = '2.3.2'
 
     repositories {
         maven { url 'https://maven.google.com' }
@@ -26,9 +26,9 @@ task clean(type: Delete) {
 
 ext {
     tests_junit_version = '4.12'
-    tests_mockito_version = '2.7.22'
-    wear_version = '2.0.1'
-    wear_gms_version = '10.2.1'
+    tests_mockito_version = '2.8.9'
+    wear_version = '2.0.2'
+    wear_gms_version = '10.2.6'
     butter_knife_version = '8.5.1'
     rx_kotlin = '2.0.0-RC1'
     rx_android = '0.22.0'
