@@ -7,7 +7,7 @@ import com.lbbento.pitchup.di.DaggerAppComponent
 class MainApplication : Application() {
 
     val component: AppComponent
-        get() = DaggerAppComponent.create()
+        get() = DaggerAppComponent.builder().build()
 
     override fun onCreate() {
         super.onCreate()

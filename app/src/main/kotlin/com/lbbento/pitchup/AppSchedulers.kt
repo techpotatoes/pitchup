@@ -1,5 +1,6 @@
-package com.lbbento.pitchup.di
+package com.lbbento.pitchup
 
+import com.lbbento.pitchup.di.ForApplication
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

@@ -8,11 +8,11 @@ import android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRational
 import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.support.wearable.view.WearableDialogHelper.DialogBuilder
 import com.lbbento.pitchup.R
-import com.lbbento.pitchup.di.ForController
+import com.lbbento.pitchup.di.ForActivity
 import javax.inject.Inject
 
 
-@ForController
+@ForActivity
 class PermissionHandler @Inject constructor(val activity: Activity) {
 
     private val AUDIO_PERMISSION_REQUEST_CODE = 4
