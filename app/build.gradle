@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
@@ -10,9 +11,9 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -38,10 +39,11 @@ kapt {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    //Tests
-    testCompile "junit:junit:$tests_junit_version"
-    testCompile "org.mockito:mockito-core:$tests_mockito_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+    // Tests
+    testCompile "io.kotlintest:kotlintest:$tests_kotlintest_version"
+    testCompile "com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //Wear
     //noinspection GradleCompatible
@@ -50,7 +52,7 @@ dependencies {
     compile "com.google.android.gms:play-services-wearable:$wear_gms_version"
 
     //kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //Butterknife
     compile "com.jakewharton:butterknife:$butter_knife_version"

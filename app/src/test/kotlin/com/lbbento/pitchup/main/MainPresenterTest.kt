@@ -1,34 +1,24 @@
 package com.lbbento.pitchup.main
 
 import com.lbbento.pitchup.util.PermissionHandler
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnitRunner
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import io.kotlintest.specs.BehaviorSpec
 
-@RunWith(MockitoJUnitRunner::class)
-class MainPresenterTest {
+class MainPresenterTest : BehaviorSpec({
 
-    val permissionHandler: PermissionHandler
-        get() = mock(PermissionHandler::class.java)
+    given("MainPresenter") {
+        val permissionHandler: PermissionHandler = mock()
+        val view: MainView = mock()
+        val mainPresenter = MainPresenter(permissionHandler)
+        mainPresenter.onAttachedToWindow(view)
 
-    val view: MainView
-        get() = mock(MainView::class.java)
+        `when`("resuming") {
+            mainPresenter.onViewResuming()
 
-    val presenter: MainPresenter
-        get() = MainPresenter(permissionHandler)
-
-    @Before
-    fun setup() {
-        presenter.onAttachedToWindow(view)
+            then("should check if it has audio recording permissions") {
+                verify(permissionHandler).handleMicrophonePermission()
+            }
+        }
     }
-
-    @Test
-    fun shouldCheckIfHaveRightPermissionsOnViewResuming() {
-        presenter.onViewResuming()
-
-        verify(permissionHandler).handleMicrophonePermission()
-    }
-}
+})
