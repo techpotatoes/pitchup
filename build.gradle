@@ -26,7 +26,7 @@ task clean(type: Delete) {
 
 ext {
     tests_mockito_kotlin_version = '1.4.0'
-    tests_kotlintest_version = '2.0.2'
+    tests_junit_version = '4.12'
     wear_version = '2.0.2'
     wear_gms_version = '10.2.6'
     butter_knife_version = '8.5.1'

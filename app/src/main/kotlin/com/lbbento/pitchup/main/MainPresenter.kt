@@ -11,11 +11,11 @@ import javax.inject.Inject
 class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val permissionHandler: PermissionHandler, val tunerService: TunerService) : BasePresenter<MainView>() {
 
     override fun onViewResuming() {
-        permissionHandler.handleMicrophonePermission()
-
-        tunerService.getNotes()
-                .subscribeOn(appSchedulers.io())
-                .observeOn(appSchedulers.ui())
-                .subscribe()
+        if (permissionHandler.handleMicrophonePermission()) {
+            tunerService.getNotes()
+                    .subscribeOn(appSchedulers.io())
+                    .observeOn(appSchedulers.ui())
+                    .subscribe()
+        }
     }
 }

@@ -17,14 +17,16 @@ class PermissionHandler @Inject constructor(val activity: Activity) {
 
     private val AUDIO_PERMISSION_REQUEST_CODE = 4
 
-    fun handleMicrophonePermission() {
-        if (!hasMicrophonePermission()) {
-            if (shouldShowRequestPermissionRationale(activity, RECORD_AUDIO)) {
-                showMicPermissionDialog()
-            } else {
-                requestMicPermisson()
-            }
+    fun handleMicrophonePermission(): Boolean {
+        if (hasMicrophonePermission())
+            return true
+
+        if (shouldShowRequestPermissionRationale(activity, RECORD_AUDIO)) {
+            showMicPermissionDialog()
+        } else {
+            requestMicPermisson()
         }
+        return false
     }
 
     private fun hasMicrophonePermission(): Boolean {
