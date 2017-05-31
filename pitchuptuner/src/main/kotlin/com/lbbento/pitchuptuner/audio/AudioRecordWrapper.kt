@@ -3,7 +3,7 @@ package com.lbbento.pitchuptuner.audio
 import android.media.AudioRecord
 import com.lbbento.pitchuptuner.audio.AudioRecordHelper.Companion.getReadSize
 
-class AudioRecordWrapper @javax.inject.Inject constructor(val audioRecord: AudioRecord) {
+class AudioRecordWrapper @javax.inject.Inject constructor(private val audioRecord: AudioRecord) {
 
     val recordingState: Int
         get() = audioRecord.recordingState

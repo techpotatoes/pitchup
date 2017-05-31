@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.lbbento.pitchuptuner.audio.AudioRecordHelper;
 import com.lbbento.pitchuptuner.audio.AudioRecordWrapper;
 import com.lbbento.pitchuptuner.service.TunerServiceImpl;
+import com.lbbento.pitchuptuner.service.pitch.PitchHandler;
 
 import be.tarsos.dsp.pitch.Yin;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AudioRecordWrapper audioRecordWrapper = new AudioRecordWrapper(audioRecord);
 
-    private TunerServiceImpl tunerService = new TunerServiceImpl(audioRecordWrapper, new Yin(AudioRecordHelper.Companion.getSampleRate(), AudioRecordHelper.Companion.getReadSize()));
+    private TunerServiceImpl tunerService = new TunerServiceImpl(audioRecordWrapper, new Yin(AudioRecordHelper.Companion.getSampleRate(), AudioRecordHelper.Companion.getReadSize()), new PitchHandler());
 
     //    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
