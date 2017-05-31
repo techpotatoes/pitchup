@@ -1,3 +1,5 @@
 package com.lbbento.pitchupwear.ui
 
-interface BaseView
+interface BaseView {
+    fun setAmbientEnabled()
+}

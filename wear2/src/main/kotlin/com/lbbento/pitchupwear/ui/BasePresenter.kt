@@ -19,4 +19,8 @@ abstract class BasePresenter<V : BaseView> : BasePresenterView {
     @CallSuper
     override fun onViewResuming() {
     }
+
+    @CallSuper
+    override fun onCreate() {
+    }
 }

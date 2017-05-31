@@ -11,7 +11,12 @@ import com.lbbento.pitchupwear.util.PermissionHandler
 import javax.inject.Inject
 
 @ForActivity
-class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val permissionHandler: PermissionHandler, val tunerService: TunerService) : BasePresenter<MainView>() {
+class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val permissionHandler: PermissionHandler, val tunerService: TunerService, val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
+
+    override fun onCreate() {
+        super.onCreate()
+        mView.setAmbientEnabled()
+    }
 
     override fun onViewResuming() {
         if (permissionHandler.handleMicrophonePermission()) {
@@ -19,17 +24,21 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
                     .subscribeOn(appSchedulers.io())
                     .observeOn(appSchedulers.ui())
                     .subscribe(
-                            { tunerResult: TunerResult? -> tunerResultReceived(tunerResult!!) })
+                            { tunerResult: TunerResult? -> tunerResultReceived(mapper.tunerResultToViewModel(tunerResult!!)) },
+                            { _: Throwable -> tunerResultError() })
         }
     }
 
-    private fun tunerResultReceived(tunerResult: TunerResult) {
-        when (tunerResult.tunningStatus) {
-            TuningStatus.TUNED -> Log.e("Lucas", (String.format("You are tuned to %s", tunerResult.note)))
-            TuningStatus.TOO_LOW -> Log.e("Lucas", (String.format("Almost tuned, a little up to %s", tunerResult.note)))
-            TuningStatus.TOO_HIGH -> Log.e("Lucas", (String.format("Almost tuned, a little down to %s", tunerResult.note)))
-            TuningStatus.WAY_TOO_LOW -> Log.e("Lucas", (String.format("Too flat! tune up a bit. Tuning %s", tunerResult.note)))
-            TuningStatus.WAY_TOO_HIGH -> Log.e("Lucas", (String.format("Too sharp! tune down a bit. Tuning %s", tunerResult.note)))
+    private fun tunerResultReceived(tunerViewModel: TunerViewModel) {
+        mView.updateTunerView(tunerViewModel = tunerViewModel)
+
+        //Testing
+        when (tunerViewModel.tunningStatus) {
+            TuningStatus.TUNED -> Log.e("Lucas", (String.format("You are tuned to %s", tunerViewModel.note)))
+            TuningStatus.TOO_LOW -> Log.e("Lucas", (String.format("Almost tuned, a little up to %s", tunerViewModel.note)))
+            TuningStatus.TOO_HIGH -> Log.e("Lucas", (String.format("Almost tuned, a little down to %s", tunerViewModel.note)))
+            TuningStatus.WAY_TOO_LOW -> Log.e("Lucas", (String.format("Too flat! tune up a bit. Tuning %s", tunerViewModel.note)))
+            TuningStatus.WAY_TOO_HIGH -> Log.e("Lucas", (String.format("Too sharp! tune down a bit. Tuning %s", tunerViewModel.note)))
             else -> {
                 Log.e("Lucas", ("DEFAULT STATE"))
             }
@@ -37,6 +46,6 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
     }
 
     private fun tunerResultError() {
-        Log.e("Lucas", "Error tuning")
+        Log.e("Lucas", "Error tuning") //TODO
     }
 }

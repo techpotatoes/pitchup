@@ -13,9 +13,10 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //TODO - just enable when listening to a valid frequency
-        // Enables Always-on
-        setAmbientEnabled()
     }
+
+    override fun updateTunerView(tunerViewModel: TunerViewModel) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }
