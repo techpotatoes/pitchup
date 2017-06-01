@@ -11,8 +11,9 @@ import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import be.tarsos.dsp.pitch.Yin
-import com.lbbento.pitchuptuner.audio.AudioRecordHelper
-import com.lbbento.pitchuptuner.audio.AudioRecordWrapper
+import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
+import com.lbbento.pitchuptuner.audio.PitchAudioRecorder.Companion.getReadSize
+import com.lbbento.pitchuptuner.audio.PitchAudioRecorder.Companion.getSampleRate
 import com.lbbento.pitchuptuner.service.TunerResult
 import com.lbbento.pitchuptuner.service.TunerServiceImpl
 import com.lbbento.pitchuptuner.service.pitch.PitchHandler
@@ -25,14 +26,14 @@ class MainActivity : AppCompatActivity() {
 
     //TESTING
     private val audioRecord = AudioRecord(MediaRecorder.AudioSource.DEFAULT,
-            AudioRecordHelper.getSampleRate(),
+            getSampleRate(),
             CHANNEL_IN_DEFAULT,
             ENCODING_PCM_16BIT,
-            getMinBufferSize(AudioRecordHelper.getSampleRate(), CHANNEL_IN_DEFAULT, ENCODING_PCM_16BIT))
+            getMinBufferSize(getSampleRate(), CHANNEL_IN_DEFAULT, ENCODING_PCM_16BIT))
 
-    private val audioRecordWrapper = AudioRecordWrapper(audioRecord)
+    private val audioRecordWrapper = PitchAudioRecorder(audioRecord)
 
-    private val tunerService = TunerServiceImpl(audioRecordWrapper, Yin(AudioRecordHelper.getSampleRate().toFloat(), AudioRecordHelper.getReadSize()), PitchHandler())
+    private val tunerService = TunerServiceImpl(audioRecordWrapper, Yin(getSampleRate().toFloat(), getReadSize()), PitchHandler())
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -4,7 +4,7 @@ import android.media.AudioRecord.RECORDSTATE_RECORDING
 import android.media.AudioRecord.RECORDSTATE_STOPPED
 import be.tarsos.dsp.pitch.PitchDetectionResult
 import be.tarsos.dsp.pitch.Yin
-import com.lbbento.pitchuptuner.audio.AudioRecordWrapper
+import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
 import com.lbbento.pitchuptuner.service.TuningStatus.TUNED
 import com.lbbento.pitchuptuner.service.pitch.PitchHandler
 import com.lbbento.pitchuptuner.service.pitch.PitchResult
@@ -17,16 +17,16 @@ import rx.observers.TestSubscriber
 
 class TunerServiceImplTest {
 
-    val mockAudioRecord: AudioRecordWrapper = mock()
+    val mockPitchAudioRecord: PitchAudioRecorder = mock()
     val mockTorsoYin: Yin = mock()
     val pitchHandler: PitchHandler = mock()
 
-    val tunerService = TunerServiceImpl(mockAudioRecord, mockTorsoYin, pitchHandler)
+    val tunerService = TunerServiceImpl(mockPitchAudioRecord, mockTorsoYin, pitchHandler)
 
     @Test
     fun shouldCallOnCompleteWhenStoppedOrFailedToStartRecording() {
         //given Tuner Service not recording
-        whenever(mockAudioRecord.recordingState).thenReturn(RECORDSTATE_STOPPED)
+        whenever(mockPitchAudioRecord.recordingState).thenReturn(RECORDSTATE_STOPPED)
 
         //on getNotes
         val testSubscriber = TestSubscriber<TunerResult>()
@@ -34,8 +34,8 @@ class TunerServiceImplTest {
         testSubscriber.awaitTerminalEvent()
 
         //should start recording
-        verify(mockAudioRecord).startRecording()
-        verify(mockAudioRecord).recordingState
+        verify(mockPitchAudioRecord).startRecording()
+        verify(mockPitchAudioRecord).recordingState
 
         //should do nothing as it has failed
         testSubscriber.assertTerminalEvent()
@@ -49,8 +49,8 @@ class TunerServiceImplTest {
 
         //given Tuner Service recording
 
-        whenever(mockAudioRecord.recordingState).thenReturn(RECORDSTATE_RECORDING)
-        whenever(mockAudioRecord.read()).thenReturn(buffer)
+        whenever(mockPitchAudioRecord.recordingState).thenReturn(RECORDSTATE_RECORDING)
+        whenever(mockPitchAudioRecord.read()).thenReturn(buffer)
         whenever(mockTorsoYin.getPitch(buffer)).thenReturn(pitchDetectionResult)
         whenever(pitchDetectionResult.pitch).thenReturn(123F)
         whenever(pitchHandler.handlePitch(123F)).thenReturn(pitchResult)
@@ -62,13 +62,13 @@ class TunerServiceImplTest {
         //on getnotes
         val testSubscriber = TestSubscriber<TunerResult>()
         tunerService.getNotes()
-                .doOnNext({ whenever(mockAudioRecord.recordingState).thenReturn(RECORDSTATE_STOPPED) })
+                .doOnNext({ whenever(mockPitchAudioRecord.recordingState).thenReturn(RECORDSTATE_STOPPED) })
                 .subscribe(testSubscriber)
         testSubscriber.awaitTerminalEvent()
 
         //should
-        verify(mockAudioRecord).startRecording()
-        verify(mockAudioRecord).read()
+        verify(mockPitchAudioRecord).startRecording()
+        verify(mockPitchAudioRecord).read()
         verify(mockTorsoYin).getPitch(buffer)
         verify(pitchHandler).handlePitch(123F)
         assertEquals(testSubscriber.onNextEvents[0], TunerResult("E", TUNED, 3.0, 3.3))

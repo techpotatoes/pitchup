@@ -2,20 +2,20 @@ package com.lbbento.pitchuptuner.service
 
 import android.media.AudioRecord.RECORDSTATE_RECORDING
 import be.tarsos.dsp.pitch.Yin
-import com.lbbento.pitchuptuner.audio.AudioRecordWrapper
+import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
 import com.lbbento.pitchuptuner.service.pitch.PitchHandler
 import rx.Observable.create
 
 
-class TunerServiceImpl @javax.inject.Inject constructor(private val audioRecord: AudioRecordWrapper, private val torsoYin: Yin, private val pitchHandler: PitchHandler) : TunerService {
+class TunerServiceImpl @javax.inject.Inject constructor(private val pitchAudioRecord: PitchAudioRecorder, private val torsoYin: Yin, private val pitchHandler: PitchHandler) : TunerService {
 
     override fun getNotes(): rx.Observable<TunerResult> {
         return create<TunerResult>({
             try {
-                audioRecord.startRecording()
+                pitchAudioRecord.startRecording()
 
-                while (audioRecord.recordingState == RECORDSTATE_RECORDING) {
-                    val buffer = audioRecord.read()
+                while (pitchAudioRecord.recordingState == RECORDSTATE_RECORDING) {
+                    val buffer = pitchAudioRecord.read()
 
                     val pitchResult = torsoYin.getPitch(buffer)
 

@@ -8,9 +8,9 @@ import android.media.AudioRecord
 import android.media.AudioRecord.getMinBufferSize
 import android.media.MediaRecorder.AudioSource.DEFAULT
 import be.tarsos.dsp.pitch.Yin
-import com.lbbento.pitchuptuner.audio.AudioRecordHelper.Companion.getReadSize
-import com.lbbento.pitchuptuner.audio.AudioRecordHelper.Companion.getSampleRate
-import com.lbbento.pitchuptuner.audio.AudioRecordWrapper
+import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
+import com.lbbento.pitchuptuner.audio.PitchAudioRecorder.Companion.getReadSize
+import com.lbbento.pitchuptuner.audio.PitchAudioRecorder.Companion.getSampleRate
 import com.lbbento.pitchuptuner.service.TunerService
 import com.lbbento.pitchuptuner.service.TunerServiceImpl
 import com.lbbento.pitchuptuner.service.pitch.PitchHandler
@@ -34,7 +34,7 @@ class ActivityModule(val activity: Activity) {
             getMinBufferSize(getSampleRate(), CHANNEL_IN_DEFAULT, ENCODING_PCM_16BIT))
 
     @Provides
-    fun provideTunerService(audioRecord: AudioRecordWrapper, torsoYin: Yin, pitchHandler: PitchHandler): TunerService = TunerServiceImpl(audioRecord, torsoYin, pitchHandler)
+    fun provideTunerService(pitchAudioRecord: PitchAudioRecorder, torsoYin: Yin, pitchHandler: PitchHandler): TunerService = TunerServiceImpl(pitchAudioRecord, torsoYin, pitchHandler)
 
     @Provides
     fun provideTorsoYin(): Yin = Yin(getSampleRate().toFloat(), getReadSize())
