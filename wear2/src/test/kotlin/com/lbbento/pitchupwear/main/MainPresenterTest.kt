@@ -28,7 +28,7 @@ class MainPresenterTest {
 
     @Test
     fun shouldSetAmbienteEnabledOnCreate() {
-        mainPresenter.onCreate()
+        mainPresenter.onCreated()
 
         verify(mockView).setAmbientEnabled()
     }

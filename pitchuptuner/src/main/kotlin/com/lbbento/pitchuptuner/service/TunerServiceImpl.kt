@@ -21,7 +21,7 @@ class TunerServiceImpl @javax.inject.Inject constructor(private val audioRecord:
 
                     val result = pitchHandler.handlePitch(pitchResult.pitch)
 
-                    it.onNext(TunerResult(note = result.note, tunningStatus = result.tunningStatus, diff = result.diff))
+                    it.onNext(TunerResult(note = result.note, tunningStatus = result.tunningStatus, diffFrequency = result.diffFrequency, expectedFrequency = result.expectedFrequency))
                 }
 
                 it.onCompleted()

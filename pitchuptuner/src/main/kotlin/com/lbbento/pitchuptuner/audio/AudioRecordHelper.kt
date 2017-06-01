@@ -7,7 +7,8 @@ import android.media.AudioRecord.getMinBufferSize
 class AudioRecordHelper {
 
     companion object {
-        val SAMPLE_RATES = intArrayOf(8000, 11025, 16000, 22050, 32000, 37800, 44056, 44100, 47250, 48000)
+        //VALID SAMPLERATES (8000, 11025, 16000, 22050, 32000, 37800, 44056, 44100, 47250, 48000)
+        val SAMPLE_RATES = intArrayOf(8000, 11025, 16000)
 
         fun getSampleRate(): Int {
             var sampleRate = -1

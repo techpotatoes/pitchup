@@ -21,7 +21,7 @@
             android:required="true" />
         <meta-data
             android:name="com.google.android.wearable.standalone"
-            android:value="true" />
+            android:value="false" />
 
         <activity
             android:name=".main.MainActivity"

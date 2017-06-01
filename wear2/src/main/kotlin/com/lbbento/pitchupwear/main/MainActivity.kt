@@ -1,8 +1,10 @@
 package com.lbbento.pitchupwear.main
 
 import android.os.Bundle
+import android.widget.TextView
 import com.lbbento.pitchupwear.R
 import com.lbbento.pitchupwear.ui.BaseActivity
+
 
 class MainActivity : BaseActivity<MainPresenter>(), MainView {
 
@@ -16,7 +18,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
     }
 
     override fun updateTunerView(tunerViewModel: TunerViewModel) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val text = findViewById(R.id.text) as TextView
+        text.text = tunerViewModel.note
     }
-
 }

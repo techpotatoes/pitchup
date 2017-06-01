@@ -40,5 +40,10 @@ abstract class BaseActivity<P : BasePresenterView> : WearableActivity(), BaseVie
         presenter.onViewResumed()
     }
 
+    override fun onStop() {
+        super.onStop()
+        presenter.onStop()
+    }
+
     abstract fun setupInjection()
 }

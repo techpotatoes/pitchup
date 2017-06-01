@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 
 android {
@@ -26,14 +28,36 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
 }
 
 dependencies {
     compile project(':pitchuptuner')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    // Tests
+    testCompile "com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version"
+    testCompile "junit:junit:$tests_junit_version"
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    //Support
     compile 'com.android.support:appcompat-v7:25.3.1'
+
+    //kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    //Butterknife
+    compile "com.jakewharton:butterknife:$butter_knife_version"
+    kapt "com.jakewharton:butterknife-compiler:$butter_knife_version"
+
+    //RxKotlin
+    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin
+    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android
+
+    //Dagger
+    compile "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 }

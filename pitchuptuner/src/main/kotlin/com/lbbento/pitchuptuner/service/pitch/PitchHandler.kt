@@ -13,12 +13,13 @@ class PitchHandler @Inject constructor() {
     internal fun handlePitch(pitch: Float): PitchResult {
         if (isPitchInRange(pitch)) {
             val noteLiteral = noteFromPitch(pitch)
+            val expectedFrequency = frequencyFromNoteNumber(midiFromPitch(pitch))
             val diff = diffFromTargetedNote(pitch)
             val tuningStatus = tuningStatus(diff)
 
-            return PitchResult(noteLiteral, tuningStatus, diff)
+            return PitchResult(noteLiteral, tuningStatus, expectedFrequency, diff)
         }
-        return PitchResult("", DEFAULT, 0.0)
+        return PitchResult("", DEFAULT, 0.0, 0.0)
     }
 
     private fun isPitchInRange(pitch: Float) = pitch > MINIMUN_PITCH && pitch < MAXIMUM_PITCH

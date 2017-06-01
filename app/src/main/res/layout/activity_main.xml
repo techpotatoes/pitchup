@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
     android:orientation="vertical"
     tools:context="com.lbbento.pitchupapp.MainActivity">
 
     <TextView
-        android:id="@+id/tuner"
-        android:layout_width="wrap_content"
+        android:id="@+id/text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="15dp"
+        android:text="Teste Teste"
+        android:textColor="@android:color/white"
+        tools:text="Test">
 
-</android.support.v7.widget.LinearLayoutCompat>
+    </TextView>
+</FrameLayout>
