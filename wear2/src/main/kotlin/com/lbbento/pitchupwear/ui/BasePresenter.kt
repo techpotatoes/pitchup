@@ -21,6 +21,6 @@ abstract class BasePresenter<V : BaseView> : BasePresenterView {
     }
 
     @CallSuper
-    override fun onCreate() {
+    override fun onCreated() {
     }
 }

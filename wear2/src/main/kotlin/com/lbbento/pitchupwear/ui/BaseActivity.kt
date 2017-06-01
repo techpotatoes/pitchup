@@ -22,12 +22,12 @@ abstract class BaseActivity<P : BasePresenterView> : WearableActivity(), BaseVie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupInjection()
-        presenter.onCreate()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         presenter.onAttachedToWindow(this)
+        presenter.onCreated()
     }
 
     override fun onResume() {

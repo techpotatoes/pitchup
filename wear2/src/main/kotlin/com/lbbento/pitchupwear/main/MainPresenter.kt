@@ -13,10 +13,11 @@ import javax.inject.Inject
 @ForActivity
 class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val permissionHandler: PermissionHandler, val tunerService: TunerService, val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
 
-    override fun onCreate() {
-        super.onCreate()
+    override fun onCreated() {
+        super.onCreated()
         mView.setAmbientEnabled()
     }
+
 
     override fun onViewResuming() {
         if (permissionHandler.handleMicrophonePermission()) {
