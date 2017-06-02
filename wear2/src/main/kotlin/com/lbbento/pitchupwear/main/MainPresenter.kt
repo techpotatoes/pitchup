@@ -1,8 +1,8 @@
 package com.lbbento.pitchupwear.main
 
 import android.util.Log
+import com.lbbento.pitchuptuner.GuitarTuner
 import com.lbbento.pitchuptuner.service.TunerResult
-import com.lbbento.pitchuptuner.service.TunerService
 import com.lbbento.pitchupwear.AppSchedulers
 import com.lbbento.pitchupwear.di.ForActivity
 import com.lbbento.pitchupwear.ui.BasePresenter
@@ -11,7 +11,7 @@ import rx.Subscription
 import javax.inject.Inject
 
 @ForActivity
-class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val permissionHandler: PermissionHandler, val tunerService: TunerService, val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
+class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val permissionHandler: PermissionHandler, val guitarTuner: GuitarTuner, val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
 
     private var tunerServiceSubscription: Subscription? = null
 
@@ -26,7 +26,7 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
 
     override fun onViewResuming() {
         if (permissionHandler.handleMicrophonePermission()) {
-            tunerServiceSubscription = tunerService.getNotes()
+            tunerServiceSubscription = guitarTuner.listenToNotes()
                     .subscribeOn(appSchedulers.io())
                     .observeOn(appSchedulers.ui())
                     .subscribe(

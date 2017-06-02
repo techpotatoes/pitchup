@@ -15,13 +15,14 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import rx.observers.TestSubscriber
 
-class TunerServiceImplTest {
+private class TestableTunerService(pitchAudioRecorder: PitchAudioRecorder, override val torsoYin: Yin, override val pitchHandler: PitchHandler) : TunerService(pitchAudioRecorder)
 
-    val mockPitchAudioRecord: PitchAudioRecorder = mock()
+class TunerServiceTest {
     val mockTorsoYin: Yin = mock()
     val pitchHandler: PitchHandler = mock()
+    val mockPitchAudioRecord: PitchAudioRecorder = mock()
 
-    val tunerService = TunerServiceImpl(mockPitchAudioRecord, mockTorsoYin, pitchHandler)
+    private val tunerService = TestableTunerService(mockPitchAudioRecord, mockTorsoYin, pitchHandler)
 
     @Test
     fun shouldCallOnCompleteWhenStoppedOrFailedToStartRecording() {

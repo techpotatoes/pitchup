@@ -7,15 +7,12 @@ import android.media.AudioFormat.ENCODING_PCM_16BIT
 import android.media.AudioRecord
 import android.media.AudioRecord.getMinBufferSize
 import android.media.MediaRecorder.AudioSource.DEFAULT
-import be.tarsos.dsp.pitch.Yin
+import com.lbbento.pitchuptuner.GuitarTuner
 import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
-import com.lbbento.pitchuptuner.audio.PitchAudioRecorder.Companion.getReadSize
-import com.lbbento.pitchuptuner.audio.PitchAudioRecorder.Companion.getSampleRate
-import com.lbbento.pitchuptuner.service.TunerService
-import com.lbbento.pitchuptuner.service.TunerServiceImpl
-import com.lbbento.pitchuptuner.service.pitch.PitchHandler
+import com.lbbento.pitchupwear.util.AudioRecorderUtil.Companion.getSampleRate
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 
 @Module
 class ActivityModule(val activity: Activity) {
@@ -26,16 +23,19 @@ class ActivityModule(val activity: Activity) {
     @Provides
     fun activityBase(): Activity = activity
 
+    @Provides() @Named("sampleRate")
+    fun provideSampleRate(): Int = getSampleRate()
+
     @Provides
-    fun provideAudioRecord(): AudioRecord = AudioRecord(DEFAULT,
-            getSampleRate(),
+    fun provideAudioRecord(@Named("sampleRate") sampleRate: Int): AudioRecord = AudioRecord(DEFAULT,
+            sampleRate,
             CHANNEL_IN_DEFAULT,
             ENCODING_PCM_16BIT,
-            getMinBufferSize(getSampleRate(), CHANNEL_IN_DEFAULT, ENCODING_PCM_16BIT))
+            getMinBufferSize(sampleRate, CHANNEL_IN_DEFAULT, ENCODING_PCM_16BIT))
 
     @Provides
-    fun provideTunerService(pitchAudioRecord: PitchAudioRecorder, torsoYin: Yin, pitchHandler: PitchHandler): TunerService = TunerServiceImpl(pitchAudioRecord, torsoYin, pitchHandler)
+    fun providerPitchAudioRecorder(audioRecord: AudioRecord): PitchAudioRecorder = PitchAudioRecorder(audioRecord)
 
     @Provides
-    fun provideTorsoYin(): Yin = Yin(getSampleRate().toFloat(), getReadSize())
+    fun provideGuitarTuner(pitchAudioRecord: PitchAudioRecorder): GuitarTuner = GuitarTuner(pitchAudioRecord)
 }

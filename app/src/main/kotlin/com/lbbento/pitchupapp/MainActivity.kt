@@ -10,13 +10,10 @@ import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
-import be.tarsos.dsp.pitch.Yin
+import com.lbbento.pitchupapp.util.AudioRecorderUtil.Companion.getSampleRate
+import com.lbbento.pitchuptuner.GuitarTuner
 import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
-import com.lbbento.pitchuptuner.audio.PitchAudioRecorder.Companion.getReadSize
-import com.lbbento.pitchuptuner.audio.PitchAudioRecorder.Companion.getSampleRate
 import com.lbbento.pitchuptuner.service.TunerResult
-import com.lbbento.pitchuptuner.service.TunerServiceImpl
-import com.lbbento.pitchuptuner.service.pitch.PitchHandler
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -33,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private val audioRecordWrapper = PitchAudioRecorder(audioRecord)
 
-    private val tunerService = TunerServiceImpl(audioRecordWrapper, Yin(getSampleRate().toFloat(), getReadSize()), PitchHandler())
+    private val guitarTuner = GuitarTuner(audioRecordWrapper)
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         //        requestPermissions(new String[]{RECORD_AUDIO}, 4);
 
-        tunerService.getNotes().subscribeOn(Schedulers.io())
+        guitarTuner.listenToNotes().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<TunerResult> {
                     override fun onCompleted() {

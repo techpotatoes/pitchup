@@ -2,9 +2,8 @@ package com.lbbento.pitchuptuner.service.pitch
 
 import com.lbbento.pitchuptuner.service.TuningStatus
 import com.lbbento.pitchuptuner.service.TuningStatus.*
-import javax.inject.Inject
 
-class PitchHandler @Inject constructor() {
+class PitchHandler {
     private val MINIMUN_PITCH = 80.0
     private val MAXIMUM_PITCH = 1050.0
 
