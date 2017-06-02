@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.TextView
 import com.lbbento.pitchupapp.util.AudioRecorderUtil.Companion.getSampleRate
 import com.lbbento.pitchuptuner.GuitarTuner
@@ -47,7 +48,8 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onError(e: Throwable) {
-
+                        Log.i("Lucas", "Error")
+                        e.printStackTrace()
                     }
 
                     override fun onNext(tunerResult: TunerResult) {

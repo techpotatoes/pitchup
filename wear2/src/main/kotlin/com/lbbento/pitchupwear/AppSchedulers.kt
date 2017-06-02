@@ -13,6 +13,10 @@ open class AppSchedulers @Inject constructor() {
         return Schedulers.io()
     }
 
+    open fun computation(): Scheduler {
+        return Schedulers.computation()
+    }
+
     open fun ui(): Scheduler {
         return AndroidSchedulers.mainThread()
     }

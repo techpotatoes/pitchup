@@ -26,7 +26,7 @@ class PitchAudioRecorder(private val audioRecord: AudioRecord) {
 
     fun read(): FloatArray {
         val audioData = ShortArray(readSize)
-        audioRecord.read(audioData, 0, sampleRateInHz)
+        audioRecord.read(audioData, 0, readSize)
 
         val buffer = FloatArray(audioData.size)
         audioData.indices.forEach { i -> buffer[i] = audioData[i].toFloat() }

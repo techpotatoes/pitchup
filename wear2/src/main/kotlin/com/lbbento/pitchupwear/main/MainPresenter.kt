@@ -31,7 +31,7 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
                     .observeOn(appSchedulers.ui())
                     .subscribe(
                             { tunerResult: TunerResult? -> tunerResultReceived(mapper.tunerResultToViewModel(tunerResult!!)) },
-                            { _: Throwable -> tunerResultError() })
+                            { e: Throwable -> tunerResultError(e) })
         }
     }
 
@@ -39,7 +39,8 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
         mView.updateTunerView(tunerViewModel = tunerViewModel)
     }
 
-    private fun tunerResultError() {
+    private fun tunerResultError(e: Throwable) {
         Log.e("Lucas", "Error tuning") //TODO
+        e.printStackTrace()
     }
 }

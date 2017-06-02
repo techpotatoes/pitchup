@@ -6,7 +6,7 @@ import android.media.AudioRecord
 class AudioRecorderUtil {
 
     companion object {
-        val SAMPLE_RATES = intArrayOf(8000, 11025, 16000)
+        val SAMPLE_RATES = intArrayOf(8000, 11025)
 
         fun getSampleRate(): Int {
             var sampleRate = -1
