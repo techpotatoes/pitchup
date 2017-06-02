@@ -14,8 +14,8 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="45dp"
+        android:layout_gravity="center"
+        android:textAppearance="@style/TextAppearance.Wearable.Large"
         android:text="test tes test"
         android:textColor="@android:color/white">
 

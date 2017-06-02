@@ -20,6 +20,10 @@ class PitchAudioRecorder(private val audioRecord: AudioRecord) {
         audioRecord.startRecording()
     }
 
+    fun stopRecording() {
+        audioRecord.stop()
+    }
+
     fun read(): FloatArray {
         val audioData = ShortArray(readSize)
         audioRecord.read(audioData, 0, sampleRateInHz)

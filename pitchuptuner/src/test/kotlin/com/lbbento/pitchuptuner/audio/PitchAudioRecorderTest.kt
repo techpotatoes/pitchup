@@ -16,4 +16,12 @@ class PitchAudioRecorderTest {
 
         verify(audioRecord.startRecording())
     }
+
+    @Test
+    fun shouldStopRecording() {
+        pitchAudioRecorder.stopRecording()
+
+        verify(audioRecord.stop())
+    }
+
 }
