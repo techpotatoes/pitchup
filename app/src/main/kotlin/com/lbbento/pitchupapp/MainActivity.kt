@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
 import com.lbbento.pitchupapp.util.AudioRecorderUtil.Companion.getSampleRate
-import com.lbbento.pitchuptuner.GuitarTuner
+import com.lbbento.pitchuptuner.GuitarTunerReactive
 import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
 import com.lbbento.pitchuptuner.service.TunerResult
 import rx.Observer
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private val audioRecordWrapper = PitchAudioRecorder(audioRecord)
 
-    private val guitarTuner = GuitarTuner(audioRecordWrapper)
+    private val guitarTuner = GuitarTunerReactive(audioRecordWrapper)
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {

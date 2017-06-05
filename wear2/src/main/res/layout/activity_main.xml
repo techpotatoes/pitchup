@@ -5,18 +5,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
+    android:background="#212121"
     app:layout_box="all"
     tools:context="com.lbbento.pitchupwear.main.MainActivity"
     tools:deviceIds="wear">
+
+    <com.lbbento.pitchupwear.ui.view.MySpeedView
+        android:id="@+id/speedometer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        app:sv_backgroundCircleColor="@android:color/transparent"
+        app:sv_centerCircleColor="@android:color/holo_orange_dark"
+        app:sv_endDegree="360"
+        app:sv_highSpeedColor="#0d47a1"
+        app:sv_indicatorColor="@android:color/holo_orange_dark"
+        app:sv_lowSpeedColor="#0d47a1"
+        app:sv_lowSpeedPercent="49"
+        app:sv_markColor="#0d47a1"
+        app:sv_maxSpeed="300"
+        app:sv_mediumSpeedColor="#0d47a1"
+        app:sv_mediumSpeedPercent="51"
+        app:sv_minSpeed="0"
+        app:sv_speedTextColor="#eeeeee"
+        app:sv_speedometerWidth="3dp"
+        app:sv_startDegree="180"
+        app:sv_textColor="@android:color/transparent"
+        app:sv_unit="Hz"
+        app:sv_unitTextColor="#eeeeee" />
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="50dp"
         android:textAppearance="@style/TextAppearance.Wearable.Large"
-        android:text="test tes test"
         android:textColor="@android:color/white">
 
     </TextView>

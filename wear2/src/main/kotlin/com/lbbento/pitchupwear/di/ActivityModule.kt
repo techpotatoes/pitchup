@@ -7,7 +7,7 @@ import android.media.AudioFormat.ENCODING_PCM_16BIT
 import android.media.AudioRecord
 import android.media.AudioRecord.getMinBufferSize
 import android.media.MediaRecorder.AudioSource.DEFAULT
-import com.lbbento.pitchuptuner.GuitarTuner
+import com.lbbento.pitchuptuner.GuitarTunerReactive
 import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
 import com.lbbento.pitchupwear.util.AudioRecorderUtil.Companion.getSampleRate
 import dagger.Module
@@ -37,5 +37,5 @@ class ActivityModule(val activity: Activity) {
     fun providerPitchAudioRecorder(audioRecord: AudioRecord): PitchAudioRecorder = PitchAudioRecorder(audioRecord)
 
     @Provides
-    fun provideGuitarTuner(pitchAudioRecord: PitchAudioRecorder): GuitarTuner = GuitarTuner(pitchAudioRecord)
+    fun provideGuitarTuner(pitchAudioRecord: PitchAudioRecorder): GuitarTunerReactive = GuitarTunerReactive(pitchAudioRecord)
 }

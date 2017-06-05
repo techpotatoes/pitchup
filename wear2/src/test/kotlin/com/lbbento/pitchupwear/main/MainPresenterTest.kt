@@ -1,6 +1,6 @@
 package com.lbbento.pitchupwear.main
 
-import com.lbbento.pitchuptuner.GuitarTuner
+import com.lbbento.pitchuptuner.GuitarTunerReactive
 import com.lbbento.pitchuptuner.service.TunerResult
 import com.lbbento.pitchupwear.common.StubAppScheduler
 import com.lbbento.pitchupwear.util.PermissionHandler
@@ -16,10 +16,10 @@ class MainPresenterTest {
 
     val mockPermissionHandler: PermissionHandler = mock()
     val mockView: MainView = mock()
-    val mockGuitarTuner: GuitarTuner = mock()
+    val mockGuitarTunerReactive: GuitarTunerReactive = mock()
     val mockMapper: TunerServiceMapper = mock()
     val stubAppSchedulers = StubAppScheduler()
-    val mainPresenter = MainPresenter(stubAppSchedulers, mockPermissionHandler, mockGuitarTuner, mockMapper)
+    val mainPresenter = MainPresenter(stubAppSchedulers, mockPermissionHandler, mockGuitarTunerReactive, mockMapper)
 
     @Before
     fun setup() {
@@ -46,7 +46,7 @@ class MainPresenterTest {
         verify(mockPermissionHandler).handleMicrophonePermission()
 
         //Should do nothing
-        verify(mockGuitarTuner, never()).listenToNotes()
+        verify(mockGuitarTunerReactive, never()).listenToNotes()
     }
 
     @Test
@@ -55,7 +55,7 @@ class MainPresenterTest {
         val tunerViewModel: TunerViewModel = mock()
 
         //Given
-        whenever(mockGuitarTuner.listenToNotes()).thenReturn(just(tunerResult))
+        whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))
         whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
         whenever(mockMapper.tunerResultToViewModel(tunerResult)).thenReturn(tunerViewModel)
 
@@ -66,7 +66,7 @@ class MainPresenterTest {
         verify(mockPermissionHandler).handleMicrophonePermission()
 
         //should start tuner service
-        verify(mockGuitarTuner).listenToNotes()
+        verify(mockGuitarTunerReactive).listenToNotes()
         verify(mockView).updateTunerView(tunerViewModel)
     }
 }
