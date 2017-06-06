@@ -1,34 +1,26 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.0-rc2"
+    buildToolsVersion "25.0.2"
 
 
     defaultConfig {
-        applicationId "com.lbbento.pitchup"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    packagingOptions {
-        exclude 'META-INF/rxjava.properties'
-    }
-
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
@@ -36,29 +28,16 @@ android {
 }
 
 dependencies {
-    compile project(':pitchuptuner')
-    compile project(':pitchuptunergauge')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
     // Tests
     testCompile "com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version"
     testCompile "junit:junit:$tests_junit_version"
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    //Support
-    compile 'com.android.support:appcompat-v7:25.3.1'
-
     //kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    //Butterknife
-    compile "com.jakewharton:butterknife:$butter_knife_version"
-    kapt "com.jakewharton:butterknife-compiler:$butter_knife_version"
-
-    //RxKotlin
-    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin
-    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android
-
-    //Dagger
-    compile "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    //SpeedView
+    compile "com.github.anastr:speedviewlib:$speedview_version"
 }

@@ -3,9 +3,9 @@ package com.lbbento.pitchupwear.main
 import android.os.Bundle
 import android.widget.TextView
 import com.lbbento.pitchuptuner.service.TuningStatus
+import com.lbbento.pitchuptunergauge.view.TunerGauge
 import com.lbbento.pitchupwear.R
 import com.lbbento.pitchupwear.ui.BaseActivity
-import com.lbbento.pitchupwear.ui.view.MySpeedView
 
 
 class MainActivity : BaseActivity<MainPresenter>(), MainView {
@@ -18,35 +18,35 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupSpeedometer()
+        setupGauge()
     }
 
     override fun updateTunerView(tunerViewModel: TunerViewModel) {
         val text = findViewById(R.id.text) as TextView
-        val speedometer = findViewById(R.id.speedometer) as MySpeedView
+        val gauge = findViewById(R.id.gauge) as TunerGauge
 
         if (tunerViewModel.tunningStatus != TuningStatus.DEFAULT) {
             if (text.text != tunerViewModel.note) {
                 text.text = tunerViewModel.note
-                speedometer.maxSpeed = (tunerViewModel.expectedFrequency + 3f).toInt() //TODO return it
-                speedometer.minSpeed = (tunerViewModel.expectedFrequency - 3f).toInt()
+                gauge.maxSpeed = (tunerViewModel.expectedFrequency + 3f).toInt() //TODO return it
+                gauge.minSpeed = (tunerViewModel.expectedFrequency - 3f).toInt()
             }
-            speedometer.speedTo((tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency).toFloat(), 350)
+            gauge.speedTo((tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency).toFloat(), 350)
         } else if (text.text != "Play!")
             text.text = "Play!"
 
     }
 
-    fun setupSpeedometer() {
-        val speedometer: MySpeedView
+    fun setupGauge() {
+        val gauge: TunerGauge
 
-        speedometer = findViewById(R.id.speedometer) as MySpeedView
+        gauge = findViewById(R.id.gauge) as TunerGauge
 
         // configure value range and ticks
-        speedometer.maxSpeed = 880
-        speedometer.minSpeed = 0
-        speedometer.setSpeedAt(440f)
+        gauge.maxSpeed = 880
+        gauge.minSpeed = 0
+        gauge.setSpeedAt(440f)
 
-        speedometer.isWithTremble = false
+        gauge.isWithTremble = false
     }
 }

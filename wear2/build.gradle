@@ -38,6 +38,7 @@ kapt {
 
 dependencies {
     compile project(':pitchuptuner')
+    compile project(':pitchuptunergauge')
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Tests
@@ -65,6 +66,4 @@ dependencies {
     //Dagger
     compile "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-
-    compile 'com.github.anastr:speedviewlib:1.1.4'
 }

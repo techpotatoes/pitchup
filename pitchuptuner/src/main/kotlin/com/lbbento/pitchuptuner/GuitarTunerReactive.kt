@@ -10,7 +10,7 @@ class GuitarTunerReactive(private val pitchAudioRecord: PitchAudioRecorder) {
 
     private val tunerService: TunerService by lazy { initializeTunerService(pitchAudioRecord) }
 
-    fun listenToNotes(): Observable<TunerResult> = tunerService.getNotes().sample(400, MILLISECONDS)
+    fun listenToNotes(): Observable<TunerResult> = tunerService.getNotes().sample(700, MILLISECONDS)
 
     private fun initializeTunerService(pitchAudioRecord: PitchAudioRecorder) = TunerService(pitchAudioRecord)
 }

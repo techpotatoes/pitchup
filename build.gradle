@@ -34,4 +34,5 @@ ext {
     rx_kotlin = '2.0.0-RC1'
     rx_android = '0.22.0'
     dagger_version = '2.10'
+    speedview_version='1.1.4'
 }

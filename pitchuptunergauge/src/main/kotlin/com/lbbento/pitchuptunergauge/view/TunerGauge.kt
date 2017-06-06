@@ -1,15 +1,15 @@
-package com.lbbento.pitchupwear.ui.view
+package com.lbbento.pitchuptunergauge.view
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import com.github.anastr.speedviewlib.R
 import com.github.anastr.speedviewlib.base.Speedometer
 import com.github.anastr.speedviewlib.base.SpeedometerDefault
 import com.github.anastr.speedviewlib.components.Indicators.Indicator
 import com.github.anastr.speedviewlib.components.Indicators.LineIndicator
+import com.lbbento.pitchuptunergauge.R
 
-class MySpeedView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Speedometer(context, attrs, defStyleAttr) {
+class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Speedometer(context, attrs, defStyleAttr) {
 
     private val markPath: Path
     private val circlePaint: Paint

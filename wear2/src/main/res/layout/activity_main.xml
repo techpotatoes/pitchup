@@ -10,8 +10,8 @@
     tools:context="com.lbbento.pitchupwear.main.MainActivity"
     tools:deviceIds="wear">
 
-    <com.lbbento.pitchupwear.ui.view.MySpeedView
-        android:id="@+id/speedometer"
+    <com.lbbento.pitchuptunergauge.view.TunerGauge
+        android:id="@+id/gauge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"

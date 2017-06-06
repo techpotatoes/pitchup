@@ -1,1 +1,1 @@
-include ':app', ':wear2', ':pitchuptuner'
+include ':app', ':wear2', ':pitchuptuner', ':pitchuptunergauge'
