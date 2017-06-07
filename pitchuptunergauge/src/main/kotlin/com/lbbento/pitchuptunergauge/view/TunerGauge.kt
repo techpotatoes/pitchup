@@ -54,6 +54,7 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
         this.indicatorColor = Color.parseColor("#ffff8800")
         this.markColor = Color.parseColor("#0d47a1")
         this.speedTextColor = Color.parseColor("#eeeeee")
+        this.speedTextTypeface = Typeface.SANS_SERIF
         this.speedometerWidth = 3f
         this.textColor = context.resources.getColor(android.R.color.transparent)
         this.unit = "Hz"
@@ -107,7 +108,7 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
         c.rotate(10f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
         c.drawPath(this.markPath, this.markPaint)
 
-        this.middleMarkPaint.strokeWidth = indicatorWidth + 5f
+        this.middleMarkPaint.strokeWidth = indicatorWidth + 20f
         c.rotate(80f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
         c.drawPath(this.markPath, this.middleMarkPaint) //Middle one
 

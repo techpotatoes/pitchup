@@ -77,7 +77,7 @@ class MainPresenterTest {
             whenever(it.expectedFrequency).thenReturn(10.0)
             whenever(it.diffFrequency).thenReturn(1.0)
         }
-        val setFreqTo = tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency
+        val setFreqTo = tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)
 
         whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
         whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))

@@ -68,17 +68,15 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("NewApi")
     private fun updateTunerView(tunerViewModel: TunerResult) {
         if (tunerViewModel.tunningStatus != TuningStatus.DEFAULT) {
-            println(format("Exp: %f  Diff: %f  Note: %s", tunerViewModel.expectedFrequency, tunerViewModel.diffFrequency, tunerViewModel.note))
-            if (main_activity_notetext.text != tunerViewModel.note) {
-                main_activity_notetext.text = tunerViewModel.note
+            main_activity_notetext.text = tunerViewModel.note
 
-                main_activity_gauge.maxSpeed = (tunerViewModel.expectedFrequency + 10f).toInt() //TODO return it
-                main_activity_gauge.minSpeed = (tunerViewModel.expectedFrequency - 10f).toInt()
-                main_activity_gauge.speedPercentTo(50)
-            }
+            val max = (tunerViewModel.expectedFrequency + 3f).toInt()
+            val min = (tunerViewModel.expectedFrequency - 3f).toInt()
+            main_activity_gauge.maxSpeed = max //TODO return it
+            main_activity_gauge.minSpeed = min
+
             if ((tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency) > main_activity_gauge.minSpeed ||
                     (tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency) < main_activity_gauge.maxSpeed) {
-                println(format("SpeedTo: %f  Note: %s", (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat(), tunerViewModel.note))
                 main_activity_gauge.indicatorColor = getColor(android.R.color.holo_orange_dark)
                 main_activity_gauge.speedTo((tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat(), 350)
             }

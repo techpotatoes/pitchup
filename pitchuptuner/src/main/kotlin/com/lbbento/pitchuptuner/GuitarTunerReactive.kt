@@ -18,7 +18,7 @@ class GuitarTunerReactive(pitchAudioRecord: PitchAudioRecorder) {
         this.tunerService = tunerService
     }
 
-    fun listenToNotes(): Observable<TunerResult> = tunerService.getNotes().sample(700, MILLISECONDS)
+    fun listenToNotes(): Observable<TunerResult> = tunerService.getNotes().throttleFirst(400, MILLISECONDS)
 
     private fun initializeTunerService(pitchAudioRecord: PitchAudioRecorder) = TunerService(pitchAudioRecord)
 }

@@ -45,7 +45,7 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
                 mView.updateMaxMinFreq(minFreq, maxFreq)
                 mView.updateToNote(tunerViewModel.note)
             }
-            mView.updateFrequency((tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency).toFloat())
+            mView.updateFrequency((tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat())
         } else {
             mView.updateToDefaultStatus()
         }
