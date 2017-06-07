@@ -6,9 +6,17 @@ import com.lbbento.pitchuptuner.service.TunerService
 import rx.Observable
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
-class GuitarTunerReactive(private val pitchAudioRecord: PitchAudioRecorder) {
+class GuitarTunerReactive(pitchAudioRecord: PitchAudioRecorder) {
 
-    private val tunerService: TunerService by lazy { initializeTunerService(pitchAudioRecord) }
+    private var tunerService: TunerService
+
+    init {
+        tunerService = initializeTunerService(pitchAudioRecord)
+    }
+
+    internal constructor(pitchAudioRecord: PitchAudioRecorder, tunerService: TunerService) : this(pitchAudioRecord) {
+        this.tunerService = tunerService
+    }
 
     fun listenToNotes(): Observable<TunerResult> = tunerService.getNotes().sample(700, MILLISECONDS)
 
