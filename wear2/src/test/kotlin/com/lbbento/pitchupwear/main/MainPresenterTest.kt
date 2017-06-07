@@ -96,8 +96,8 @@ class MainPresenterTest {
             whenever(it.expectedFrequency).thenReturn(10.0)
             whenever(it.note).thenReturn("A")
         }
-        val minFreq = tunerViewModel.expectedFrequency + 3f
-        val maxFreq = tunerViewModel.expectedFrequency - 3f
+        val minFreq = tunerViewModel.expectedFrequency - 3f
+        val maxFreq = tunerViewModel.expectedFrequency + 3f
 
         whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
         whenever(mockView.getCurrentNote()).thenReturn("B")
