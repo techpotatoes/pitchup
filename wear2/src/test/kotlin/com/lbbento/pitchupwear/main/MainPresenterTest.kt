@@ -2,6 +2,8 @@ package com.lbbento.pitchupwear.main
 
 import com.lbbento.pitchuptuner.GuitarTunerReactive
 import com.lbbento.pitchuptuner.service.TunerResult
+import com.lbbento.pitchuptuner.service.TuningStatus.DEFAULT
+import com.lbbento.pitchuptuner.service.TuningStatus.TOO_LOW
 import com.lbbento.pitchupwear.common.StubAppScheduler
 import com.lbbento.pitchupwear.util.PermissionHandler
 import com.nhaarman.mockito_kotlin.mock
@@ -10,6 +12,7 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
+import rx.Observable
 import rx.Observable.just
 
 class MainPresenterTest {
@@ -27,46 +30,95 @@ class MainPresenterTest {
     }
 
     @Test
-    fun shouldSetAmbienteEnabledOnCreate() {
+    fun shouldSetAmbientEnabledOnCreate() {
         mainPresenter.onCreated()
 
         verify(mockView).setAmbientEnabled()
     }
 
     @Test
-    fun shouldDoNothingWhenNoAudioPermissions() {
+    fun shouldSetupGaugeOnCreate() {
+        mainPresenter.onCreated()
 
-        //Given
+        verify(mockView).setupGauge()
+    }
+
+    @Test
+    fun shouldDoNothingWhenNoAudioPermissions() {
         whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(false)
 
-        //On
         mainPresenter.onViewResuming()
 
-        //Should handle permissions
         verify(mockPermissionHandler).handleMicrophonePermission()
-
-        //Should do nothing
         verify(mockGuitarTunerReactive, never()).listenToNotes()
     }
 
     @Test
-    fun shouldUpdateTunerViewWhenReceivedFromService() {
+    fun shouldUpdateToDefaultStatus() {
         val tunerResult: TunerResult = mock()
-        val tunerViewModel: TunerViewModel = mock()
+        val tunerViewModel: TunerViewModel = mock {
+            whenever(it.tunningStatus).thenReturn(DEFAULT)
+        }
 
-        //Given
-        whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))
         whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
+        whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))
         whenever(mockMapper.tunerResultToViewModel(tunerResult)).thenReturn(tunerViewModel)
 
-        //On
         mainPresenter.onViewResuming()
 
-        //should handle permissions
-        verify(mockPermissionHandler).handleMicrophonePermission()
+        verify(mockView).updateToDefaultStatus()
+    }
 
-        //should start tuner service
+    @Test
+    fun shouldUpdateFrequencyIfStatusIsNotDefault() {
+        val tunerResult: TunerResult = mock()
+        val tunerViewModel: TunerViewModel = mock {
+            whenever(it.tunningStatus).thenReturn(TOO_LOW)
+            whenever(it.expectedFrequency).thenReturn(10.0)
+            whenever(it.diffFrequency).thenReturn(1.0)
+        }
+        val setFreqTo = tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency
+
+        whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
+        whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))
+        whenever(mockMapper.tunerResultToViewModel(tunerResult)).thenReturn(tunerViewModel)
+
+        mainPresenter.onViewResuming()
+
+        verify(mockView).updateFrequency(setFreqTo.toFloat())
+    }
+
+    @Test
+    fun shouldUpdateMaxAndMinFreqAndNoteIfNoteHasChanged() {
+        val tunerResult: TunerResult = mock()
+        val tunerViewModel: TunerViewModel = mock {
+            whenever(it.tunningStatus).thenReturn(TOO_LOW)
+            whenever(it.expectedFrequency).thenReturn(10.0)
+            whenever(it.note).thenReturn("A")
+        }
+        val minFreq = tunerViewModel.expectedFrequency + 3f
+        val maxFreq = tunerViewModel.expectedFrequency - 3f
+
+        whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
+        whenever(mockView.getCurrentNote()).thenReturn("B")
+        whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))
+        whenever(mockMapper.tunerResultToViewModel(tunerResult)).thenReturn(tunerViewModel)
+
+        mainPresenter.onViewResuming()
+
+        verify(mockView).updateMaxMinFreq(minFreq.toInt(), maxFreq.toInt())
+        verify(mockView).updateToNote("A")
+    }
+
+    @Test
+    fun shouldUpdateTunerViewWhenReceivedErrorFromService() {
+        whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
+        whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(Observable.error(IllegalStateException()))
+
+        mainPresenter.onViewResuming()
+
+        verify(mockPermissionHandler).handleMicrophonePermission()
         verify(mockGuitarTunerReactive).listenToNotes()
-        verify(mockView).updateTunerView(tunerViewModel)
+        verify(mockView).informError()
     }
 }

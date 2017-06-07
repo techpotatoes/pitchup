@@ -30,7 +30,6 @@ ext {
     tests_junit_version = '4.12'
     wear_version = '2.0.2'
     wear_gms_version = '10.2.6'
-    butter_knife_version = '8.5.1'
     rx_kotlin = '2.0.0-RC1'
     rx_android = '0.22.0'
     dagger_version = '2.10'

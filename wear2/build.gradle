@@ -55,10 +55,6 @@ dependencies {
     //kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    //Butterknife
-    compile "com.jakewharton:butterknife:$butter_knife_version"
-    kapt "com.jakewharton:butterknife-compiler:$butter_knife_version"
-
     //RxKotlin
     compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin
     compile group: 'io.reactivex', name: 'rxandroid', version: rx_android

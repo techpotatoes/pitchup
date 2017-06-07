@@ -3,6 +3,7 @@ package com.lbbento.pitchupwear.main
 import android.util.Log
 import com.lbbento.pitchuptuner.GuitarTunerReactive
 import com.lbbento.pitchuptuner.service.TunerResult
+import com.lbbento.pitchuptuner.service.TuningStatus
 import com.lbbento.pitchupwear.AppSchedulers
 import com.lbbento.pitchupwear.di.ForActivity
 import com.lbbento.pitchupwear.ui.BasePresenter
@@ -18,6 +19,7 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
     override fun onCreated() {
         super.onCreated()
         mView.setAmbientEnabled()
+        mView.setupGauge()
     }
 
     override fun onStop() {
@@ -36,11 +38,21 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
     }
 
     private fun tunerResultReceived(tunerViewModel: TunerViewModel) {
-        mView.updateTunerView(tunerViewModel = tunerViewModel)
+        if (tunerViewModel.tunningStatus != TuningStatus.DEFAULT) {
+            if (mView.getCurrentNote() != tunerViewModel.note) {
+                val maxFreq = (tunerViewModel.expectedFrequency + 3f).toInt()
+                val minFreq = (tunerViewModel.expectedFrequency - 3f).toInt()
+                mView.updateMaxMinFreq(minFreq, maxFreq)
+                mView.updateToNote(tunerViewModel.note)
+            }
+            mView.updateFrequency((tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency).toFloat())
+        } else {
+            mView.updateToDefaultStatus()
+        }
     }
 
     private fun tunerResultError(e: Throwable) {
-        Log.e("Lucas", "Error tuning") //TODO
-        e.printStackTrace()
+        mView.informError()
+        Log.e("Lucas", "Error tuning: " + e.stackTrace.toString())
     }
 }

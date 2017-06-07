@@ -5,9 +5,6 @@ import android.graphics.*
 import android.util.AttributeSet
 import com.github.anastr.speedviewlib.base.Speedometer
 import com.github.anastr.speedviewlib.base.SpeedometerDefault
-import com.github.anastr.speedviewlib.components.Indicators.Indicator
-import com.github.anastr.speedviewlib.components.Indicators.LineIndicator
-import com.lbbento.pitchuptunergauge.R
 
 class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Speedometer(context, attrs, defStyleAttr) {
 
@@ -26,7 +23,6 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
         this.middleMarkPaint = Paint(1)
         this.speedometerRect = RectF()
         this.init()
-        this.initAttributeSet(context, attrs)
     }
 
     constructor(context: Context) : this(context, null, 0)
@@ -37,7 +33,7 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
 
     override fun getSpeedometerDefault(): SpeedometerDefault {
         val speedometerDefault = SpeedometerDefault()
-        speedometerDefault.indicator = MyIndicator(this.context)
+        speedometerDefault.indicator = TunerIndicator(this.context)
         speedometerDefault.backgroundCircleColor = 0
         return speedometerDefault
     }
@@ -47,15 +43,22 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
         this.markPaint.style = Paint.Style.STROKE
         this.middleMarkPaint.style = Paint.Style.STROKE
         this.middleMarkPaint.color = Color.GREEN
-        this.circlePaint.color = -12303292
-    }
-
-    private fun initAttributeSet(context: Context, attrs: AttributeSet?) {
-        if (attrs != null) {
-            val a = context.theme.obtainStyledAttributes(attrs, R.styleable.SpeedView, 0, 0)
-            this.circlePaint.color = a.getColor(R.styleable.SpeedView_sv_centerCircleColor, this.circlePaint.color)
-            a.recycle()
-        }
+        this.circlePaint.color = Color.parseColor("#ffff8800")
+        this.startDegree = 180
+        this.endDegree = 360
+        this.lowSpeedPercent = 49
+        this.mediumSpeedPercent = 51
+        this.mediumSpeedColor = Color.parseColor("#0d47a1")
+        this.lowSpeedColor = Color.parseColor("#0d47a1")
+        this.highSpeedColor = Color.parseColor("#0d47a1")
+        this.indicatorColor = Color.parseColor("#ffff8800")
+        this.markColor = Color.parseColor("#0d47a1")
+        this.speedTextColor = Color.parseColor("#eeeeee")
+        this.speedometerWidth = 3f
+        this.textColor = context.resources.getColor(android.R.color.transparent)
+        this.unit = "Hz"
+        this.unitTextColor = Color.parseColor("#eeeeee")
+        this.backgroundCircleColor = context.resources.getColor(android.R.color.transparent)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldW: Int, oldH: Int) {
@@ -100,15 +103,6 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
 
         c.save()
         c.rotate(90.0f + this.startDegree.toFloat(), this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
-//        val everyDegree = (this.endDegree - this.startDegree).toFloat() * 0.111f
-//
-//        var i = this.startDegree.toFloat()
-//        while (i < this.endDegree.toFloat() - 2.0f * everyDegree) {
-//            c.rotate(everyDegree, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
-//            c.drawPath(this.markPath, this.markPaint)
-//            i += everyDegree
-//        }
-
 
         c.rotate(10f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
         c.drawPath(this.markPath, this.markPaint)
@@ -124,42 +118,4 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
         this.drawDefMinMaxSpeedPosition(c)
     }
 
-    class MyIndicator(context: Context) : Indicator<LineIndicator>(context) {
-        private val indicatorPath = Path()
-        val LINE = 1.0f
-        private val mode: Float = LINE
-
-        init {
-            this.updateIndicator()
-        }
-
-        override fun getDefaultIndicatorWidth(): Float {
-            return this.dpTOpx(3f)
-        }
-
-        override fun draw(canvas: Canvas, degree: Float) {
-            canvas.save()
-            canvas.rotate(90.0f + degree, this.centerX, this.centerY)
-            canvas.drawPath(this.indicatorPath, this.indicatorPaint)
-            canvas.restore()
-        }
-
-        override fun updateIndicator() {
-            this.indicatorPath.reset()
-            this.indicatorPath.moveTo(this.centerX, this.padding.toFloat() + 26f) //line
-            this.indicatorPath.lineTo(this.centerX, this.centerY * this.mode)
-            this.indicatorPaint.style = Paint.Style.STROKE
-            this.indicatorPaint.strokeWidth = this.indicatorWidth
-            this.indicatorPaint.color = this.indicatorColor
-        }
-
-        override fun setWithEffects(withEffects: Boolean) {
-            if (withEffects && !this.isInEditMode) {
-                this.indicatorPaint.maskFilter = BlurMaskFilter(15.0f, BlurMaskFilter.Blur.SOLID)
-            } else {
-                this.indicatorPaint.maskFilter = null as MaskFilter?
-            }
-
-        }
-    }
 }

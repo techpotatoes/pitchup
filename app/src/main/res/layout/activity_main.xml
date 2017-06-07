@@ -1,37 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#212121">
 
     <com.lbbento.pitchuptunergauge.view.TunerGauge
-        android:id="@+id/gauge"
+        android:id="@+id/main_activity_gauge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        app:sv_backgroundCircleColor="@android:color/transparent"
-        app:sv_centerCircleColor="@android:color/holo_orange_dark"
-        app:sv_endDegree="360"
-        app:sv_highSpeedColor="#0d47a1"
-        app:sv_indicatorColor="@android:color/holo_orange_dark"
-        app:sv_lowSpeedColor="#0d47a1"
-        app:sv_lowSpeedPercent="49"
-        app:sv_markColor="#0d47a1"
-        app:sv_maxSpeed="300"
-        app:sv_mediumSpeedColor="#0d47a1"
-        app:sv_mediumSpeedPercent="51"
-        app:sv_minSpeed="0"
-        app:sv_speedTextColor="#eeeeee"
-        app:sv_speedometerWidth="3dp"
-        app:sv_startDegree="180"
-        app:sv_textColor="@android:color/transparent"
-        app:sv_unit="Hz"
-        app:sv_unitTextColor="#eeeeee" />
+        android:padding="5dp" />
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/main_activity_notetext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"

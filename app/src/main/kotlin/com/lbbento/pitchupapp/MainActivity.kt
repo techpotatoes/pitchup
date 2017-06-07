@@ -11,13 +11,12 @@ import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.TextView
 import com.lbbento.pitchupapp.util.AudioRecorderUtil.Companion.getSampleRate
 import com.lbbento.pitchuptuner.GuitarTunerReactive
 import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
 import com.lbbento.pitchuptuner.service.TunerResult
 import com.lbbento.pitchuptuner.service.TuningStatus
-import com.lbbento.pitchuptunergauge.view.TunerGauge
+import kotlinx.android.synthetic.main.activity_main.*
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -68,37 +67,32 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("NewApi")
     private fun updateTunerView(tunerViewModel: TunerResult) {
-        val text = findViewById(R.id.text) as TextView
-        val speedometer = findViewById(R.id.gauge) as TunerGauge
-
         if (tunerViewModel.tunningStatus != TuningStatus.DEFAULT) {
             println(format("Exp: %f  Diff: %f  Note: %s", tunerViewModel.expectedFrequency, tunerViewModel.diffFrequency, tunerViewModel.note))
-            if (text.text != tunerViewModel.note) {
-                text.text = tunerViewModel.note
+            if (main_activity_notetext.text != tunerViewModel.note) {
+                main_activity_notetext.text = tunerViewModel.note
 
-                speedometer.maxSpeed = (tunerViewModel.expectedFrequency + 10f).toInt() //TODO return it
-                speedometer.minSpeed = (tunerViewModel.expectedFrequency - 10f).toInt()
-                speedometer.speedPercentTo(50)
+                main_activity_gauge.maxSpeed = (tunerViewModel.expectedFrequency + 10f).toInt() //TODO return it
+                main_activity_gauge.minSpeed = (tunerViewModel.expectedFrequency - 10f).toInt()
+                main_activity_gauge.speedPercentTo(50)
             }
-            if ((tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency) > speedometer.minSpeed ||
-                    (tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency) < speedometer.maxSpeed) {
-                println(format("SppedTo: %f  Note: %s", (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat(), tunerViewModel.note))
-                speedometer.indicatorColor = getColor(android.R.color.holo_orange_dark)
-                speedometer.speedTo((tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat(), 350)
+            if ((tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency) > main_activity_gauge.minSpeed ||
+                    (tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency) < main_activity_gauge.maxSpeed) {
+                println(format("SpeedTo: %f  Note: %s", (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat(), tunerViewModel.note))
+                main_activity_gauge.indicatorColor = getColor(android.R.color.holo_orange_dark)
+                main_activity_gauge.speedTo((tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat(), 350)
             }
-        } else if (text.text != "Play!")
-            text.text = "Play!"
+        } else if (main_activity_notetext.text != "Play!")
+            main_activity_notetext.text = "Play!"
     }
 
     fun setupSpeedometer() {
-        val speedometer: TunerGauge = findViewById(R.id.gauge) as TunerGauge
-
         // configure value range and ticks
-        speedometer.maxSpeed = 880
-        speedometer.minSpeed = 0
-        speedometer.setSpeedAt(440f)
+        main_activity_gauge.maxSpeed = 880
+        main_activity_gauge.minSpeed = 0
+        main_activity_gauge.setSpeedAt(440f)
 
-        speedometer.isWithTremble = false
+        main_activity_gauge.isWithTremble = false
     }
 
 }

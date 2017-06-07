@@ -2,5 +2,7 @@
     <string name="app_name">PitchUp</string>
 
     <string name="permisson_handler_mic_permission">Sorry. I need access to the microphone to help you getting the perfect tune.</string>
-    <string name="permission_handler_mic_permission_button_ok">Ok</string>
+    <string name="permission_handler_mic_permission_button_ok">OK</string>
+    <string name="main_activity_play">Play!</string>
+    <string name="error_occurred">An error has occurred.</string>
 </resources>
