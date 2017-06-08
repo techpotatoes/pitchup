@@ -15,10 +15,11 @@ class PitchHandler {
             val expectedFrequency = frequencyFromNoteNumber(midiFromPitch(pitch))
             val diff = diffFromTargetedNote(pitch)
             val tuningStatus = tuningStatus(diff)
+            val diffCents = diffInCents(expectedFrequency, expectedFrequency - diff)
 
-            return PitchResult(noteLiteral, tuningStatus, expectedFrequency, diff)
+            return PitchResult(noteLiteral, tuningStatus, expectedFrequency, diff, diffCents)
         }
-        return PitchResult("", DEFAULT, 0.0, 0.0)
+        return PitchResult("", DEFAULT, 0.0, 0.0, 0.0)
     }
 
     private fun isPitchInRange(pitch: Float) = pitch > MINIMUN_PITCH && pitch < MAXIMUM_PITCH
@@ -33,6 +34,8 @@ class PitchHandler {
         val diff = targetPitch - pitch
         return diff
     }
+
+    private fun diffInCents(expectedFrequency: Double, frequency: Double) = 1200 * Math.log(expectedFrequency / frequency)
 
     private fun tuningStatus(diff: Double): TuningStatus {
         if (diff < 0.3 && diff > -0.3) {

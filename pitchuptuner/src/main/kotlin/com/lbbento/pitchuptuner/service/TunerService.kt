@@ -24,7 +24,7 @@ open internal class TunerService(private val pitchAudioRecord: PitchAudioRecorde
 
                     val result = pitchHandler.handlePitch(pitchResult.pitch)
 
-                    it.onNext(TunerResult(note = result.note, tunningStatus = result.tunningStatus, diffFrequency = result.diffFrequency, expectedFrequency = result.expectedFrequency))
+                    it.onNext(TunerResult(note = result.note, tunningStatus = result.tunningStatus, diffFrequency = result.diffFrequency, expectedFrequency = result.expectedFrequency, diffCents = result.diffCents))
                 }
 
                 it.onCompleted()
