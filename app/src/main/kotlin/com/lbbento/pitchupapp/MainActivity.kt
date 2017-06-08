@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.lang.String.format
 
 class MainActivity : AppCompatActivity() {
 

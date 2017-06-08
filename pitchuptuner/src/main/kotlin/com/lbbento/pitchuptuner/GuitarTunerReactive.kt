@@ -4,7 +4,6 @@ import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
 import com.lbbento.pitchuptuner.service.TunerResult
 import com.lbbento.pitchuptuner.service.TunerService
 import rx.Observable
-import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class GuitarTunerReactive(pitchAudioRecord: PitchAudioRecorder) {
 
@@ -18,7 +17,8 @@ class GuitarTunerReactive(pitchAudioRecord: PitchAudioRecorder) {
         this.tunerService = tunerService
     }
 
-    fun listenToNotes(): Observable<TunerResult> = tunerService.getNotes().throttleFirst(400, MILLISECONDS)
+    fun listenToNotes(): Observable<TunerResult> = tunerService.getNotes()
+            .distinctUntilChanged { it.note + it.tunningStatus.name }
 
     private fun initializeTunerService(pitchAudioRecord: PitchAudioRecorder) = TunerService(pitchAudioRecord)
 }
