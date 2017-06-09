@@ -3,7 +3,6 @@ package com.lbbento.pitchuptuner
 import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
 import com.lbbento.pitchuptuner.service.TunerService
 import rx.Subscription
-import java.util.concurrent.TimeUnit
 
 class GuitarTuner(pitchAudioRecord: PitchAudioRecorder, private val guitarTunerListener: GuitarTunerListener) {
 
@@ -25,7 +24,6 @@ class GuitarTuner(pitchAudioRecord: PitchAudioRecorder, private val guitarTunerL
         subscription = tunerService.getNotes()
                 .subscribeOn(appSchedulers.computation())
                 .observeOn(appSchedulers.ui())
-                .sample(400, TimeUnit.MILLISECONDS)
                 .subscribe(
                         { tunerResult -> guitarTunerListener.onNoteReceived(tunerResult) },
                         { throwable -> guitarTunerListener.onError(throwable) })
