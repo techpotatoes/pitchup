@@ -5,4 +5,5 @@
     <string name="permission_handler_mic_permission_button_ok">OK</string>
     <string name="main_activity_play">Play!</string>
     <string name="error_occurred">An error has occurred.</string>
+    <string name="freq_in_hertz">%.2f Hz</string>
 </resources>

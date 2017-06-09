@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.lang.String.format
 
 class MainActivity : AppCompatActivity() {
 
@@ -69,25 +70,18 @@ class MainActivity : AppCompatActivity() {
         if (tunerViewModel.tunningStatus != TuningStatus.DEFAULT) {
             main_activity_notetext.text = tunerViewModel.note
 
-            val max = (tunerViewModel.expectedFrequency + 3f).toInt()
-            val min = (tunerViewModel.expectedFrequency - 3f).toInt()
-            main_activity_gauge.maxSpeed = max //TODO return it
-            main_activity_gauge.minSpeed = min
+            main_activity_gauge.speedTo((tunerViewModel.diffCents.toFloat()*-1), 350)
+            main_activity_freqtext.text = format("%f Hz", (tunerViewModel.expectedFrequency+(tunerViewModel.diffFrequency*-1)))
 
-            if ((tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency) > main_activity_gauge.minSpeed ||
-                    (tunerViewModel.expectedFrequency + tunerViewModel.diffFrequency) < main_activity_gauge.maxSpeed) {
-                main_activity_gauge.indicatorColor = getColor(android.R.color.holo_orange_dark)
-                main_activity_gauge.speedTo((tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat(), 350)
-            }
         } else if (main_activity_notetext.text != "Play!")
             main_activity_notetext.text = "Play!"
     }
 
     fun setupSpeedometer() {
         // configure value range and ticks
-        main_activity_gauge.maxSpeed = 880
-        main_activity_gauge.minSpeed = 0
-        main_activity_gauge.setSpeedAt(440f)
+        main_activity_gauge.maxSpeed = 100
+        main_activity_gauge.minSpeed = -100
+        main_activity_gauge.setSpeedAt(0f)
 
         main_activity_gauge.isWithTremble = false
     }

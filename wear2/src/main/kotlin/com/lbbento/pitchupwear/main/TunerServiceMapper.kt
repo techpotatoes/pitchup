@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class TunerServiceMapper @Inject constructor() {
     fun tunerResultToViewModel(tunerResult: TunerResult): TunerViewModel {
-        return TunerViewModel(tunerResult.note, tunerResult.tunningStatus, tunerResult.expectedFrequency, tunerResult.diffFrequency)
+        return TunerViewModel(tunerResult.note, tunerResult.tunningStatus, tunerResult.expectedFrequency, tunerResult.diffFrequency, tunerResult.diffCents)
     }
 }

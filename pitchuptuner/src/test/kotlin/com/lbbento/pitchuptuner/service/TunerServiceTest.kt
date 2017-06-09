@@ -59,6 +59,7 @@ class TunerServiceTest {
         whenever(pitchResult.tunningStatus).thenReturn(TUNED)
         whenever(pitchResult.diffFrequency).thenReturn(3.3)
         whenever(pitchResult.expectedFrequency).thenReturn(3.0)
+        whenever(pitchResult.diffCents).thenReturn(10.0)
 
         //on getnotes
         val testSubscriber = TestSubscriber<TunerResult>()
@@ -72,6 +73,6 @@ class TunerServiceTest {
         verify(mockPitchAudioRecord).read()
         verify(mockTorsoYin).getPitch(buffer)
         verify(pitchHandler).handlePitch(123F)
-        assertEquals(testSubscriber.onNextEvents[0], TunerResult("E", TUNED, 3.0, 3.3))
+        assertEquals(testSubscriber.onNextEvents[0], TunerResult("E", TUNED, 3.0, 3.3, 10.0))
     }
 }

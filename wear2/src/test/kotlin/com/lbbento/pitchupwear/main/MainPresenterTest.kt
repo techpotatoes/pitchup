@@ -76,38 +76,20 @@ class MainPresenterTest {
             whenever(it.tunningStatus).thenReturn(TOO_LOW)
             whenever(it.expectedFrequency).thenReturn(10.0)
             whenever(it.diffFrequency).thenReturn(1.0)
-        }
-        val setFreqTo = tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)
-
-        whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
-        whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))
-        whenever(mockMapper.tunerResultToViewModel(tunerResult)).thenReturn(tunerViewModel)
-
-        mainPresenter.onViewResuming()
-
-        verify(mockView).updateFrequency(setFreqTo.toFloat())
-    }
-
-    @Test
-    fun shouldUpdateMaxAndMinFreqAndNoteIfNoteHasChanged() {
-        val tunerResult: TunerResult = mock()
-        val tunerViewModel: TunerViewModel = mock {
-            whenever(it.tunningStatus).thenReturn(TOO_LOW)
-            whenever(it.expectedFrequency).thenReturn(10.0)
+            whenever(it.diffInCents).thenReturn(11.0)
             whenever(it.note).thenReturn("A")
         }
-        val minFreq = tunerViewModel.expectedFrequency - 3f
-        val maxFreq = tunerViewModel.expectedFrequency + 3f
+        val setFreqTo = (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat()
 
         whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
-        whenever(mockView.getCurrentNote()).thenReturn("B")
         whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))
         whenever(mockMapper.tunerResultToViewModel(tunerResult)).thenReturn(tunerViewModel)
 
         mainPresenter.onViewResuming()
 
-        verify(mockView).updateMaxMinFreq(minFreq.toInt(), maxFreq.toInt())
-        verify(mockView).updateToNote("A")
+        verify(mockView).updateIndicator(-11f)
+        verify(mockView).updateNote(tunerViewModel.note)
+        verify(mockView).updateCurrentFrequency(setFreqTo)
     }
 
     @Test

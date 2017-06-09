@@ -19,21 +19,20 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
         setContentView(R.layout.activity_main)
     }
 
-    override fun updateToNote(note: String) {
+    override fun updateNote(note: String) {
         main_activity_notetext.text = note
-    }
-
-    override fun updateMaxMinFreq(minFreq: Int, maxFreq: Int) {
-        main_activity_gauge.minSpeed = minFreq
-        main_activity_gauge.maxSpeed = maxFreq
     }
 
     override fun updateToDefaultStatus() {
         main_activity_notetext.text = getString(R.string.main_activity_play)
     }
 
-    override fun updateFrequency(freq: Float) {
-        main_activity_gauge.speedTo(freq, 350)
+    override fun updateIndicator(diffInCents: Float) {
+        main_activity_gauge.speedTo(diffInCents, 600)
+    }
+
+    override fun updateCurrentFrequency(currentFreq: Float) {
+        main_activity_freqtext.text = getString(R.string.freq_in_hertz, currentFreq)
     }
 
     override fun getCurrentNote(): String {
@@ -45,9 +44,8 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
     }
 
     override fun setupGauge() {
-        main_activity_gauge.maxSpeed = 880
-        main_activity_gauge.minSpeed = 0
-        main_activity_gauge.isWithTremble = true
-        main_activity_gauge.speedTo(440f, 1000)
+        main_activity_gauge.maxSpeed = 100
+        main_activity_gauge.minSpeed = -100
+        main_activity_gauge.speedTo(0f, 1000)
     }
 }

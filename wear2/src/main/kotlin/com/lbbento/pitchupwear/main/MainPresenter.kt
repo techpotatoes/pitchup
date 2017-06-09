@@ -2,7 +2,6 @@ package com.lbbento.pitchupwear.main
 
 import android.util.Log
 import com.lbbento.pitchuptuner.GuitarTunerReactive
-import com.lbbento.pitchuptuner.service.TunerResult
 import com.lbbento.pitchuptuner.service.TuningStatus
 import com.lbbento.pitchupwear.AppSchedulers
 import com.lbbento.pitchupwear.di.ForActivity
@@ -32,20 +31,16 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
                     .subscribeOn(appSchedulers.io())
                     .observeOn(appSchedulers.ui())
                     .subscribe(
-                            { tunerResult: TunerResult? -> tunerResultReceived(mapper.tunerResultToViewModel(tunerResult!!)) },
-                            { e: Throwable -> tunerResultError(e) })
+                            { tunerResultReceived(mapper.tunerResultToViewModel(it!!)) },
+                            this::tunerResultError)
         }
     }
 
     private fun tunerResultReceived(tunerViewModel: TunerViewModel) {
         if (tunerViewModel.tunningStatus != TuningStatus.DEFAULT) {
-            if (mView.getCurrentNote() != tunerViewModel.note) {
-                val maxFreq = (tunerViewModel.expectedFrequency + 3f).toInt()
-                val minFreq = (tunerViewModel.expectedFrequency - 3f).toInt()
-                mView.updateMaxMinFreq(minFreq, maxFreq)
-                mView.updateToNote(tunerViewModel.note)
-            }
-            mView.updateFrequency((tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat())
+            mView.updateNote(tunerViewModel.note)
+            mView.updateIndicator((tunerViewModel.diffInCents * -1).toFloat())
+            mView.updateCurrentFrequency((tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat())
         } else {
             mView.updateToDefaultStatus()
         }

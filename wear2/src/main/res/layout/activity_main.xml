@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,14 +17,25 @@
         android:padding="5dp" />
 
     <TextView
+        android:id="@+id/main_activity_freqtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/main_activity_notetext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textAppearance="@style/TextAppearance.Wearable.Medium"
+        android:textColor="@android:color/darker_gray"
+        tools:text="440 Hz" />
+
+    <TextView
         android:id="@+id/main_activity_notetext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
         android:textAppearance="@style/TextAppearance.Wearable.Large"
-        android:textColor="@android:color/white">
+        android:textColor="@android:color/white"
+        tools:text="A" />
 
-    </TextView>
-
-</FrameLayout>
+</RelativeLayout>

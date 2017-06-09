@@ -11,8 +11,8 @@ class TunerServiceMapperTest {
 
     @Test
     fun tunerResultToViewModel() {
-        val tunerResult = TunerResult("A", TUNED, 100.0, 20.0)
-        val expectedTunerViewModel = TunerViewModel("A", TUNED, 100.0, 20.0)
+        val tunerResult = TunerResult("A", TUNED, 100.0, 20.0, 10.0)
+        val expectedTunerViewModel = TunerViewModel("A", TUNED, 100.0, 20.0, 10.0)
 
         assertEquals(expectedTunerViewModel, tunerServiceMapper.tunerResultToViewModel(tunerResult))
     }
