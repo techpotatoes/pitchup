@@ -53,12 +53,12 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
         this.highSpeedColor = Color.parseColor("#0d47a1")
         this.indicatorColor = Color.parseColor("#ffff8800")
         this.markColor = Color.parseColor("#0d47a1")
-        this.speedTextColor = Color.parseColor("#eeeeee")
+        this.speedTextColor = context.resources.getColor(android.R.color.transparent)
         this.speedTextTypeface = Typeface.SANS_SERIF
         this.speedometerWidth = 3f
         this.textColor = context.resources.getColor(android.R.color.transparent)
         this.unit = "Hz"
-        this.unitTextColor = Color.parseColor("#eeeeee")
+        this.unitTextColor = context.resources.getColor(android.R.color.transparent)
         this.backgroundCircleColor = context.resources.getColor(android.R.color.transparent)
     }
 
