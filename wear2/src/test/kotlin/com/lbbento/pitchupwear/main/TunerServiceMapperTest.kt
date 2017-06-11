@@ -1,7 +1,7 @@
 package com.lbbento.pitchupwear.main
 
+import com.lbbento.pitchupcore.TuningStatus.TUNED
 import com.lbbento.pitchuptuner.service.TunerResult
-import com.lbbento.pitchuptuner.service.TuningStatus.TUNED
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

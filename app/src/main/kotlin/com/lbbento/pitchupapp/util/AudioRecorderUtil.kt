@@ -18,10 +18,5 @@ class AudioRecorderUtil {
             }
             return sampleRate
         }
-
-        fun getReadSize(): Int {
-            val minBufferSize = AudioRecord.getMinBufferSize(getSampleRate(), AudioFormat.CHANNEL_IN_STEREO, AudioFormat.ENCODING_PCM_16BIT)
-            return (minBufferSize / 4)
-        }
     }
 }

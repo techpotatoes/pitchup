@@ -1,8 +1,8 @@
 package com.lbbento.pitchupwear.main
 
 import android.util.Log
+import com.lbbento.pitchupcore.TuningStatus.DEFAULT
 import com.lbbento.pitchuptuner.GuitarTunerReactive
-import com.lbbento.pitchuptuner.service.TuningStatus
 import com.lbbento.pitchupwear.AppSchedulers
 import com.lbbento.pitchupwear.di.ForActivity
 import com.lbbento.pitchupwear.ui.BasePresenter
@@ -37,7 +37,7 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
     }
 
     private fun tunerResultReceived(tunerViewModel: TunerViewModel) {
-        if (tunerViewModel.tunningStatus != TuningStatus.DEFAULT) {
+        if (tunerViewModel.tuningStatus != DEFAULT) {
             mView.updateNote(tunerViewModel.note)
             mView.updateIndicator((tunerViewModel.diffInCents * -1).toFloat())
             mView.updateCurrentFrequency((tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat())
@@ -48,6 +48,6 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
 
     private fun tunerResultError(e: Throwable) {
         mView.informError()
-        Log.e("Lucas", "Error tuning: " + e.stackTrace.toString())
+        Log.e(javaClass.name, "Error tuning: " + e.stackTrace.toString())
     }
 }

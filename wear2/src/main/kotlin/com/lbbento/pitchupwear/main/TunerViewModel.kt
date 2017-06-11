@@ -1,5 +1,5 @@
 package com.lbbento.pitchupwear.main
 
-import com.lbbento.pitchuptuner.service.TuningStatus
+import com.lbbento.pitchupcore.TuningStatus
 
-data class TunerViewModel(val note: String, val tunningStatus: TuningStatus, val expectedFrequency: Double, val diffFrequency: Double, val diffInCents: Double)
+data class TunerViewModel(val note: String, val tuningStatus: TuningStatus, val expectedFrequency: Double, val diffFrequency: Double, val diffInCents: Double)

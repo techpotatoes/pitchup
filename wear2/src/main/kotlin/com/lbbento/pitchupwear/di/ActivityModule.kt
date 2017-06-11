@@ -24,7 +24,7 @@ class ActivityModule(val activity: Activity) {
     fun activityBase(): Activity = activity
 
     @Provides() @Named("sampleRate")
-    fun provideSampleRate(): Int = getSampleRate()
+    fun provideSampleRate() = getSampleRate()
 
     @Provides
     fun provideAudioRecord(@Named("sampleRate") sampleRate: Int): AudioRecord = AudioRecord(DEFAULT,
@@ -34,8 +34,8 @@ class ActivityModule(val activity: Activity) {
             getMinBufferSize(sampleRate, CHANNEL_IN_DEFAULT, ENCODING_PCM_16BIT))
 
     @Provides
-    fun providerPitchAudioRecorder(audioRecord: AudioRecord): PitchAudioRecorder = PitchAudioRecorder(audioRecord)
+    fun providerPitchAudioRecorder(audioRecord: AudioRecord) = PitchAudioRecorder(audioRecord)
 
     @Provides
-    fun provideGuitarTuner(pitchAudioRecord: PitchAudioRecorder): GuitarTunerReactive = GuitarTunerReactive(pitchAudioRecord)
+    fun provideGuitarTuner(pitchAudioRecord: PitchAudioRecorder) = GuitarTunerReactive(pitchAudioRecord)
 }

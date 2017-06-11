@@ -7,7 +7,7 @@ android {
     buildToolsVersion "26.0.0-rc2"
     defaultConfig {
         applicationId "com.lbbento.pitchup"
-        minSdkVersion 21
+        minSdkVersion 20
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -37,8 +37,8 @@ kapt {
 
 
 dependencies {
-    compile project(':pitchuptuner')
-    compile project(':pitchuptunergauge')
+    compile project(':pitchupandroid')
+    compile project(':pitchupandroidgauge')
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Tests

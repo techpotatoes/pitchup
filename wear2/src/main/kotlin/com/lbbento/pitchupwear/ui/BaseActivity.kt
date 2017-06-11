@@ -14,9 +14,7 @@ abstract class BaseActivity<P : BasePresenterView> : WearableActivity(), BaseVie
     lateinit var presenter: P
 
     val activityComponent: ActivityComponent
-        get() {
-            return (application as MainApplication).component.plus(ActivityModule(this))
-        }
+        get() = (application as MainApplication).component.plus(ActivityModule(this))
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

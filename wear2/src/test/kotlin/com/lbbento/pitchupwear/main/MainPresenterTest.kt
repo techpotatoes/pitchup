@@ -1,9 +1,9 @@
 package com.lbbento.pitchupwear.main
 
+import com.lbbento.pitchupcore.TuningStatus.DEFAULT
+import com.lbbento.pitchupcore.TuningStatus.TOO_LOW
 import com.lbbento.pitchuptuner.GuitarTunerReactive
 import com.lbbento.pitchuptuner.service.TunerResult
-import com.lbbento.pitchuptuner.service.TuningStatus.DEFAULT
-import com.lbbento.pitchuptuner.service.TuningStatus.TOO_LOW
 import com.lbbento.pitchupwear.common.StubAppScheduler
 import com.lbbento.pitchupwear.util.PermissionHandler
 import com.nhaarman.mockito_kotlin.mock
@@ -57,7 +57,7 @@ class MainPresenterTest {
     fun shouldUpdateToDefaultStatus() {
         val tunerResult: TunerResult = mock()
         val tunerViewModel: TunerViewModel = mock {
-            whenever(it.tunningStatus).thenReturn(DEFAULT)
+            whenever(it.tuningStatus).thenReturn(DEFAULT)
         }
 
         whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
@@ -73,7 +73,7 @@ class MainPresenterTest {
     fun shouldUpdateFrequencyIfStatusIsNotDefault() {
         val tunerResult: TunerResult = mock()
         val tunerViewModel: TunerViewModel = mock {
-            whenever(it.tunningStatus).thenReturn(TOO_LOW)
+            whenever(it.tuningStatus).thenReturn(TOO_LOW)
             whenever(it.expectedFrequency).thenReturn(10.0)
             whenever(it.diffFrequency).thenReturn(1.0)
             whenever(it.diffInCents).thenReturn(11.0)

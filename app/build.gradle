@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.lbbento.pitchup"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -35,9 +35,14 @@ android {
     }
 }
 
+
+kapt {
+    generateStubs = true
+}
+
 dependencies {
-    compile project(':pitchuptuner')
-    compile project(':pitchuptunergauge')
+    compile project(':pitchupandroid')
+    compile project(':pitchupandroidgauge')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // Tests
     testCompile "com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version"

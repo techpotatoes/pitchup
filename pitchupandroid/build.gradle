@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "26.0.0-rc2"
+
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+
+}
+
+dependencies {
+    compile project(':pitchupcore')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Tests
+    testCompile "com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version"
+    testCompile "junit:junit:$tests_junit_version"
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    //kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    //RxKotlin
+    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin
+    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android
+}

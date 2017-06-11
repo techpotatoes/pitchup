@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">temporary</string>
+    <string name="main_activity_play">Play!</string>
+    <string name="freq_in_hertz">%.2f Hz</string>
+    <string name="error_occurred">An error has occurred</string>
 </resources>

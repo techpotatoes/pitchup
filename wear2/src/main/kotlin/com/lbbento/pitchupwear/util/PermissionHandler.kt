@@ -29,13 +29,8 @@ class PermissionHandler @Inject constructor(val activity: Activity) {
         return false
     }
 
-    private fun hasMicrophonePermission(): Boolean {
-        val permissionCheck = checkSelfPermission(activity.applicationContext, RECORD_AUDIO)
-        if (permissionCheck == PERMISSION_GRANTED) {
-            return true
-        }
-        return false
-    }
+    private fun hasMicrophonePermission() =
+            checkSelfPermission(activity.applicationContext, RECORD_AUDIO) == PERMISSION_GRANTED
 
     private fun showMicPermissionDialog() {
         DialogBuilder(activity, R.style.Theme_Wearable_Modal)
