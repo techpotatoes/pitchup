@@ -27,19 +27,15 @@ class TunerServiceTest {
 
     @Test
     fun shouldCallOnCompleteWhenStoppedOrFailedToStartRecording() {
-        //given Tuner Service not recording
         whenever(mockPitchAudioRecord.recordingState).thenReturn(RECORDSTATE_STOPPED)
 
-        //on getNotes
         val testSubscriber = TestSubscriber<TunerResult>()
         tunerService.getNotes().subscribe(testSubscriber)
         testSubscriber.awaitTerminalEvent()
 
-        //should start recording
         verify(mockPitchAudioRecord).startRecording()
         verify(mockPitchAudioRecord).recordingState
 
-        //should do nothing as it has failed
         testSubscriber.assertTerminalEvent()
     }
 
@@ -48,8 +44,6 @@ class TunerServiceTest {
         val buffer = FloatArray(0)
         val pitchDetectionResult = mock<PitchDetectionResult>()
         val pitchResult = mock<PitchResult>()
-
-        //given Tuner Service recording
 
         whenever(mockPitchAudioRecord.recordingState).thenReturn(RECORDSTATE_RECORDING)
         whenever(mockPitchAudioRecord.read()).thenReturn(buffer)
@@ -62,18 +56,48 @@ class TunerServiceTest {
         whenever(pitchResult.expectedFrequency).thenReturn(3.0)
         whenever(pitchResult.diffCents).thenReturn(10.0)
 
-        //on getnotes
         val testSubscriber = TestSubscriber<TunerResult>()
         tunerService.getNotes()
                 .doOnNext({ whenever(mockPitchAudioRecord.recordingState).thenReturn(RECORDSTATE_STOPPED) })
                 .subscribe(testSubscriber)
         testSubscriber.awaitTerminalEvent()
 
-        //should
         verify(mockPitchAudioRecord).startRecording()
         verify(mockPitchAudioRecord).read()
         verify(mockTorsoYin).getPitch(buffer)
         verify(pitchHandler).handlePitch(123F)
         assertEquals(testSubscriber.onNextEvents[0], TunerResult("E", TUNED, 3.0, 3.3, 10.0))
     }
+
+    @Test
+    fun shouldReturnOnErrorWhenIllegalStateExceptionOccurredDuringRecording() {
+        whenever(mockPitchAudioRecord.startRecording()).thenThrow(IllegalStateException())
+
+        val testSubscriber = TestSubscriber<TunerResult>()
+        tunerService.getNotes().subscribe(testSubscriber)
+        testSubscriber.awaitTerminalEvent()
+
+        assertEquals(testSubscriber.onErrorEvents[0].javaClass, IllegalStateException::class.java)
+
+        testSubscriber.assertTerminalEvent()
+        verify(mockPitchAudioRecord).startRecording()
+    }
+
+    @Test
+    fun shouldReturnUnexpectedErrorWhenExceptionOccurredDuringRecording() {
+        val buffer = FloatArray(0)
+        whenever(mockPitchAudioRecord.read()).thenReturn(buffer)
+        whenever(mockTorsoYin.getPitch(buffer)).thenThrow(NumberFormatException())
+        whenever(mockPitchAudioRecord.recordingState).thenReturn(RECORDSTATE_RECORDING)
+
+        val testSubscriber = TestSubscriber<TunerResult>()
+        tunerService.getNotes().subscribe(testSubscriber)
+        testSubscriber.awaitTerminalEvent()
+
+        assertEquals(testSubscriber.onErrorEvents[0].javaClass, RuntimeException::class.java)
+
+        testSubscriber.assertTerminalEvent()
+        verify(mockPitchAudioRecord).startRecording()
+    }
+
 }

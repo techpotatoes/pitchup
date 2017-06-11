@@ -16,7 +16,10 @@ class GuitarTuner(pitchAudioRecord: PitchAudioRecorder, private val guitarTunerL
         appSchedulers = initializeAppSchedulers()
     }
 
-    internal constructor(pitchAudioRecord: PitchAudioRecorder, guitarTunerListener: GuitarTunerListener, tunerService: TunerService, appSchedulers: AppSchedulers) : this(pitchAudioRecord, guitarTunerListener) {
+    internal constructor(pitchAudioRecord: PitchAudioRecorder,
+                         guitarTunerListener: GuitarTunerListener,
+                         tunerService: TunerService,
+                         appSchedulers: AppSchedulers) : this(pitchAudioRecord, guitarTunerListener) {
         this.tunerService = tunerService
         this.appSchedulers = appSchedulers
     }

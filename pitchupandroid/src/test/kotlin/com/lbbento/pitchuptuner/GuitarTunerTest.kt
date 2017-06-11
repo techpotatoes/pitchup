@@ -10,8 +10,9 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
 import rx.Observable
+import rx.Observable.error
+import rx.Observable.just
 import rx.Subscription
-import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class GuitarTunerTest {
 
@@ -36,7 +37,6 @@ class GuitarTunerTest {
         verify(mockTunerService).getNotes()
         verify(mockObservable).observeOn(appSchedulers.ui())
         verify(mockObservable).subscribeOn(appSchedulers.computation())
-        verify(mockObservable).sample(400, MILLISECONDS)
         verify(mockObservable).subscribe(any(), any())
     }
 
@@ -56,5 +56,27 @@ class GuitarTunerTest {
         guitarTuner.stop()
 
         verify(mockSubscription).unsubscribe()
+    }
+
+    @Test
+    fun shouldCallOnNoteReceivedListener() {
+        val tunerResult: TunerResult = mock()
+
+        whenever(mockTunerService.getNotes()).thenReturn(just(tunerResult))
+
+        guitarTuner.start()
+
+        verify(mockGuitarTunerListener).onNoteReceived(tunerResult)
+    }
+
+    @Test
+    fun shouldCallOnErrorListener() {
+        val expectedException = Exception()
+
+        whenever(mockTunerService.getNotes()).thenReturn(error(expectedException))
+
+        guitarTuner.start()
+
+        verify(mockGuitarTunerListener).onError(expectedException)
     }
 }

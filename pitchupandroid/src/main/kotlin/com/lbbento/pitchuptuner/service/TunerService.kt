@@ -24,7 +24,11 @@ open internal class TunerService(private val pitchAudioRecord: PitchAudioRecorde
 
                     val result = pitchHandler.handlePitch(pitchResult.pitch)
 
-                    it.onNext(TunerResult(note = result.note, tuningStatus = result.tuningStatus, diffFrequency = result.diffFrequency, expectedFrequency = result.expectedFrequency, diffCents = result.diffCents))
+                    it.onNext(TunerResult(note = result.note,
+                            tuningStatus = result.tuningStatus,
+                            diffFrequency = result.diffFrequency,
+                            expectedFrequency = result.expectedFrequency,
+                            diffCents = result.diffCents))
                 }
 
                 it.onCompleted()
@@ -32,7 +36,7 @@ open internal class TunerService(private val pitchAudioRecord: PitchAudioRecorde
             } catch (e: IllegalStateException) {
                 it.onError(IllegalStateException("An error has occurred when trying to record audio. Check your permissions."))
             } catch (e: Exception) {
-                it.onError(UnknownError("Unexpected error"))
+                it.onError(RuntimeException("Unexpected error"))
             } finally {
                 pitchAudioRecord.stopRecording()
             }
