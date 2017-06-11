@@ -19,7 +19,7 @@ class GuitarTunerReactive(pitchAudioRecord: PitchAudioRecorder) {
     }
 
     fun listenToNotes(): Observable<TunerResult> = tunerService.getNotes()
-            .distinctUntilChanged { it.note + it.tunningStatus.name }
+            .distinctUntilChanged { it.note + it.tuningStatus.name }
 
     private fun initializeTunerService(pitchAudioRecord: PitchAudioRecorder) = TunerService(pitchAudioRecord, GUITAR)
 }

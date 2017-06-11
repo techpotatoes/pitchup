@@ -2,8 +2,8 @@ package com.lbbento.pitchupcore.pitch
 
 import com.lbbento.pitchupcore.InstrumentType
 import com.lbbento.pitchupcore.InstrumentType.GUITAR
-import com.lbbento.pitchupcore.TuningStatus
 import com.lbbento.pitchupcore.TuningStatus.*
+import kotlin.Double.Companion.NEGATIVE_INFINITY
 
 class PitchHandler(instrumentType: InstrumentType) {
 
@@ -50,21 +50,11 @@ class PitchHandler(instrumentType: InstrumentType) {
 
     private fun diffInCents(expectedFrequency: Double, frequency: Double) = 1200 * Math.log(expectedFrequency / frequency)
 
-    private fun tuningStatus(diff: Double): TuningStatus {
-        if (diff < 0.3 && diff > -0.3) {
-            return TUNED
-        } else if (diff < 1 && diff > -1) {
-            if (diff > 0) {
-                return TOO_LOW
-            } else {
-                return TOO_HIGH
-            }
-        } else if (diff > 1) {
-            return WAY_TOO_LOW
-        } else if (diff < -1) {
-            return WAY_TOO_HIGH
-        }
-        return DEFAULT
+    private fun tuningStatus(diff: Double) = when (diff) {
+        in -0.3..0.3 -> TUNED
+        in -1.0..1.0 -> if (diff > 0) TOO_LOW else TOO_HIGH
+        in NEGATIVE_INFINITY..-1.0 -> WAY_TOO_HIGH
+        else -> WAY_TOO_LOW //greater than one
     }
 
     private fun midiFromPitch(frequency: Float): Int {

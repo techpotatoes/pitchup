@@ -15,7 +15,7 @@ class GuitarTunerReactiveTest {
 
     private val mockPitchAudioRecorder: PitchAudioRecorder = mock()
     private val tunerResult: TunerResult = mock() {
-        whenever(it.tunningStatus).thenReturn(TuningStatus.TUNED)
+        whenever(it.tuningStatus).thenReturn(TuningStatus.TUNED)
     }
     private val mockGetNotesObservable: Observable<TunerResult> = mock {
         it.stub { observable -> just(tunerResult) }

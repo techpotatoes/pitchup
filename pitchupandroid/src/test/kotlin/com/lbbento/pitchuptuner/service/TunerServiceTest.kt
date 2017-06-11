@@ -57,7 +57,7 @@ class TunerServiceTest {
         whenever(pitchDetectionResult.pitch).thenReturn(123F)
         whenever(pitchHandler.handlePitch(123F)).thenReturn(pitchResult)
         whenever(pitchResult.note).thenReturn("E")
-        whenever(pitchResult.tunningStatus).thenReturn(TUNED)
+        whenever(pitchResult.tuningStatus).thenReturn(TUNED)
         whenever(pitchResult.diffFrequency).thenReturn(3.3)
         whenever(pitchResult.expectedFrequency).thenReturn(3.0)
         whenever(pitchResult.diffCents).thenReturn(10.0)
