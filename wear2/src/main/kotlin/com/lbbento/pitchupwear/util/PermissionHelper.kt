@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 
 @ForActivity
-class PermissionHandler @Inject constructor(val activity: Activity) {
+class PermissionHelper @Inject constructor(val activity: Activity) {
 
     private val AUDIO_PERMISSION_REQUEST_CODE = 4
 

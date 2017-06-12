@@ -5,7 +5,7 @@ import com.lbbento.pitchupcore.TuningStatus.TOO_LOW
 import com.lbbento.pitchuptuner.GuitarTunerReactive
 import com.lbbento.pitchuptuner.service.TunerResult
 import com.lbbento.pitchupwear.common.StubAppScheduler
-import com.lbbento.pitchupwear.util.PermissionHandler
+import com.lbbento.pitchupwear.util.PermissionHelper
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
@@ -14,15 +14,16 @@ import org.junit.Before
 import org.junit.Test
 import rx.Observable
 import rx.Observable.just
+import rx.Subscription
 
 class MainPresenterTest {
 
-    val mockPermissionHandler: PermissionHandler = mock()
+    val mockPermissionHelper: PermissionHelper = mock()
     val mockView: MainView = mock()
     val mockGuitarTunerReactive: GuitarTunerReactive = mock()
     val mockMapper: TunerServiceMapper = mock()
     val stubAppSchedulers = StubAppScheduler()
-    val mainPresenter = MainPresenter(stubAppSchedulers, mockPermissionHandler, mockGuitarTunerReactive, mockMapper)
+    val mainPresenter = MainPresenter(stubAppSchedulers, mockPermissionHelper, mockGuitarTunerReactive, mockMapper)
 
     @Before
     fun setup() {
@@ -45,11 +46,11 @@ class MainPresenterTest {
 
     @Test
     fun shouldDoNothingWhenNoAudioPermissions() {
-        whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(false)
+        whenever(mockPermissionHelper.handleMicrophonePermission()).thenReturn(false)
 
         mainPresenter.onViewResuming()
 
-        verify(mockPermissionHandler).handleMicrophonePermission()
+        verify(mockPermissionHelper).handleMicrophonePermission()
         verify(mockGuitarTunerReactive, never()).listenToNotes()
     }
 
@@ -60,7 +61,7 @@ class MainPresenterTest {
             whenever(it.tuningStatus).thenReturn(DEFAULT)
         }
 
-        whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
+        whenever(mockPermissionHelper.handleMicrophonePermission()).thenReturn(true)
         whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))
         whenever(mockMapper.tunerResultToViewModel(tunerResult)).thenReturn(tunerViewModel)
 
@@ -81,7 +82,7 @@ class MainPresenterTest {
         }
         val setFreqTo = (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat()
 
-        whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
+        whenever(mockPermissionHelper.handleMicrophonePermission()).thenReturn(true)
         whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))
         whenever(mockMapper.tunerResultToViewModel(tunerResult)).thenReturn(tunerViewModel)
 
@@ -94,13 +95,23 @@ class MainPresenterTest {
 
     @Test
     fun shouldUpdateTunerViewWhenReceivedErrorFromService() {
-        whenever(mockPermissionHandler.handleMicrophonePermission()).thenReturn(true)
+        whenever(mockPermissionHelper.handleMicrophonePermission()).thenReturn(true)
         whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(Observable.error(IllegalStateException()))
 
         mainPresenter.onViewResuming()
 
-        verify(mockPermissionHandler).handleMicrophonePermission()
+        verify(mockPermissionHelper).handleMicrophonePermission()
         verify(mockGuitarTunerReactive).listenToNotes()
         verify(mockView).informError()
+    }
+
+    @Test
+    fun shouldUnsubscribeOnStop() {
+        val mockSubscription: Subscription = mock()
+        mainPresenter.tunerServiceSubscription = mockSubscription
+
+        mainPresenter.onStop()
+
+        verify(mockSubscription).unsubscribe()
     }
 }

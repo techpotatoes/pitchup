@@ -1,19 +1,18 @@
 package com.lbbento.pitchupwear.main
 
-import android.util.Log
 import com.lbbento.pitchupcore.TuningStatus.DEFAULT
 import com.lbbento.pitchuptuner.GuitarTunerReactive
 import com.lbbento.pitchupwear.AppSchedulers
 import com.lbbento.pitchupwear.di.ForActivity
 import com.lbbento.pitchupwear.ui.BasePresenter
-import com.lbbento.pitchupwear.util.PermissionHandler
+import com.lbbento.pitchupwear.util.PermissionHelper
 import rx.Subscription
 import javax.inject.Inject
 
 @ForActivity
-class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val permissionHandler: PermissionHandler, val guitarTunerReactive: GuitarTunerReactive, val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
+class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val permissionHelper: PermissionHelper, val guitarTunerReactive: GuitarTunerReactive, val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
 
-    private var tunerServiceSubscription: Subscription? = null
+    var tunerServiceSubscription: Subscription? = null
 
     override fun onCreated() {
         super.onCreated()
@@ -26,13 +25,13 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
     }
 
     override fun onViewResuming() {
-        if (permissionHandler.handleMicrophonePermission()) {
+        if (permissionHelper.handleMicrophonePermission()) {
             tunerServiceSubscription = guitarTunerReactive.listenToNotes()
                     .subscribeOn(appSchedulers.io())
                     .observeOn(appSchedulers.ui())
                     .subscribe(
                             { tunerResultReceived(mapper.tunerResultToViewModel(it!!)) },
-                            this::tunerResultError)
+                            { tunerResultError() })
         }
     }
 
@@ -46,8 +45,7 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val pe
         }
     }
 
-    private fun tunerResultError(e: Throwable) {
+    private fun tunerResultError() {
         mView.informError()
-        Log.e(javaClass.name, "Error tuning: " + e.stackTrace.toString())
     }
 }
