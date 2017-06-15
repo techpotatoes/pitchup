@@ -10,7 +10,10 @@ import rx.Subscription
 import javax.inject.Inject
 
 @ForActivity
-class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val permissionHelper: PermissionHelper, val guitarTunerReactive: GuitarTunerReactive, val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
+class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers,
+                                        val permissionHelper: PermissionHelper,
+                                        val guitarTunerReactive: GuitarTunerReactive,
+                                        val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
 
     var tunerServiceSubscription: Subscription? = null
 
