@@ -6,7 +6,6 @@ import com.lbbento.pitchupwear.AppSchedulers
 import com.lbbento.pitchupwear.di.ForActivity
 import com.lbbento.pitchupwear.ui.BasePresenter
 import com.lbbento.pitchupwear.util.PermissionHelper
-import rx.Subscription
 import javax.inject.Inject
 
 @ForActivity
@@ -15,7 +14,6 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers,
                                         val guitarTunerReactive: GuitarTunerReactive,
                                         val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
 
-    var tunerServiceSubscription: Subscription? = null
 
     override fun onCreated() {
         super.onCreated()
@@ -23,16 +21,12 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers,
         mView.setupGauge()
     }
 
-    override fun onStop() {
-        tunerServiceSubscription!!.unsubscribe()
-    }
-
     override fun onViewResuming() {
         if (permissionHelper.handleMicrophonePermission()) {
-            tunerServiceSubscription = guitarTunerReactive.listenToNotes()
+            guitarTunerReactive.listenToNotes()
                     .subscribeOn(appSchedulers.io())
                     .observeOn(appSchedulers.ui())
-                    .subscribe(
+                    .subscribeAndManage(
                             { tunerResultReceived(mapper.tunerResultToViewModel(it!!)) },
                             { tunerResultError() })
         }

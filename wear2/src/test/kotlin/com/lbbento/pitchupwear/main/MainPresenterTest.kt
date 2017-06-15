@@ -14,7 +14,6 @@ import org.junit.Before
 import org.junit.Test
 import rx.Observable
 import rx.Observable.just
-import rx.Subscription
 
 class MainPresenterTest {
 
@@ -103,15 +102,5 @@ class MainPresenterTest {
         verify(mockPermissionHelper).handleMicrophonePermission()
         verify(mockGuitarTunerReactive).listenToNotes()
         verify(mockView).informError()
-    }
-
-    @Test
-    fun shouldUnsubscribeOnStop() {
-        val mockSubscription: Subscription = mock()
-        mainPresenter.tunerServiceSubscription = mockSubscription
-
-        mainPresenter.onStop()
-
-        verify(mockSubscription).unsubscribe()
     }
 }
