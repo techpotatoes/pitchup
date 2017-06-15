@@ -7,14 +7,14 @@ import kotlin.Double.Companion.NEGATIVE_INFINITY
 
 class PitchHandler(instrumentType: InstrumentType) {
 
-    private val MINIMUN_PITCH: Double
+    private val MINIMUM_PITCH: Double
     private val MAXIMUM_PITCH: Double
     private val noteStrings: Array<String>
 
     init {
         when (instrumentType) {
             GUITAR -> {
-                MINIMUN_PITCH = 80.0
+                MINIMUM_PITCH = 80.0
                 MAXIMUM_PITCH = 1050.0
 
                 noteStrings = arrayOf("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
@@ -35,7 +35,7 @@ class PitchHandler(instrumentType: InstrumentType) {
         return PitchResult("", DEFAULT, 0.0, 0.0, 0.0)
     }
 
-    private fun isPitchInRange(pitch: Float) = pitch > MINIMUN_PITCH && pitch < MAXIMUM_PITCH
+    private fun isPitchInRange(pitch: Float) = pitch > MINIMUM_PITCH && pitch < MAXIMUM_PITCH
 
     private fun noteFromPitch(frequency: Float): String {
         val noteNum = 12 * (Math.log((frequency / 440).toDouble()) / Math.log(2.0))
