@@ -97,14 +97,4 @@ class MainPresenterTest {
         verify(mockGuitarTunerReactive).listenToNotes()
         verify(mockView).informError()
     }
-
-    @Test
-    fun shouldUnsubscribeOnStop() {
-        val mockSubscription: Subscription = mock()
-        mainPresenter.tunerServiceSubscription = mockSubscription
-
-        mainPresenter.onStop()
-
-        verify(mockSubscription).unsubscribe()
-    }
 }

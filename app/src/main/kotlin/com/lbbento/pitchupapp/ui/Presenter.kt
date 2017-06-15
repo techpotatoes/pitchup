@@ -1,6 +1,6 @@
 package com.lbbento.pitchupapp.ui
 
-interface BasePresenterView {
+interface Presenter {
     fun onAttachedToWindow(view: BaseView)
     fun onCreated()
     fun onStop()

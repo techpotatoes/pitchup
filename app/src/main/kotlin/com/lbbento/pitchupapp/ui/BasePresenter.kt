@@ -1,10 +1,14 @@
 package com.lbbento.pitchupapp.ui
 
 import android.support.annotation.CallSuper
+import rx.Observable
+import rx.subscriptions.CompositeSubscription
 
-abstract class BasePresenter<V : BaseView> : BasePresenterView {
+abstract class BasePresenter<V : BaseView> : Presenter {
 
     lateinit var mView: V
+
+    open val subscriptions: CompositeSubscription by lazy { CompositeSubscription() }
 
     @CallSuper
     override fun onAttachedToWindow(view: BaseView) {
@@ -26,5 +30,15 @@ abstract class BasePresenter<V : BaseView> : BasePresenterView {
 
     @CallSuper
     override fun onStop() {
+        subscriptions.unsubscribe()
+    }
+
+    fun <T> Observable<T>.subscribeAndManage(onNext: (T) -> Unit = {},
+                                             onError: () -> Unit = {},
+                                             onComplete: () -> Unit = {}) {
+        subscriptions.add(subscribe(
+                { result -> onNext(result) },
+                { onError() },
+                { onComplete() }))
     }
 }

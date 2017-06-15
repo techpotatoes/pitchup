@@ -8,7 +8,7 @@ import com.lbbento.pitchupapp.di.ActivityComponent
 import com.lbbento.pitchupapp.di.ActivityModule
 import javax.inject.Inject
 
-abstract class BaseActivity<P : BasePresenterView> : AppCompatActivity(), BaseView {
+abstract class BaseActivity<P : Presenter> : AppCompatActivity(), BaseView {
 
     @Inject
     lateinit var presenter: P

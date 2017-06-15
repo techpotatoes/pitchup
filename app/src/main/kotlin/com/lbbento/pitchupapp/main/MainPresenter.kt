@@ -6,43 +6,40 @@ import com.lbbento.pitchupapp.ui.BasePresenter
 import com.lbbento.pitchupapp.util.PermissionHelper
 import com.lbbento.pitchupcore.TuningStatus.DEFAULT
 import com.lbbento.pitchuptuner.GuitarTunerReactive
-import rx.Subscription
 import javax.inject.Inject
 
 @ForActivity
-class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers, val permissionHelper: PermissionHelper, val guitarTunerReactive: GuitarTunerReactive, val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
-
-    var tunerServiceSubscription: Subscription? = null
+class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers,
+                                        val permissionHelper: PermissionHelper,
+                                        val guitarTunerReactive: GuitarTunerReactive,
+                                        val mapper: TunerServiceMapper) : BasePresenter<MainView>() {
 
     override fun onCreated() {
         super.onCreated()
         mView.setupGauge()
     }
 
-    override fun onStop() {
-        tunerServiceSubscription!!.unsubscribe()
-    }
-
     override fun onViewResuming() {
         if (permissionHelper.handleMicrophonePermission()) {
-            tunerServiceSubscription = guitarTunerReactive.listenToNotes()
+            guitarTunerReactive.listenToNotes()
                     .subscribeOn(appSchedulers.io())
                     .observeOn(appSchedulers.ui())
-                    .subscribe(
+                    .subscribeAndManage(
                             { tunerResultReceived(mapper.tunerResultToViewModel(it!!)) },
                             { tunerResultError() })
         }
     }
 
-    private fun tunerResultReceived(tunerViewModel: TunerViewModel) {
-        if (tunerViewModel.tuningStatus != DEFAULT) {
-            mView.updateNote(tunerViewModel.note)
-            mView.updateIndicator((tunerViewModel.diffInCents * -1).toFloat())
-            mView.updateCurrentFrequency((tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat())
-        } else {
-            mView.updateToDefaultStatus()
-        }
-    }
+    private fun tunerResultReceived(tunerViewModel: TunerViewModel) =
+            when (tunerViewModel.tuningStatus) {
+                DEFAULT -> mView.updateToDefaultStatus()
+                else -> {
+                    mView.updateNote(tunerViewModel.note)
+                    mView.updateIndicator((tunerViewModel.diffInCents * -1).toFloat())
+                    mView.updateCurrentFrequency(
+                            (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat())
+                }
+            }
 
     private fun tunerResultError() {
         mView.informError()
