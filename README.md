@@ -1,3 +1,5 @@
+![Travis-ci](https://travis-ci.org/skyguydaa7/pitchup.svg)
+<p>&nbsp;</p>
 <h1>PitchUp</h1>
 <p>PitchUp is an open source project that provides a tuner for instruments(for now only guitars) based on pitch using the smartphone or smartwatch microphone.</p>
 <p>The aim of the project is to get people to contribute towards the core development of the library adding new instruments and improving the algoritm to detect tunes.&nbsp;</p>
