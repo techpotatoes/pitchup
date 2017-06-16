@@ -1,0 +1,14 @@
+language: android
+android:
+        components:
+                - platform-tools
+                - build-tools-26.0.0-rc2
+                - android-25
+                - extra-android-m2repository
+script:
+        - ./gradlew :pitchupcore:build
+before_install:
+        - chmod +x gradlew
+branches:
+        only:
+                - master
