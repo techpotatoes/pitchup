@@ -1,0 +1,258 @@
+Index: app/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker	(revision )
++++ app/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker	(revision )
+@@ -0,0 +1,1 @@
++mock-maker-inline
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"NullableNotNullManager\">\n    <option name=\"myDefaultNullable\" value=\"android.support.annotation.Nullable\" />\n    <option name=\"myDefaultNotNull\" value=\"android.support.annotation.NonNull\" />\n    <option name=\"myNullables\">\n      <value>\n        <list size=\"4\">\n          <item index=\"0\" class=\"java.lang.String\" itemvalue=\"org.jetbrains.annotations.Nullable\" />\n          <item index=\"1\" class=\"java.lang.String\" itemvalue=\"javax.annotation.Nullable\" />\n          <item index=\"2\" class=\"java.lang.String\" itemvalue=\"edu.umd.cs.findbugs.annotations.Nullable\" />\n          <item index=\"3\" class=\"java.lang.String\" itemvalue=\"android.support.annotation.Nullable\" />\n        </list>\n      </value>\n    </option>\n    <option name=\"myNotNulls\">\n      <value>\n        <list size=\"4\">\n          <item index=\"0\" class=\"java.lang.String\" itemvalue=\"org.jetbrains.annotations.NotNull\" />\n          <item index=\"1\" class=\"java.lang.String\" itemvalue=\"javax.annotation.Nonnull\" />\n          <item index=\"2\" class=\"java.lang.String\" itemvalue=\"edu.umd.cs.findbugs.annotations.NonNull\" />\n          <item index=\"3\" class=\"java.lang.String\" itemvalue=\"android.support.annotation.NonNull\" />\n        </list>\n      </value>\n    </option>\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" default=\"true\" project-jdk-name=\"1.8 (1)\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n  <component name=\"masterDetails\">\n    <states>\n      <state key=\"ProjectJDKs.UI\">\n        <settings>\n          <last-edited>1.8</last-edited>\n          <splitter-proportions>\n            <option name=\"proportions\">\n              <list>\n                <option value=\"0.2\" />\n              </list>\n            </option>\n          </splitter-proportions>\n        </settings>\n      </state>\n    </states>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(date 1495886158000)
++++ .idea/misc.xml	(revision )
+@@ -24,7 +24,7 @@
+       </value>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8 (1)" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" project-jdk-name="1.8 (1)" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: app/src/test/kotlin/com/lbbento/pitchup/main/MainPresenterTest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchup.main\n\nimport com.lbbento.pitchup.util.PermissionHandler\nimport org.junit.Before\nimport org.junit.Test\nimport org.junit.runner.RunWith\nimport org.mockito.Mockito.mock\nimport org.mockito.Mockito.verify\nimport org.mockito.junit.MockitoJUnitRunner\n\n@RunWith(MockitoJUnitRunner::class)\nclass MainPresenterTest {\n\n    val permissionHandler: PermissionHandler\n        get() = mock(PermissionHandler::class.java)\n\n    val view: MainView\n        get() = mock(MainView::class.java)\n\n    val presenter: MainPresenter\n        get() = MainPresenter(permissionHandler)\n\n    @Before\n    fun setup() {\n        presenter.onAttachedToWindow(view)\n    }\n\n    @Test\n    fun shouldCheckIfHaveRightPermissionsOnViewResuming() {\n        presenter.onViewResuming()\n\n        verify(permissionHandler).handleMicrophonePermission()\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/test/kotlin/com/lbbento/pitchup/main/MainPresenterTest.kt	(date 1495886158000)
++++ app/src/test/kotlin/com/lbbento/pitchup/main/MainPresenterTest.kt	(revision )
+@@ -1,34 +1,43 @@
+ package com.lbbento.pitchup.main
+ 
+ import com.lbbento.pitchup.util.PermissionHandler
+-import org.junit.Before
+-import org.junit.Test
++import com.nhaarman.mockito_kotlin.mock
++import com.nhaarman.mockito_kotlin.verify
++import org.jetbrains.spek.api.Spek
++import org.jetbrains.spek.api.dsl.given
++import org.jetbrains.spek.api.dsl.it
++import org.jetbrains.spek.api.dsl.on
+ import org.junit.runner.RunWith
+-import org.mockito.Mockito.mock
+-import org.mockito.Mockito.verify
+-import org.mockito.junit.MockitoJUnitRunner
++import org.junit.runners.BlockJUnit4ClassRunner
+ 
+-@RunWith(MockitoJUnitRunner::class)
+-class MainPresenterTest {
++@RunWith(BlockJUnit4ClassRunner::class)
++class MainPresenterTest : Spek({
++    given("main view presenter") {
++        val permissionHandler: PermissionHandler = mock()
++        val view: MainView = mock()
++        val mainPresenter = MainPresenter(permissionHandler)
++        mainPresenter.onAttachedToWindow(view)
+ 
+-    val permissionHandler: PermissionHandler
+-        get() = mock(PermissionHandler::class.java)
++        on("resuming") {
++            mainPresenter.onViewResuming()
+ 
+-    val view: MainView
+-        get() = mock(MainView::class.java)
+-
+-    val presenter: MainPresenter
+-        get() = MainPresenter(permissionHandler)
+-
+-    @Before
+-    fun setup() {
+-        presenter.onAttachedToWindow(view)
+-    }
+-
+-    @Test
+-    fun shouldCheckIfHaveRightPermissionsOnViewResuming() {
+-        presenter.onViewResuming()
+-
+-        verify(permissionHandler).handleMicrophonePermission()
+-    }
+-}
++            it("should check if it has audio recording permissions") {
++                verify(permissionHandler).handleMicrophonePermission()
++            }
++
++        }
++    }
++
++
++//    @Test
++//    fun shouldCheckIfHaveRightPermissionsOnViewResuming() {
++//
++//        val permissionHandler = Mockito.mock(PermissionHandler::class.java)
++//        presenter = MainPresenter(permissionHandler)
++//
++//        presenter.onAttachedToWindow(view)
++//        presenter.onViewResuming()
++//
++//        verify(permissionHandler).handleMicrophonePermission()
++//    }
++})
+Index: app/src/main/kotlin/com/lbbento/pitchup/util/PermissionHandler.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchup.util\n\nimport android.Manifest.permission.RECORD_AUDIO\nimport android.app.Activity\nimport android.content.pm.PackageManager.PERMISSION_GRANTED\nimport android.support.v4.app.ActivityCompat.requestPermissions\nimport android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale\nimport android.support.v4.content.ContextCompat.checkSelfPermission\nimport android.support.wearable.view.WearableDialogHelper.DialogBuilder\nimport com.lbbento.pitchup.R\nimport com.lbbento.pitchup.di.ForController\nimport javax.inject.Inject\n\n\n@ForController\nclass PermissionHandler @Inject constructor(val activity: Activity) {\n\n    private val AUDIO_PERMISSION_REQUEST_CODE = 4\n\n    fun handleMicrophonePermission() {\n        if (!hasMicrophonePermission()) {\n            if (shouldShowRequestPermissionRationale(activity, RECORD_AUDIO)) {\n                showMicPermissionDialog()\n            } else {\n                requestMicPermisson()\n            }\n        }\n    }\n\n    private fun hasMicrophonePermission(): Boolean {\n        val permissionCheck = checkSelfPermission(activity.applicationContext, RECORD_AUDIO)\n        if (permissionCheck == PERMISSION_GRANTED) {\n            return true\n        }\n        return false\n    }\n\n    private fun showMicPermissionDialog() {\n        DialogBuilder(activity, R.style.Theme_Wearable_Modal)\n                .setMessage(R.string.permisson_handler_mic_permission)\n                .setCancelable(false)\n                .setPositiveButton(R.string.permission_handler_mic_permission_button_ok, { _, _ -> requestMicPermisson() })\n                .create()\n                .show()\n    }\n\n    private fun requestMicPermisson() {\n        requestPermissions(activity, arrayOf(RECORD_AUDIO), AUDIO_PERMISSION_REQUEST_CODE)\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchup/util/PermissionHandler.kt	(date 1495886158000)
++++ app/src/main/kotlin/com/lbbento/pitchup/util/PermissionHandler.kt	(revision )
+@@ -13,7 +13,7 @@
+ 
+ 
+ @ForController
+-class PermissionHandler @Inject constructor(val activity: Activity) {
++open class PermissionHandler @Inject constructor(val activity: Activity) {
+ 
+     private val AUDIO_PERMISSION_REQUEST_CODE = 4
+ 
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>buildscript {\n    ext.kotlin_version = '1.1.2-4'\n    ext.gradle_version = '2.3.2'\n\n    repositories {\n        maven { url 'https://maven.google.com' }\n        jcenter()\n    }\n    dependencies {\n        classpath \"com.android.tools.build:gradle:$gradle_version\"\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version\"\n    }\n}\n\nallprojects {\n    repositories {\n        jcenter()\n        maven { url 'https://maven.google.com' }\n        mavenCentral()\n    }\n}\n\ntask clean(type: Delete) {\n    delete rootProject.buildDir\n}\n\next {\n    tests_junit_version = '4.12'\n    tests_mockito_version = '2.8.9'\n    wear_version = '2.0.2'\n    wear_gms_version = '10.2.6'\n    butter_knife_version = '8.5.1'\n    rx_kotlin = '2.0.0-RC1'\n    rx_android = '0.22.0'\n    dagger_version = '2.10'\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(date 1495886158000)
++++ build.gradle	(revision )
+@@ -9,8 +9,13 @@
+     dependencies {
+         classpath "com.android.tools.build:gradle:$gradle_version"
+         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
++        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
++        classpath 'io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE'
+     }
++
++
+ }
++
+ 
+ allprojects {
+     repositories {
+@@ -27,6 +32,9 @@
+ ext {
+     tests_junit_version = '4.12'
+     tests_mockito_version = '2.8.9'
++    tests_mockito_kotlin_version = '1.4.0'
++    tests_spek_version = '1.1.2'
++    tests_junit_runner_version='1.0.0-M4'
+     wear_version = '2.0.2'
+     wear_gms_version = '10.2.6'
+     butter_knife_version = '8.5.1'
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'\n\nandroid {\n    compileSdkVersion 25\n    buildToolsVersion \"26.0.0-rc2\"\n    defaultConfig {\n        applicationId \"com.lbbento.pitchup\"\n        minSdkVersion 25\n        targetSdkVersion 25\n        versionCode 1\n        versionName \"1.0\"\n\n        testInstrumentationRunner \"android.support.test.runner.AndroidJUnitRunner\"\n    }\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\n        }\n    }\n\n    packagingOptions {\n        exclude 'META-INF/rxjava.properties'\n    }\n\n    sourceSets {\n        main.java.srcDirs += 'src/main/kotlin'\n        test.java.srcDirs += 'src/test/kotlin'\n    }\n\n}\n\nkapt {\n    generateStubs = true\n}\n\n\ndependencies {\n    compile fileTree(dir: 'libs', include: ['*.jar'])\n    //Tests\n    testCompile \"junit:junit:$tests_junit_version\"\n    testCompile \"org.mockito:mockito-core:$tests_mockito_version\"\n    testCompile \"org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version\"\n\n    //Wear\n    //noinspection GradleCompatible\n    compile \"com.google.android.support:wearable:$wear_version\"\n    provided \"com.google.android.wearable:wearable:$wear_version\"\n    compile \"com.google.android.gms:play-services-wearable:$wear_gms_version\"\n\n    //kotlin\n    compile \"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version\"\n\n    //Butterknife\n    compile \"com.jakewharton:butterknife:$butter_knife_version\"\n    kapt \"com.jakewharton:butterknife-compiler:$butter_knife_version\"\n\n    //RxKotlin\n    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin\n    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android\n\n    //Dagger\n    compile \"com.google.dagger:dagger:$dagger_version\"\n    kapt \"com.google.dagger:dagger-compiler:$dagger_version\"\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(date 1495886158000)
++++ app/build.gradle	(revision )
+@@ -1,5 +1,7 @@
++apply from: "$rootDir/gradle/common/dependencies.gradle"
+ apply plugin: 'com.android.application'
+ apply plugin: 'kotlin-android'
++apply plugin: 'idea'
+ 
+ android {
+     compileSdkVersion 25
+@@ -28,20 +30,41 @@
+         main.java.srcDirs += 'src/main/kotlin'
+         test.java.srcDirs += 'src/test/kotlin'
+     }
+-
+ }
+ 
+ kapt {
+     generateStubs = true
+ }
+ 
++apply plugin: 'org.junit.platform.gradle.plugin'
++
++junitPlatform {
++    platformVersion '1.0.0-M4'
++    filters {
++        engines {
++            include 'spek'
++        }
++    }
++}
+ 
+ dependencies {
+     compile fileTree(dir: 'libs', include: ['*.jar'])
+     //Tests
+     testCompile "junit:junit:$tests_junit_version"
++    compile "org.jetbrains.kotlin:kotlin-test"
++    testCompile ("org.jetbrains.spek:spek-api:$tests_spek_version") {
++        exclude group: 'org.jetbrains.kotlin'
++    }
++    testProvided ("org.jetbrains.spek:spek-junit-platform-engine:$tests_spek_version"){
++        exclude group: 'org.junit.platform'
++        exclude group: 'org.jetbrains.kotlin'
++    }
++    testCompile "org.junit.platform:junit-platform-runner:$tests_junit_runner_version"
+     testCompile "org.mockito:mockito-core:$tests_mockito_version"
+-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
++//    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
++    testCompile ("com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version")  {
++        exclude group: 'org.jetbrains.kotlin'
++    }
+ 
+     //Wear
+     //noinspection GradleCompatible
+Index: gradle/common/dependencies.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gradle/common/dependencies.gradle	(revision )
++++ gradle/common/dependencies.gradle	(revision )
+@@ -0,0 +1,29 @@
++apply plugin: 'io.spring.dependency-management'
++
++dependencyManagement {
++    dependencies {
++        dependency 'com.natpryce:hamkrest:1.1.0.0'
++        dependency 'junit:junit:4.12'
++
++        dependency 'org.slf4j:slf4j-api:1.7.21'
++        dependency 'ch.qos.logback:logback-classic:1.1.7'
++
++        dependencySet(group: 'org.junit.platform', version: '1.0.0-M4') {
++            entry 'junit-platform-engine'
++            entry 'junit-platform-runner'
++            entry 'junit-platform-launcher'
++        }
++
++        dependencySet(group: 'org.junit.jupiter', version: '5.0.0-M4') {
++            entry 'junit-jupiter-api'
++            entry 'junit-jupiter-engine'
++        }
++
++        dependencySet(group: 'org.jetbrains.kotlin', version: '1.1.2-4') {
++            entry 'kotlin-stdlib'
++            entry 'kotlin-reflect'
++            entry 'kotlin-test'
++            entry 'kotlin-compiler'
++        }
++    }
++}
+\ No newline at end of file

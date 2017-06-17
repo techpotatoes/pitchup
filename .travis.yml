@@ -7,8 +7,10 @@ android:
                 - build-tools-26.0.0-rc2
                 - android-25
                 - extra-android-m2repository
-                - extra-google-android-support
-script:
+                - extra-google-m2repository
+                - extra-android-support
+                - extra-google-google_play_services
+jdk:script:
         - ./gradlew :pitchupcore:build
 before_install:
         - chmod +x gradlew
