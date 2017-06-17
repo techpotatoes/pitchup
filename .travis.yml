@@ -13,6 +13,8 @@ jdk:script:
         - ./gradlew :pitchupcore:build
 before_install:
         - chmod +x gradlew
+before_script:
+        sdkmanager --licenses
 branches:
         only:
                 - master
