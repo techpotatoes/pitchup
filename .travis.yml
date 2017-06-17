@@ -9,7 +9,7 @@ android:
                 - extra-google-m2repository
                 - extra-android-support
                 - extra-google-google_play_services
-jdk:script:
+script:
         - ./gradlew :pitchupcore:build
 before_install:
         - chmod +x gradlew
