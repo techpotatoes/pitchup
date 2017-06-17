@@ -14,7 +14,7 @@ jdk:script:
 before_install:
         - chmod +x gradlew
 before_script:
-        sdkmanager --licenses
+        $ANDROID_HOME/tools/bin/sdkmanager --licenses
 branches:
         only:
                 - master
