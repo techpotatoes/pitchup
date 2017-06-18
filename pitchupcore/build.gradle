@@ -2,17 +2,20 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+tasks.withType(Javadoc).all { enabled = false }
+
+def libVersionCode = 1
+def libVersionName = '1.0.0'
 
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
 
-
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0.0"
+        versionCode libVersionCode
+        versionName libVersionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -39,3 +42,25 @@ dependencies {
     //kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
+
+ext {
+    // Bintray vars
+    bintrayRepo = 'PitchUp'
+    bintrayName = 'PitchUp'
+
+    projectGroupId = 'com.lbbento.pitchup'
+    projectArtifact = 'core'
+
+    libraryName = 'PitchUpCore'
+    libraryDescription = 'A library that converts a pitch in a musical note.'
+    libraryUrl = 'https://skyguydaa7.github.io/pitchup'
+    libraryVersion = libVersionName
+
+
+    developerId = 'lbbento'
+    developerName = 'Lucas Bento'
+    developerEmail = 'lucasbento7@gmail.com'
+}
+
+apply from: 'install.gradle'
+apply from: 'bintray.gradle'

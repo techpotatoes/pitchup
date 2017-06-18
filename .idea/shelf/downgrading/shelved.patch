@@ -1,0 +1,130 @@
+Index: pitchupandroid/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.library'\napply plugin: 'kotlin-android'\napply plugin: 'kotlin-android-extensions'\n\nandroid {\n    compileSdkVersion 26\n    buildToolsVersion \"26.0.0\"\n\n\n    defaultConfig {\n        minSdkVersion 16\n        targetSdkVersion 26\n        versionCode 1\n        versionName \"1.0.0\"\n\n        testInstrumentationRunner \"android.support.test.runner.AndroidJUnitRunner\"\n\n    }\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\n        }\n    }\n\n    packagingOptions {\n        exclude 'META-INF/rxjava.properties'\n    }\n\n    sourceSets {\n        main.java.srcDirs += 'src/main/kotlin'\n        test.java.srcDirs += 'src/test/kotlin'\n    }\n\n}\n\ndependencies {\n    compile project(':pitchupcore')\n    compile fileTree(dir: 'libs', include: ['*.jar'])\n\n    // Tests\n    testCompile \"com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version\"\n    testCompile \"junit:junit:$tests_junit_version\"\n    testCompile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //kotlin\n    compile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //RxKotlin\n    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin\n    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pitchupandroid/build.gradle	(date 1497675524000)
++++ pitchupandroid/build.gradle	(revision )
+@@ -3,13 +3,13 @@
+ apply plugin: 'kotlin-android-extensions'
+ 
+ android {
+-    compileSdkVersion 26
+-    buildToolsVersion "26.0.0"
++    compileSdkVersion 25
++    buildToolsVersion "25.0.3"
+ 
+ 
+     defaultConfig {
+         minSdkVersion 16
+-        targetSdkVersion 26
++        targetSdkVersion 25
+         versionCode 1
+         versionName "1.0.0"
+ 
+Index: pitchupandroidgauge/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.library'\napply plugin: 'kotlin-android'\napply plugin: 'kotlin-android-extensions'\n\nandroid {\n    compileSdkVersion 26\n    buildToolsVersion \"26.0.0\"\n\n\n    defaultConfig {\n        minSdkVersion 14\n        targetSdkVersion 26\n        versionCode 1\n        versionName \"1.0.0\"\n\n        testInstrumentationRunner \"android.support.test.runner.AndroidJUnitRunner\"\n    }\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\n        }\n    }\n    sourceSets {\n        main.java.srcDirs += 'src/main/kotlin'\n        test.java.srcDirs += 'src/test/kotlin'\n    }\n}\n\ndependencies {\n    compile fileTree(dir: 'libs', include: ['*.jar'])\n\n    // Tests\n    testCompile \"com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version\"\n    testCompile \"junit:junit:$tests_junit_version\"\n    testCompile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //kotlin\n    compile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //SpeedView\n    compile \"com.github.anastr:speedviewlib:$speedview_version\"\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pitchupandroidgauge/build.gradle	(date 1497675524000)
++++ pitchupandroidgauge/build.gradle	(revision )
+@@ -3,13 +3,13 @@
+ apply plugin: 'kotlin-android-extensions'
+ 
+ android {
+-    compileSdkVersion 26
+-    buildToolsVersion "26.0.0"
++    compileSdkVersion 25
++    buildToolsVersion "25.0.3"
+ 
+ 
+     defaultConfig {
+         minSdkVersion 14
+-        targetSdkVersion 26
++        targetSdkVersion 25
+         versionCode 1
+         versionName "1.0.0"
+ 
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'\napply plugin: 'kotlin-android-extensions'\n\n\nandroid {\n    compileSdkVersion 26\n    buildToolsVersion \"26.0.0\"\n\n\n    defaultConfig {\n        applicationId \"com.lbbento.pitchup\"\n        minSdkVersion 16\n        targetSdkVersion 26\n        versionCode 1\n        versionName \"1.0.0\"\n\n        testInstrumentationRunner \"android.support.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\n        }\n    }\n\n    packagingOptions {\n        exclude 'META-INF/rxjava.properties'\n    }\n\n    sourceSets {\n        main.java.srcDirs += 'src/main/kotlin'\n        test.java.srcDirs += 'src/test/kotlin'\n    }\n}\n\n\nkapt {\n    generateStubs = true\n}\n\ndependencies {\n    compile project(':pitchupandroid')\n    compile project(':pitchupandroidgauge')\n    compile fileTree(include: ['*.jar'], dir: 'libs')\n    // Tests\n    testCompile \"com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version\"\n    testCompile \"junit:junit:$tests_junit_version\"\n    testCompile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //Support\n    compile 'com.android.support:appcompat-v7:25.3.1'\n\n    //kotlin\n    compile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //RxKotlin\n    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin\n    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android\n\n    //Dagger\n    compile \"com.google.dagger:dagger:$dagger_version\"\n    kapt \"com.google.dagger:dagger-compiler:$dagger_version\"\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(date 1497675524000)
++++ app/build.gradle	(revision )
+@@ -4,14 +4,14 @@
+ 
+ 
+ android {
+-    compileSdkVersion 26
+-    buildToolsVersion "26.0.0"
++    compileSdkVersion 25
++    buildToolsVersion "25.0.3"
+ 
+ 
+     defaultConfig {
+         applicationId "com.lbbento.pitchup"
+         minSdkVersion 16
+-        targetSdkVersion 26
++        targetSdkVersion 25
+         versionCode 1
+         versionName "1.0.0"
+ 
+Index: wear2/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'\napply plugin: 'kotlin-android-extensions'\n\nandroid {\n    compileSdkVersion 26\n    buildToolsVersion \"26.0.0\"\n    defaultConfig {\n        applicationId \"com.lbbento.pitchup\"\n        minSdkVersion 20\n        targetSdkVersion 26\n        versionCode 1\n        versionName \"1.0.0\"\n        testInstrumentationRunner \"android.support.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\n        }\n    }\n\n    packagingOptions {\n        exclude 'META-INF/rxjava.properties'\n    }\n\n    sourceSets {\n        main.java.srcDirs += 'src/main/kotlin'\n        test.java.srcDirs += 'src/test/kotlin'\n    }\n}\n\nkapt {\n    generateStubs = true\n}\n\n\ndependencies {\n    compile project(':pitchupandroid')\n    compile project(':pitchupandroidgauge')\n    compile fileTree(dir: 'libs', include: ['*.jar'])\n\n    // Tests\n    testCompile \"com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version\"\n    testCompile \"junit:junit:$tests_junit_version\"\n    testCompile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //Wear\n    //noinspection GradleCompatible\n    compile \"com.google.android.support:wearable:$wear_version\"\n    provided \"com.google.android.wearable:wearable:$wear_version\"\n    compile \"com.google.android.gms:play-services-wearable:$wear_gms_version\"\n\n    //kotlin\n    compile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //RxKotlin\n    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin\n    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android\n\n    //Dagger\n    compile \"com.google.dagger:dagger:$dagger_version\"\n    kapt \"com.google.dagger:dagger-compiler:$dagger_version\"\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- wear2/build.gradle	(date 1497675524000)
++++ wear2/build.gradle	(revision )
+@@ -3,12 +3,12 @@
+ apply plugin: 'kotlin-android-extensions'
+ 
+ android {
+-    compileSdkVersion 26
+-    buildToolsVersion "26.0.0"
++    compileSdkVersion 25
++    buildToolsVersion "25.0.3"
+     defaultConfig {
+         applicationId "com.lbbento.pitchup"
+         minSdkVersion 20
+-        targetSdkVersion 26
++        targetSdkVersion 25
+         versionCode 1
+         versionName "1.0.0"
+         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+Index: pitchupcore/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.library'\napply plugin: 'kotlin-android'\napply plugin: 'kotlin-android-extensions'\n\n\nandroid {\n    compileSdkVersion 26\n    buildToolsVersion \"26.0.0\"\n\n\n    defaultConfig {\n        minSdkVersion 9\n        targetSdkVersion 26\n        versionCode 1\n        versionName \"1.0.0\"\n\n        testInstrumentationRunner \"android.support.test.runner.AndroidJUnitRunner\"\n\n    }\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\n        }\n    }\n    sourceSets {\n        main.java.srcDirs += 'src/main/kotlin'\n        test.java.srcDirs += 'src/test/kotlin'\n    }\n}\n\ndependencies {\n    compile fileTree(dir: 'libs', include: ['*.jar'])\n    // Tests\n    testCompile \"com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version\"\n    testCompile \"junit:junit:$tests_junit_version\"\n    testCompile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //kotlin\n    compile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pitchupcore/build.gradle	(date 1497675524000)
++++ pitchupcore/build.gradle	(revision )
+@@ -4,13 +4,13 @@
+ 
+ 
+ android {
+-    compileSdkVersion 26
+-    buildToolsVersion "26.0.0"
++    compileSdkVersion 25
++    buildToolsVersion "25.0.3"
+ 
+ 
+     defaultConfig {
+         minSdkVersion 9
+-        targetSdkVersion 26
++        targetSdkVersion 25
+         versionCode 1
+         versionName "1.0.0"
+ 
