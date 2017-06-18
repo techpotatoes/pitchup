@@ -11,8 +11,8 @@ The project consists of 4 main components:
 
 * The PitchUp core library which is the responsible for getting a raw pitch and return the note correspondent to it depending on the kind of instrument.
 * The PitchUp android tuner module which wraps the logic to record audio on android based devices and uses the core library internally.
-* The Android app also available in google play: [GOOGLE PLAY LINK]
-* The Wear App that is shipped with the Android App, but is also available as a standalone WearApp in the playstore.
+* The Android app also available in google play: [coming soon!]
+* The Wear App that is shipped with the Android App, but is also available as a standalone WearApp in the playstore. [coming soon!]
 
 ## PitchUpCore  <a href='https://bintray.com/lbbento/pitchup/core/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/core/images/download.svg'></a></h2>
 
