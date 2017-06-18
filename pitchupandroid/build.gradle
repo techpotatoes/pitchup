@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    compile project(':pitchupcore')
+    compile project(':core')
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Tests
