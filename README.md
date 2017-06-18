@@ -27,7 +27,7 @@
 <p>The android module provides a listener that can be used as bellow:</p>
 <p>TODO</p>
 <p>If you prefer, you can also use the Rx interface:</p>
-```kotlin
+```
 
         //Create audio recorder
         val audioRecorder = PitchAudioRecorder(AudioRecord(MediaRecorder.AudioSource.DEFAULT,
