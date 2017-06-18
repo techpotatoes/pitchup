@@ -27,7 +27,8 @@
 <p>The android module provides a listener that can be used as bellow:</p>
 <p>TODO</p>
 <p>If you prefer, you can also use the Rx interface:</p>
-```java
+``` java
+
 //Create audio recorder
 val audioRecorder = PitchAudioRecorder(AudioRecord(MediaRecorder.AudioSource.DEFAULT,
     44100,
@@ -46,6 +47,7 @@ guitarTunerReactive.listenToNotes()
         { tunerResult -> doSomethingWithResult(tunerResult) },
         { e -> showError(e) }
     )
+    
 ```
 <p>&nbsp;</p>
 <p>&nbsp;</p>
