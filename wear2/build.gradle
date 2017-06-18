@@ -37,7 +37,7 @@ kapt {
 
 
 dependencies {
-    compile project(':pitchupandroid')
+    compile project(':tuner')
     compile project(':pitchupandroidgauge')
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
