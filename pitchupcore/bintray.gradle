@@ -33,11 +33,13 @@ bintray {
         repo = bintrayRepo
         name = bintrayName
         desc = libraryDescription
+        vcsUrl = gitUrl
         publish = true
         publicDownloadNumbers = true
+        licenses = allLicenses
         version {
             desc = libraryDescription
-             gpg {
+            gpg {
                 sign = true
                 passphrase = properties.getProperty("bintray.gpg.password")
             }

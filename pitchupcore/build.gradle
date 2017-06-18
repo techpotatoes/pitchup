@@ -45,21 +45,26 @@ dependencies {
 
 ext {
     // Bintray vars
-    bintrayRepo = 'PitchUp'
-    bintrayName = 'PitchUp'
+    bintrayRepo = 'pitchup'
+    bintrayName = 'core'
 
     projectGroupId = 'com.lbbento.pitchup'
     projectArtifact = 'core'
 
-    libraryName = 'PitchUpCore'
+    libraryName = 'PitchUp Core'
     libraryDescription = 'A library that converts a pitch in a musical note.'
-    libraryUrl = 'https://skyguydaa7.github.io/pitchup'
+    libraryUrl = 'https://lbbento.github.io/pitchup'
+    gitUrl = 'https://lbbento.github.io/pitchup.git'
     libraryVersion = libVersionName
 
 
     developerId = 'lbbento'
     developerName = 'Lucas Bento'
     developerEmail = 'lucasbento7@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
 
 apply from: 'install.gradle'

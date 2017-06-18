@@ -16,8 +16,8 @@ install {
 
                 licenses {
                     license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name licenseName
+                        url licenseUrl
                     }
                 }
                 developers {
@@ -28,9 +28,9 @@ install {
                     }
                 }
                 scm {
-                    connection 'https://github.com/skyguydaa7/pitchup'
-                    developerConnection 'https://github.com/skyguydaa7/pitchup'
-                    url 'https://skyguydaa7.github.io/pitchup'
+                    connection 'https://github.com/lbbento/pitchup'
+                    developerConnection 'https://github.com/lbbento/pitchup'
+                    url 'https://lbbento.github.io/pitchup'
 
                 }
             }
