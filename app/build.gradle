@@ -44,13 +44,16 @@ dependencies {
     compile project(':tuner')
     compile project(':androidgauge')
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    wearApp project(path: ':wear2', configuration: 'wear1Release')
+
     // Tests
     testCompile "com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version"
     testCompile "junit:junit:$tests_junit_version"
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //Support
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile "com.android.support:appcompat-v7:$support_app_compat_version"
 
     //kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
