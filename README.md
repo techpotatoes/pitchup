@@ -16,13 +16,13 @@
 <p>&nbsp;</p>
 <h2><strong>PitchUpCore</strong>       <a href='https://bintray.com/lbbento/pitchup/core/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/core/images/download.svg'></a></h2>
 <h4>How to include library in your project:</h4>
-<div class="highlight highlight-source-groovy"><pre>compile <span class="pl-s"><span class="pl-pds">'</span>compile com.lbbento.pitchup:core:1.0.0<span class="pl-pds">'</span></span></pre></div>
+<div class="highlight highlight-source-groovy"><pre>compile <span class="pl-s"><span class="pl-pds">'</span>com.lbbento.pitchup:core:1.0.0<span class="pl-pds">'</span></span></pre></div>
 <p>Usage:</p>
 <p>TODO</p>
 <p>&nbsp;</p>
 <h2>PitchUpAndroid       <a href='https://bintray.com/lbbento/pitchup/tuner/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/tuner/images/download.svg'></a></h2>
 <h4>How to include library in your project:</h4>
-<div class="highlight highlight-source-groovy"><pre>compile <span class="pl-s"><span class="pl-pds">'</span>compile com.lbbento.pitchup:tuner:1.0.0<span class="pl-pds">'</span></span></pre></div>
+<div class="highlight highlight-source-groovy"><pre>compile <span class="pl-s"><span class="pl-pds">'</span>com.lbbento.pitchup:tuner:1.0.0<span class="pl-pds">'</span></span></pre></div>
 <p>Usage:</p>
 <p>The android module provides a listener that can be used as bellow:</p>
 <p>TODO</p>
