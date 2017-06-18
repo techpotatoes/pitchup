@@ -14,7 +14,7 @@ The project consists of 4 main components:
 * The Android app also available in google play: [coming soon!]
 * The Wear App that is shipped with the Android App, but is also available as a standalone WearApp in the playstore. [coming soon!]
 
-## PitchUpCore  <a href='https://bintray.com/lbbento/pitchup/core/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/core/images/download.svg'></a></h2>
+## PitchUp Core  <a href='https://bintray.com/lbbento/pitchup/core/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/core/images/download.svg'></a></h2>
 
 #### How to include the library in your project:
 ```gradle
@@ -32,7 +32,7 @@ val pitchResult = pitchHandler.handlePitch(somePitchFloatValue)
 doSomethingWithResult(pitchResult)
 ```
 
-## PitchUpAndroidTuner  <a href='https://bintray.com/lbbento/pitchup/tuner/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/tuner/images/download.svg'></a></h2>
+## PitchUp Android Tuner  <a href='https://bintray.com/lbbento/pitchup/tuner/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/tuner/images/download.svg'></a></h2>
 
 #### How to include the library in your project:
 ```gradle
