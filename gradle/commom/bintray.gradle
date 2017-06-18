@@ -21,28 +21,34 @@ artifacts {
     archives sourcesJar
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
+    def propsFile = rootProject.file('local.properties')
+    if (propsFile.exists()) {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        desc = libraryDescription
-        vcsUrl = gitUrl
-        publish = true
-        publicDownloadNumbers = true
-        licenses = allLicenses
-        version {
+
+        user = properties.getProperty("bintray.user")
+        key = properties.getProperty("bintray.apikey")
+
+        configurations = ['archives']
+        pkg {
+            repo = bintrayRepo
+            name = bintrayName
             desc = libraryDescription
-            gpg {
-                sign = true
-                passphrase = properties.getProperty("bintray.gpg.password")
+            vcsUrl = gitUrl
+            publish = true
+            publicDownloadNumbers = true
+            licenses = allLicenses
+            version {
+                desc = libraryDescription
+                gpg {
+                    sign = true
+                    passphrase = properties.getProperty("bintray.gpg.password")
+                }
             }
         }
+    } else {
+        println("** local.properties not found. **")
     }
 }
