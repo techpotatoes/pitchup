@@ -67,5 +67,5 @@ ext {
     allLicenses = ["Apache-2.0"]
 }
 
-apply from: 'install.gradle'
-apply from: 'bintray.gradle'
+apply from: "$project.rootDir/gradle/commom/install.gradle"
+apply from: "$project.rootDir/gradle/commom/bintray.gradle"
