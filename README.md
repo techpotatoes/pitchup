@@ -27,26 +27,26 @@
 <p>The android module provides a listener that can be used as bellow:</p>
 <p>TODO</p>
 <p>If you prefer, you can also use the Rx interface:</p>
+```kotlin
+//Create audio recorder
+val audioRecorder = PitchAudioRecorder(AudioRecord(MediaRecorder.AudioSource.DEFAULT,
+    44100,
+    AudioFormat.CHANNEL_IN_DEFAULT,
+    AudioFormat.ENCODING_PCM_16BIT,
+    AudioRecord.getMinBufferSize(44100, AudioFormat.CHANNEL_IN_DEFAULT, AudioFormat.ENCODING_PCM_16BIT)))
 
-    //Create audio recorder
-    val audioRecorder = PitchAudioRecorder(AudioRecord(MediaRecorder.AudioSource.DEFAULT,
-        44100,
-        AudioFormat.CHANNEL_IN_DEFAULT,
-        AudioFormat.ENCODING_PCM_16BIT,
-        AudioRecord.getMinBufferSize(44100, AudioFormat.CHANNEL_IN_DEFAULT, AudioFormat.ENCODING_PCM_16BIT)))
+//Guitar tuner reactive interface - RxJava
+val guitarTunerReactive = GuitarTunerReactive(audioRecorder)
 
-    //Guitar tuner reactive interface - RxJava
-    val guitarTunerReactive = GuitarTunerReactive(audioRecorder)
-
-    //Subscribe to start listening for notes
-    guitarTunerReactive.listenToNotes()
-        .subscribeOn(appSchedulers.io())
-        .observeOn(appSchedulers.ui())
-        .subscribe(
-                { tunerResult -> doSomethingWithResult(tunerResult) },
-                { e -> showError(e) }
-        )
-
+//Subscribe to start listening for notes
+guitarTunerReactive.listenToNotes()
+    .subscribeOn(appSchedulers.io())
+    .observeOn(appSchedulers.ui())
+    .subscribe(
+        { tunerResult -> doSomethingWithResult(tunerResult) },
+        { e -> showError(e) }
+    )
+```
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
