@@ -5,34 +5,29 @@ import com.lbbento.pitchuptuner.audio.PitchAudioRecorder
 import com.lbbento.pitchuptuner.service.TunerResult
 import com.lbbento.pitchuptuner.service.TunerService
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.stub
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Observable.just
 import org.junit.Test
-import rx.Observable
+import rx.Observable.just
 
 class GuitarTunerReactiveTest {
 
     private val mockPitchAudioRecorder: PitchAudioRecorder = mock()
-    private val tunerResult: TunerResult = mock() {
+    private val tunerResult: TunerResult = mock {
         whenever(it.tuningStatus).thenReturn(TuningStatus.TUNED)
-    }
-    private val mockGetNotesObservable: Observable<TunerResult> = mock {
-        it.stub { observable -> just(tunerResult) }
+        whenever(it.note).thenReturn("A")
     }
     private val mockTunerService: TunerService = mock {
-        whenever(it.getNotes()).thenReturn(mockGetNotesObservable)
+        whenever(it.getNotes()).thenReturn(just(tunerResult))
     }
 
     private val guitarTunerReactive = GuitarTunerReactive(mockPitchAudioRecorder, mockTunerService)
 
     @Test
     fun shouldListenToNotes() {
-//        guitarTunerReactive.listenToNotes()
-//
-//        verify(mockTunerService).getNotes()
-//        verify(mockGetNotesObservable).distinctUntilChanged({ anyString() }
-//TODO
+        guitarTunerReactive.listenToNotes()
+
+        verify(mockTunerService).getNotes()
     }
 
 }

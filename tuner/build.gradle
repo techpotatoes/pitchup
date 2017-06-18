@@ -2,6 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+tasks.withType(Javadoc).all { enabled = false }
+
+def libVersionCode = 1
+def libVersionName = '1.0.0'
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
@@ -10,8 +15,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0.0"
+        versionCode libVersionCode
+        versionName libVersionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -50,3 +55,30 @@ dependencies {
     compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin
     compile group: 'io.reactivex', name: 'rxandroid', version: rx_android
 }
+
+// Bintray vars
+ext {
+    bintrayRepo = 'pitchup'
+    bintrayName = 'tuner'
+
+    projectGroupId = 'com.lbbento.pitchup'
+    projectArtifact = 'tuner'
+
+    libraryName = 'PitchUp Tuner'
+    libraryDescription = 'Library that helps implementing an Android App that listens to a live audio record and identifies musical notes.'
+    libraryUrl = 'https://lbbento.github.io/pitchup'
+    gitUrl = 'https://lbbento.github.io/pitchup.git'
+    libraryVersion = libVersionName
+
+
+    developerId = 'lbbento'
+    developerName = 'Lucas Bento'
+    developerEmail = 'lucasbento7@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: "$project.rootDir/gradle/commom/install.gradle"
+apply from: "$project.rootDir/gradle/commom/bintray.gradle"

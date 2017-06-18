@@ -14,14 +14,14 @@ class PitchAudioRecorderTest {
     fun shouldStartRecording() {
         pitchAudioRecorder.startRecording()
 
-        verify(audioRecord.startRecording())
+        verify(audioRecord).startRecording()
     }
 
     @Test
     fun shouldStopRecording() {
         pitchAudioRecorder.stopRecording()
 
-        verify(audioRecord.stop())
+        verify(audioRecord).stop()
     }
 
 }
