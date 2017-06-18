@@ -42,7 +42,7 @@ kapt {
 
 dependencies {
     compile project(':tuner')
-    compile project(':pitchupandroidgauge')
+    compile project(':androidgauge')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // Tests
     testCompile "com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version"
