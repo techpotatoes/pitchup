@@ -102,8 +102,8 @@ guitarTunerReactive.listenToNotes()
 Property|Type|Definition
 --- | --- | ---
 note|String|A, A#, B etc.
-tuningStatus|TuningStatus|TUNED - TOO_LOW - TOO_HIGH, etc.
-expectedFrequency|Double|The expected frequency for the note that is closer given the frequency. 
+tuningStatus|TuningStatus|DEFAULT(silence or out of range) - TUNED - TOO_LOW - TOO_HIGH, etc.
+expectedFrequency|Double|The expected frequency for the closer note given the pitch. 
 diffFrequency|Double|Difference from the pitch given to the expected frequency.
 diffCents|Double|Difference in cents from the current frequency to the expected frequency. 
 
