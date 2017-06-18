@@ -9,10 +9,10 @@ The aim of the project is to get people to contribute towards the core developme
 
 The project consists of 4 main components:
 
-*The PitchUp core library which is the responsible for getting a raw pitch and return the note correspondent to it depending on the kind of instrument.
-*The PitchUp android tuner module which wraps the logic to record audio on android based devices and uses the core library internally.
-*The Android app also available in google play: [GOOGLE PLAY LINK]
-*The Wear App that is shipped with the Android App, but is also available as a standalone WearApp in the playstore.
+* The PitchUp core library which is the responsible for getting a raw pitch and return the note correspondent to it depending on the kind of instrument.
+* The PitchUp android tuner module which wraps the logic to record audio on android based devices and uses the core library internally.
+* The Android app also available in google play: [GOOGLE PLAY LINK]
+* The Wear App that is shipped with the Android App, but is also available as a standalone WearApp in the playstore.
 
 ## PitchUpCore  <a href='https://bintray.com/lbbento/pitchup/core/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/core/images/download.svg'></a></h2>
 
@@ -21,9 +21,18 @@ The project consists of 4 main components:
 compile 'com.lbbento.pitchup:core:1.0.0'
 ```
 Usage:
-TODO
+```kotlin
+//Create a new PitchHandler object
+val pitchHandler = PitchHandler(InstrumentType.GUITAR)
 
-## PitchUpAndroid  <a href='https://bintray.com/lbbento/pitchup/tuner/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/tuner/images/download.svg'></a></h2>
+//Call handle pitch to obtain a musical note from a given pitch
+val pitchResult = pitchHandler.handlePitch(somePitchFloatValue)
+
+//Do something with the value returned
+doSomethingWithResult(pitchResult)
+```
+
+## PitchUpAndroidTuner  <a href='https://bintray.com/lbbento/pitchup/tuner/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/tuner/images/download.svg'></a></h2>
 
 #### How to include the library in your project:
 ```gradle
@@ -34,9 +43,37 @@ Usage:
 
 The android module provides a listener that can be used as bellow:
 
-TODO
+```kotlin
+//Create audio recorder
+val audioRecorder = PitchAudioRecorder(AudioRecord(MediaRecorder.AudioSource.DEFAULT,
+        44100,
+        AudioFormat.CHANNEL_IN_DEFAULT,
+        AudioFormat.ENCODING_PCM_16BIT,
+        AudioRecord.getMinBufferSize(44100, AudioFormat.CHANNEL_IN_DEFAULT, AudioFormat.ENCODING_PCM_16BIT)))
+
+
+//Create listener
+val guitarTunerListener = object: GuitarTunerListener {
+
+    override fun onNoteReceived(tunerResult: TunerResult) {
+        doSomethingWithResult(tunerResult)
+    }
+
+    override fun onError(e: Throwable) {
+        showError(e)
+    }
+}
+
+//Start listening to Guitar tuner
+val guitarTuner = GuitarTuner(audioRecorder, guitarTunerListener)
+guitarTuner.start()
+
+//Stop listening
+guitarTuner.stop()
+```
 
 If you prefer, you can also use the Rx interface:
+
 ```kotlin
 
 //Create audio recorder
@@ -59,3 +96,14 @@ guitarTunerReactive.listenToNotes()
     )
     
 ```
+
+#### The tuner result contains the following information:
+
+Property|Type|Definition
+--- | --- | ---
+note|String|A, A#, B etc.
+tuningStatus|TuningStatus|TUNED - TOO_LOW - TOO_HIGH, etc.
+expectedFrequency|Double|The expected frequency for the note that is closer given the frequency. 
+diffFrequency|Double|Difference from the pitch given to the expected frequency.
+diffCents|Double|Difference in cents from the current frequency to the expected frequency. 
+
