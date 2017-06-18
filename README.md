@@ -16,15 +16,13 @@
 <li>The Wear App that is shipped with the smartphone App, but is also available as a standalone WearApp in the playstore.&nbsp;</li>
 </ul>
 <p>&nbsp;</p>
-<a href='https://bintray.com/lbbento/pitchup/core/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/core/images/download.svg'></a>
-<h2><strong>PitchUpCore</strong></h2>
+<h2><strong>PitchUpCore</strong> <a href='https://bintray.com/lbbento/pitchup/core/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/core/images/download.svg'></a></h2>
 <h4>How to include library in your project:</h4>
 <p>TODO</p>
 <p>Usage:</p>
 <p>TODO</p>
 <p>&nbsp;</p>
-<a href='https://bintray.com/lbbento/pitchup/tuner/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/tuner/images/download.svg'></a>
-<h2>PitchUpAndroid</h2>
+<h2>PitchUpAndroid  <a href='https://bintray.com/lbbento/pitchup/tuner/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/tuner/images/download.svg'></a></h2>
 <h4>How to include library in your project:</h4>
 <p>TODO</p>
 <p>Usage:</p>
