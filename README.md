@@ -2,6 +2,8 @@
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 ![Travis-ci](https://travis-ci.org/skyguydaa7/pitchup.svg)
+[![Download](https://api.bintray.com/packages/lbbento/pitchup/tuner/images/download.svg) ](https://bintray.com/lbbento/pitchup/tuner/_latestVersion)
+[![Download](https://api.bintray.com/packages/lbbento/pitchup/core/images/download.svg) ](https://bintray.com/lbbento/pitchup/core/_latestVersion)
 <p>&nbsp;</p>
 <h1>PitchUp</h1>
 <p>PitchUp is an open source project that provides a tuner for instruments(for now only guitars) based on pitch using the smartphone or smartwatch microphone.</p>
@@ -14,12 +16,14 @@
 <li>The Wear App that is shipped with the smartphone App, but is also available as a standalone WearApp in the playstore.&nbsp;</li>
 </ul>
 <p>&nbsp;</p>
+<a href='https://bintray.com/lbbento/pitchup/core/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/core/images/download.svg'></a>
 <h2><strong>PitchUpCore</strong></h2>
 <h4>How to include library in your project:</h4>
 <p>TODO</p>
 <p>Usage:</p>
 <p>TODO</p>
 <p>&nbsp;</p>
+<a href='https://bintray.com/lbbento/pitchup/tuner/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/tuner/images/download.svg'></a>
 <h2>PitchUpAndroid</h2>
 <h4>How to include library in your project:</h4>
 <p>TODO</p>
