@@ -22,7 +22,7 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers,
     override fun onViewResuming() {
         if (permissionHelper.handleMicrophonePermission()) {
             guitarTunerReactive.listenToNotes()
-                    .subscribeOn(appSchedulers.io())
+                    .subscribeOn(appSchedulers.computation())
                     .observeOn(appSchedulers.ui())
                     .subscribeAndManage(
                             { tunerResultReceived(mapper.tunerResultToViewModel(it!!)) },

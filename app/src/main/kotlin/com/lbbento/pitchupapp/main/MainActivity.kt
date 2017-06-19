@@ -7,7 +7,6 @@ import com.lbbento.pitchupapp.R
 import com.lbbento.pitchupapp.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : BaseActivity<MainPresenter>(), MainView {
 
     override fun setupInjection() {

@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#212121">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/main_activity_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </android.support.design.widget.AppBarLayout>
+
     <com.lbbento.pitchuptunergauge.view.TunerGauge
         android:id="@+id/main_activity_gauge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/main_activity_appbar"
+        android:layout_margin="40dp"
         android:padding="5dp" />
 
     <TextView
         android:id="@+id/main_activity_freqtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/main_activity_notetext"
-        android:layout_marginBottom="20dp"
+        android:layout_below="@id/main_activity_gauge"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@android:color/darker_gray" />
 
@@ -24,8 +37,9 @@
         android:id="@+id/main_activity_notetext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="50dp"
+        android:layout_below="@id/main_activity_freqtext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@android:color/white">
 
