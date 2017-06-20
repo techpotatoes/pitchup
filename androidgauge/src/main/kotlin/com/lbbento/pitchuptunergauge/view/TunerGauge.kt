@@ -112,7 +112,7 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
         c.rotate(80f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
         c.drawPath(this.markPath, this.middleMarkPaint) //Middle one
 
-        c.rotate(78f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
+        c.rotate(80f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
         c.drawPath(this.markPath, this.markPaint)
 
         c.restore()
