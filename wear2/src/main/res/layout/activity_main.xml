@@ -35,7 +35,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:textAppearance="@style/TextAppearance.Wearable.Large"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimary"
         tools:text="A" />
 
 </RelativeLayout>
