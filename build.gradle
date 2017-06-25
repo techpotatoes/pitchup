@@ -29,6 +29,7 @@ task clean(type: Delete) {
 
 ext {
     support_app_compat_version = '25.4.0'
+    support_constraint_layout_version = '1.0.2'
     tests_mockito_kotlin_version = '1.4.0'
     tests_junit_version = '4.12'
     wear_version = '2.0.2'

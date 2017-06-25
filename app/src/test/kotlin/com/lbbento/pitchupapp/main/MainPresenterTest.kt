@@ -14,7 +14,6 @@ import org.junit.Before
 import org.junit.Test
 import rx.Observable
 import rx.Observable.just
-import rx.Subscription
 
 class MainPresenterTest {
 
@@ -84,6 +83,7 @@ class MainPresenterTest {
         verify(mockView).updateIndicator(-11f)
         verify(mockView).updateNote(tunerViewModel.note)
         verify(mockView).updateCurrentFrequency(setFreqTo)
+        verify(mockView).updateCurrentDifferenceInCents(11.0f)
     }
 
     @Test

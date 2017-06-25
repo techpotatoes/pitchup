@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.lbbento.pitchup"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0.0"
@@ -55,6 +55,7 @@ dependencies {
     //Support
     compile "com.android.support:appcompat-v7:$support_app_compat_version"
     compile "com.android.support:design:$support_app_compat_version"
+    compile "com.android.support.constraint:constraint-layout:$support_constraint_layout_version"
 
     //kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -66,4 +67,6 @@ dependencies {
     //Dagger
     compile "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    compile 'com.yarolegovich:discrete-scrollview:1.2.0'
 }

@@ -1,33 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-    <component name="ProjectModuleManager">
-        <modules>
-            <module filepath="$PROJECT_DIR$/PitchUp.iml"
-                fileurl="file://$PROJECT_DIR$/PitchUp.iml" />
-            <module filepath="$PROJECT_DIR$/androidgauge/androidgauge.iml"
-                fileurl="file://$PROJECT_DIR$/androidgauge/androidgauge.iml" />
-            <module filepath="$PROJECT_DIR$/app/app.iml"
-                fileurl="file://$PROJECT_DIR$/app/app.iml" />
-            <module filepath="$PROJECT_DIR$/wear2/app.iml"
-                fileurl="file://$PROJECT_DIR$/wear2/app.iml" />
-            <module filepath="$PROJECT_DIR$/core/core.iml"
-                fileurl="file://$PROJECT_DIR$/core/core.iml" />
-            <module filepath="$PROJECT_DIR$/tuner/pitchupandroid.iml"
-                fileurl="file://$PROJECT_DIR$/tuner/pitchupandroid.iml" />
-            <module filepath="$PROJECT_DIR$/androidgauge/pitchupandroidgauge.iml"
-                fileurl="file://$PROJECT_DIR$/androidgauge/pitchupandroidgauge.iml" />
-            <module filepath="$PROJECT_DIR$/core/pitchupcore.iml"
-                fileurl="file://$PROJECT_DIR$/core/pitchupcore.iml" />
-            <module filepath="$PROJECT_DIR$/pitchupandroid/pitchuptuner.iml"
-                fileurl="file://$PROJECT_DIR$/pitchupandroid/pitchuptuner.iml" />
-            <module filepath="$PROJECT_DIR$/pitchupandroidgauge/pitchuptunergauge.iml"
-                fileurl="file://$PROJECT_DIR$/pitchupandroidgauge/pitchuptunergauge.iml" />
-            <module filepath="$PROJECT_DIR$/app/temporary.iml"
-                fileurl="file://$PROJECT_DIR$/app/temporary.iml" />
-            <module filepath="$PROJECT_DIR$/tuner/tuner.iml"
-                fileurl="file://$PROJECT_DIR$/tuner/tuner.iml" />
-            <module filepath="$PROJECT_DIR$/wear2/wear2.iml"
-                fileurl="file://$PROJECT_DIR$/wear2/wear2.iml" />
-        </modules>
-    </component>
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PitchUp.iml" filepath="$PROJECT_DIR$/PitchUp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidgauge/androidgauge.iml" filepath="$PROJECT_DIR$/androidgauge/androidgauge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wear2/app.iml" filepath="$PROJECT_DIR$/wear2/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tuner/pitchupandroid.iml" filepath="$PROJECT_DIR$/tuner/pitchupandroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidgauge/pitchupandroidgauge.iml" filepath="$PROJECT_DIR$/androidgauge/pitchupandroidgauge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/pitchupcore.iml" filepath="$PROJECT_DIR$/core/pitchupcore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pitchupandroid/pitchuptuner.iml" filepath="$PROJECT_DIR$/pitchupandroid/pitchuptuner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pitchupandroidgauge/pitchuptunergauge.iml" filepath="$PROJECT_DIR$/pitchupandroidgauge/pitchuptunergauge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/temporary.iml" filepath="$PROJECT_DIR$/app/temporary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tuner/tuner.iml" filepath="$PROJECT_DIR$/tuner/tuner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wear2/wear2.iml" filepath="$PROJECT_DIR$/wear2/wear2.iml" />
+    </modules>
+  </component>
 </project>

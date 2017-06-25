@@ -7,7 +7,7 @@ interface MainView : BaseView {
     fun updateNote(note: String)
     fun updateToDefaultStatus()
     fun updateIndicator(diffInCents: Float)
-    fun getCurrentNote(): String
     fun informError()
     fun updateCurrentFrequency(currentFreq: Float)
+    fun updateCurrentDifferenceInCents(cents: Float)
 }

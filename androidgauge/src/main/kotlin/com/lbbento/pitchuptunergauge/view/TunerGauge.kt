@@ -2,11 +2,19 @@ package com.lbbento.pitchuptunergauge.view
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.Color.*
 import android.util.AttributeSet
 import com.github.anastr.speedviewlib.base.Speedometer
 import com.github.anastr.speedviewlib.base.SpeedometerDefault
 
 class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Speedometer(context, attrs, defStyleAttr) {
+
+    companion object {
+        val INDICATOR_COLOR = "#c6c6c6"
+        val TUNED_COLOR = "#77C577"
+    }
+
+    private val ARC_COLOR = "#c6c6c6"
 
     private val markPath: Path
     private val circlePaint: Paint
@@ -42,20 +50,20 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
         this.speedometerPaint.style = Paint.Style.STROKE
         this.markPaint.style = Paint.Style.STROKE
         this.middleMarkPaint.style = Paint.Style.STROKE
-        this.middleMarkPaint.color = Color.GREEN
-        this.circlePaint.color = Color.parseColor("#ffff8800")
+        this.middleMarkPaint.color = parseColor(TUNED_COLOR)
+        this.circlePaint.color = parseColor(INDICATOR_COLOR)
         this.startDegree = 180
         this.endDegree = 360
         this.lowSpeedPercent = 49
         this.mediumSpeedPercent = 51
-        this.mediumSpeedColor = Color.parseColor("#0d47a1")
-        this.lowSpeedColor = Color.parseColor("#0d47a1")
-        this.highSpeedColor = Color.parseColor("#0d47a1")
-        this.indicatorColor = Color.parseColor("#ffff8800")
-        this.markColor = Color.parseColor("#0d47a1")
+        this.mediumSpeedColor = parseColor(ARC_COLOR)
+        this.lowSpeedColor = parseColor(ARC_COLOR)
+        this.highSpeedColor = parseColor(ARC_COLOR)
+        this.indicatorColor = parseColor(INDICATOR_COLOR)
+        this.markColor = parseColor(ARC_COLOR)
         this.speedTextColor = context.resources.getColor(android.R.color.transparent)
         this.speedTextTypeface = Typeface.SANS_SERIF
-        this.speedometerWidth = 3f
+        this.speedometerWidth = 10f
         this.textColor = context.resources.getColor(android.R.color.transparent)
         this.unit = "Hz"
         this.unitTextColor = context.resources.getColor(android.R.color.transparent)
@@ -108,7 +116,7 @@ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Sp
         c.rotate(10f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
         c.drawPath(this.markPath, this.markPaint)
 
-        this.middleMarkPaint.strokeWidth = indicatorWidth + 20f
+        this.middleMarkPaint.strokeWidth = indicatorWidth + 10f
         c.rotate(80f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
         c.drawPath(this.markPath, this.middleMarkPaint) //Middle one
 

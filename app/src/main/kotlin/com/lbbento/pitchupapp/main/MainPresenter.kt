@@ -38,6 +38,8 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers,
                     mView.updateIndicator((tunerViewModel.diffInCents * -1).toFloat())
                     mView.updateCurrentFrequency(
                             (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat())
+                    mView.updateCurrentDifferenceInCents(
+                            tunerViewModel.diffInCents.toFloat())
                 }
             }
 

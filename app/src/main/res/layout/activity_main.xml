@@ -1,48 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#212121">
+    android:background="#212121"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="25dp">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/main_activity_appbar"
+        android:id="@+id/main_activity_appBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            app:title="@string/app_name" />
 
     </android.support.design.widget.AppBarLayout>
 
+
     <com.lbbento.pitchuptunergauge.view.TunerGauge
         android:id="@+id/main_activity_gauge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/main_activity_appbar"
-        android:layout_margin="40dp"
-        android:padding="5dp" />
+        android:layout_width="0dp"
+        android:layout_height="197dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="48dp"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_activity_appBar"
+        tools:layout_editor_absoluteX="45dp" />
+
 
     <TextView
         android:id="@+id/main_activity_freqtext"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/main_activity_gauge"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/darker_gray" />
+        android:layout_height="29dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/freq_in_hertz_initial"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_activity_gauge" />
 
     <TextView
-        android:id="@+id/main_activity_notetext"
+        android:id="@+id/main_activity_centstext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/main_activity_freqtext"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@android:color/white">
+        android:layout_marginTop="8dp"
+        android:text="@string/number_in_cents_initial"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_activity_freqtext"
+        tools:layout_conversion_absoluteHeight="10dp"
+        tools:layout_conversion_absoluteWidth="54dp"
+        tools:layout_conversion_absoluteX="0dp"
+        tools:layout_conversion_absoluteY="374dp" />
 
-    </TextView>
 
-</RelativeLayout>
+    <com.lbbento.pitchupapp.ui.view.PitchUpNoteView
+        android:id="@+id/main_activity_note_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_activity_centstext"
+        tools:background="@color/colorPrimary"
+        tools:layout_height="50dp" />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -2,8 +2,11 @@ package com.lbbento.pitchuptunergauge.view
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.Color.parseColor
 import com.github.anastr.speedviewlib.components.Indicators.Indicator
 import com.github.anastr.speedviewlib.components.Indicators.LineIndicator
+import com.lbbento.pitchuptunergauge.view.TunerGauge.Companion.INDICATOR_COLOR
+import com.lbbento.pitchuptunergauge.view.TunerGauge.Companion.TUNED_COLOR
 
 class TunerIndicator(context: Context) : Indicator<LineIndicator>(context) {
     private val indicatorPath = Path()
@@ -23,13 +26,13 @@ class TunerIndicator(context: Context) : Indicator<LineIndicator>(context) {
     }
 
     override fun draw(canvas: Canvas, degree: Float) {
-        val maxAceptable = 270 + 3f
-        val minAceptable = 270 - 3f
+        val maxAceptable = 270 + 2f
+        val minAceptable = 270 - 2f
 
         if (degree in minAceptable..maxAceptable) {
-            indicatorPaint.color = Color.GREEN
+            indicatorPaint.color = parseColor(TUNED_COLOR)
         } else {
-            indicatorPaint.color = Color.parseColor("#ffff8800")
+            indicatorPaint.color = parseColor(INDICATOR_COLOR)
         }
 
         canvas.save()
