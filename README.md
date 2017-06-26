@@ -107,3 +107,12 @@ expectedFrequency|Double|The expected frequency for the closer note given the pi
 diffFrequency|Double|Difference from the pitch given to the expected frequency.
 diffCents|Double|Difference in cents from the current frequency to the expected frequency. 
 
+#### Privacy Policy
+
+This page informs you of our policies regarding the collection, use and disclosure of Personal Information when you use our Service.
+
+PitchUp don't store or share any kind of information when tuning an instrument. No data is saved or shared through any means. 
+
+Contact Us
+
+If you have any questions about this Privacy Policy, please contact me at lucasbento7[at]gmail.com
