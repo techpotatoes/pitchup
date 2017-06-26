@@ -53,7 +53,9 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //Support
+    //noinspection GradleCompatible
     compile "com.android.support:appcompat-v7:$support_app_compat_version"
+    //noinspection GradleCompatible
     compile "com.android.support:design:$support_app_compat_version"
     compile "com.android.support.constraint:constraint-layout:$support_constraint_layout_version"
 

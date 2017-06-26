@@ -1,0 +1,58 @@
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/NotesAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchupapp.ui.view\n\nimport android.content.Context\nimport android.support.v7.widget.RecyclerView\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport android.widget.TextView\nimport com.lbbento.pitchupapp.R\n\n\nclass NotesAdapter(context: Context) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {\n\n    private val items: ArrayList<Map<String, String>> = ArrayList()\n\n    override fun getItemCount() = items.size\n\n    override fun onBindViewHolder(viewHolder: NotesViewHolder?, position: Int) {\n        viewHolder!!.textNote.text = items[position][\"note\"]!!\n    }\n\n    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NotesViewHolder {\n        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.view_pitchup_note_col, parent, false)\n\n        return NotesViewHolder(view)\n    }\n\n    fun addAll(notesList: List<Map<String, String>>) {\n        items.addAll(notesList)\n        notifyDataSetChanged()\n    }\n\n    class NotesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {\n        val textNote = view.findViewById<TextView>(R.id.view_pitchup_note_col_text)\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/NotesAdapter.kt	(date 1498401506000)
++++ app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/NotesAdapter.kt	(revision )
+@@ -1,6 +1,5 @@
+ package com.lbbento.pitchupapp.ui.view
+ 
+-import android.content.Context
+ import android.support.v7.widget.RecyclerView
+ import android.view.LayoutInflater
+ import android.view.View
+@@ -8,8 +7,7 @@
+ import android.widget.TextView
+ import com.lbbento.pitchupapp.R
+ 
+-
+-class NotesAdapter(context: Context) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
++class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
+ 
+     private val items: ArrayList<Map<String, String>> = ArrayList()
+ 
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteView.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchupapp.ui.view\n\nimport android.content.Context\nimport android.util.AttributeSet\nimport android.view.LayoutInflater\nimport android.widget.FrameLayout\nimport com.lbbento.pitchupapp.R\nimport com.yarolegovich.discretescrollview.transform.Pivot\nimport com.yarolegovich.discretescrollview.transform.ScaleTransformer\nimport kotlinx.android.synthetic.main.view_pitchup_note.view.*\n\n\nclass PitchUpNoteView(context: Context, attrs: AttributeSet?, defStyle: Int, defStyleRes: Int) :\n        FrameLayout(context, attrs, defStyle, defStyleRes), PitchUpNote {\n\n    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : this(context, attrs, defStyle, 0)\n\n    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0, 0)\n\n    constructor(context: Context) : this(context, null, 0, 0)\n\n    private val presenter = PitchUpNoteViewPresenter()\n    private val notesAdapter = NotesAdapter(context)\n\n    init {\n        presenter.onAttachView(this)\n\n        (context\n                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)\n                .inflate(R.layout.view_pitchup_note, this, true)\n\n        view_pitchup_note_list.setItemTransformer(ScaleTransformer.Builder()\n                .setMaxScale(2.50f)\n                .setMinScale(0.8f)\n                .setPivotX(Pivot.X.CENTER)\n                .setPivotY(Pivot.Y.BOTTOM)\n                .build())\n        view_pitchup_note_list.adapter = notesAdapter\n\n    }\n\n    override fun onFinishInflate() {\n        super.onFinishInflate()\n        presenter.onFinishInflate()\n    }\n\n    override fun showNotesList(notesList: List<Map<String, String>>) {\n        notesAdapter.addAll(notesList)\n    }\n\n    override fun scrollToPosition(position: Int) {\n        view_pitchup_note_list.smoothScrollToPosition(position)\n    }\n\n    fun smoothScrollToNote(note: String) {\n        presenter.onSmoothScrollToNote(note)\n    }\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteView.kt	(date 1498401506000)
++++ app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteView.kt	(revision )
+@@ -10,17 +10,15 @@
+ import kotlinx.android.synthetic.main.view_pitchup_note.view.*
+ 
+ 
+-class PitchUpNoteView(context: Context, attrs: AttributeSet?, defStyle: Int, defStyleRes: Int) :
+-        FrameLayout(context, attrs, defStyle, defStyleRes), PitchUpNote {
++class PitchUpNoteView(context: Context, attrs: AttributeSet?, defStyle: Int) :
++        FrameLayout(context, attrs, defStyle), PitchUpNote {
+ 
+-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : this(context, attrs, defStyle, 0)
++    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+ 
+-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0, 0)
+-
+-    constructor(context: Context) : this(context, null, 0, 0)
++    constructor(context: Context) : this(context, null, 0)
+ 
+     private val presenter = PitchUpNoteViewPresenter()
+-    private val notesAdapter = NotesAdapter(context)
++    private val notesAdapter = NotesAdapter()
+ 
+     init {
+         presenter.onAttachView(this)

@@ -22,10 +22,6 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
         main_activity_note_view.smoothScrollToNote(note)
     }
 
-    override fun updateToDefaultStatus() {
-        //TODO - ?
-    }
-
     override fun updateIndicator(diffInCents: Float) {
         main_activity_gauge.speedTo(diffInCents, 600)
     }
@@ -34,8 +30,8 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
         main_activity_freqtext.text = getString(R.string.freq_in_hertz, currentFreq)
     }
 
-    override fun updateCurrentDifferenceInCents(cents: Float) {
-        main_activity_centstext.text = getString(R.string.number_in_cents, cents)
+    override fun updateCurrentDifferenceInCents(signal: String, cents: Float) {
+        main_activity_centstext.text = getString(R.string.number_in_cents, signal, cents)
     }
 
     override fun informError() {

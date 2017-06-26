@@ -2,7 +2,7 @@
     <string name="app_name">PitchUp</string>
     <string name="main_activity_play">Play!</string>
     <string name="freq_in_hertz">%.2f Hz</string>
-    <string name="number_in_cents">%.1f cents</string>
+    <string name="number_in_cents">%1$s%2$.1f cents</string>
     <string name="error_occurred">An error has occurred</string>
     <string name="freq_in_hertz_initial">0.00 Hz</string>
     <string name="number_in_cents_initial">0.0 cents</string>

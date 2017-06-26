@@ -6,6 +6,7 @@ import com.lbbento.pitchupapp.ui.BasePresenter
 import com.lbbento.pitchupapp.util.PermissionHelper
 import com.lbbento.pitchupcore.TuningStatus.DEFAULT
 import com.lbbento.pitchuptuner.GuitarTunerReactive
+import java.lang.Math.abs
 import javax.inject.Inject
 
 @ForActivity
@@ -32,14 +33,15 @@ class MainPresenter @Inject constructor(val appSchedulers: AppSchedulers,
 
     private fun tunerResultReceived(tunerViewModel: TunerViewModel) =
             when (tunerViewModel.tuningStatus) {
-                DEFAULT -> mView.updateToDefaultStatus()
+                DEFAULT -> {
+                }
                 else -> {
                     mView.updateNote(tunerViewModel.note)
                     mView.updateIndicator((tunerViewModel.diffInCents * -1).toFloat())
                     mView.updateCurrentFrequency(
                             (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat())
                     mView.updateCurrentDifferenceInCents(
-                            tunerViewModel.diffInCents.toFloat())
+                            if (tunerViewModel.diffInCents < 0) "+" else "-", abs(tunerViewModel.diffInCents).toFloat())
                 }
             }
 

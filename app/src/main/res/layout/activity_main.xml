@@ -9,36 +9,19 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/main_activity_appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
-
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:title="@string/app_name" />
-
-    </android.support.design.widget.AppBarLayout>
-
 
     <com.lbbento.pitchuptunergauge.view.TunerGauge
         android:id="@+id/main_activity_gauge"
         android:layout_width="0dp"
         android:layout_height="197dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="25dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="48dp"
         android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_activity_appBar"
-        tools:layout_editor_absoluteX="45dp" />
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="60dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
     <TextView
@@ -83,6 +66,19 @@
         app:layout_constraintTop_toBottomOf="@+id/main_activity_centstext"
         tools:background="@color/colorPrimary"
         tools:layout_height="50dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="273dp"
+        android:layout_height="95dp"
+        app:srcCompat="@drawable/pitchup"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="24dp"
+        tools:layout_editor_absoluteX="31dp" />
 
 
 </android.support.constraint.ConstraintLayout>

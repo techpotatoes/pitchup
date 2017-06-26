@@ -1,0 +1,104 @@
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/NotesAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchupapp.ui.view\n\nimport android.content.Context\nimport android.support.v7.widget.RecyclerView\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport android.widget.TextView\nimport com.lbbento.pitchupapp.R\n\n\nclass NotesAdapter(context: Context) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {\n\n    private val items: ArrayList<Map<String, String>> = ArrayList()\n\n    override fun getItemCount() = items.size\n\n    override fun onBindViewHolder(viewHolder: NotesViewHolder?, position: Int) {\n        viewHolder!!.textNote.text = items[position][\"note\"]!!\n    }\n\n    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NotesViewHolder {\n        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.view_pitchup_note_col, parent, false)\n\n        return NotesViewHolder(view)\n    }\n\n    fun addAll(notesList: List<Map<String, String>>) {\n        items.addAll(notesList)\n        notifyDataSetChanged()\n    }\n\n    class NotesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {\n        val textNote = view.findViewById<TextView>(R.id.view_pitchup_note_col_text)\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/NotesAdapter.kt	(date 1498482645000)
++++ app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/NotesAdapter.kt	(revision )
+@@ -1,6 +1,5 @@
+ package com.lbbento.pitchupapp.ui.view
+ 
+-import android.content.Context
+ import android.support.v7.widget.RecyclerView
+ import android.view.LayoutInflater
+ import android.view.View
+@@ -8,8 +7,7 @@
+ import android.widget.TextView
+ import com.lbbento.pitchupapp.R
+ 
+-
+-class NotesAdapter(context: Context) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
++class NotesAdapter : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
+ 
+     private val items: ArrayList<Map<String, String>> = ArrayList()
+ 
+@@ -31,6 +29,6 @@
+     }
+ 
+     class NotesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+-        val textNote = view.findViewById<TextView>(R.id.view_pitchup_note_col_text)
++        val textNote = view.findViewById(R.id.view_pitchup_note_col_text) as TextView
+     }
+ }
+\ No newline at end of file
+Index: androidgauge/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.library'\napply plugin: 'kotlin-android'\napply plugin: 'kotlin-android-extensions'\n\nandroid {\n    compileSdkVersion 26\n    buildToolsVersion \"26.0.0\"\n\n\n    defaultConfig {\n        minSdkVersion 14\n        targetSdkVersion 26\n        versionCode 1\n        versionName \"1.0.0\"\n\n        testInstrumentationRunner \"android.support.test.runner.AndroidJUnitRunner\"\n    }\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\n        }\n    }\n    sourceSets {\n        main.java.srcDirs += 'src/main/kotlin'\n        test.java.srcDirs += 'src/test/kotlin'\n    }\n}\n\ndependencies {\n    compile fileTree(dir: 'libs', include: ['*.jar'])\n\n    // Tests\n    testCompile \"com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version\"\n    testCompile \"junit:junit:$tests_junit_version\"\n    testCompile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //kotlin\n    compile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //SpeedView\n    compile \"com.github.anastr:speedviewlib:$speedview_version\"\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- androidgauge/build.gradle	(date 1498482645000)
++++ androidgauge/build.gradle	(revision )
+@@ -3,13 +3,13 @@
+ apply plugin: 'kotlin-android-extensions'
+ 
+ android {
+-    compileSdkVersion 26
++    compileSdkVersion 25
+     buildToolsVersion "26.0.0"
+ 
+ 
+     defaultConfig {
+         minSdkVersion 14
+-        targetSdkVersion 26
++        targetSdkVersion 25
+         versionCode 1
+         versionName "1.0.0"
+ 
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteView.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchupapp.ui.view\n\nimport android.content.Context\nimport android.util.AttributeSet\nimport android.view.LayoutInflater\nimport android.widget.FrameLayout\nimport com.lbbento.pitchupapp.R\nimport com.yarolegovich.discretescrollview.transform.Pivot\nimport com.yarolegovich.discretescrollview.transform.ScaleTransformer\nimport kotlinx.android.synthetic.main.view_pitchup_note.view.*\n\n\nclass PitchUpNoteView(context: Context, attrs: AttributeSet?, defStyle: Int, defStyleRes: Int) :\n        FrameLayout(context, attrs, defStyle, defStyleRes), PitchUpNote {\n\n    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : this(context, attrs, defStyle, 0)\n\n    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0, 0)\n\n    constructor(context: Context) : this(context, null, 0, 0)\n\n    private val presenter = PitchUpNoteViewPresenter()\n    private val notesAdapter = NotesAdapter(context)\n\n    init {\n        presenter.onAttachView(this)\n\n        (context\n                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)\n                .inflate(R.layout.view_pitchup_note, this, true)\n\n        view_pitchup_note_list.setItemTransformer(ScaleTransformer.Builder()\n                .setMaxScale(2.50f)\n                .setMinScale(0.8f)\n                .setPivotX(Pivot.X.CENTER)\n                .setPivotY(Pivot.Y.BOTTOM)\n                .build())\n        view_pitchup_note_list.adapter = notesAdapter\n\n    }\n\n    override fun onFinishInflate() {\n        super.onFinishInflate()\n        presenter.onFinishInflate()\n    }\n\n    override fun showNotesList(notesList: List<Map<String, String>>) {\n        notesAdapter.addAll(notesList)\n    }\n\n    override fun scrollToPosition(position: Int) {\n        view_pitchup_note_list.smoothScrollToPosition(position)\n    }\n\n    fun smoothScrollToNote(note: String) {\n        presenter.onSmoothScrollToNote(note)\n    }\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteView.kt	(date 1498482645000)
++++ app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteView.kt	(revision )
+@@ -20,7 +20,7 @@
+     constructor(context: Context) : this(context, null, 0, 0)
+ 
+     private val presenter = PitchUpNoteViewPresenter()
+-    private val notesAdapter = NotesAdapter(context)
++    private val notesAdapter = NotesAdapter()
+ 
+     init {
+         presenter.onAttachView(this)
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'\napply plugin: 'kotlin-android-extensions'\n\n\nandroid {\n    compileSdkVersion 26\n    buildToolsVersion \"26.0.0\"\n\n\n    defaultConfig {\n        applicationId \"com.lbbento.pitchup\"\n        minSdkVersion 19\n        targetSdkVersion 26\n        versionCode 1\n        versionName \"1.0.0\"\n\n        testInstrumentationRunner \"android.support.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\n        }\n    }\n\n    packagingOptions {\n        exclude 'META-INF/rxjava.properties'\n    }\n\n    sourceSets {\n        main.java.srcDirs += 'src/main/kotlin'\n        test.java.srcDirs += 'src/test/kotlin'\n    }\n}\n\n\nkapt {\n    generateStubs = true\n}\n\ndependencies {\n    compile project(':tuner')\n    compile project(':androidgauge')\n    compile fileTree(include: ['*.jar'], dir: 'libs')\n\n    wearApp project(path: ':wear2', configuration: 'wear1Release')\n\n    // Tests\n    testCompile \"com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version\"\n    testCompile \"junit:junit:$tests_junit_version\"\n    testCompile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //Support\n    compile \"com.android.support:appcompat-v7:$support_app_compat_version\"\n    compile \"com.android.support:design:$support_app_compat_version\"\n    compile \"com.android.support.constraint:constraint-layout:$support_constraint_layout_version\"\n\n    //kotlin\n    compile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //RxKotlin\n    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin\n    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android\n\n    //Dagger\n    compile \"com.google.dagger:dagger:$dagger_version\"\n    kapt \"com.google.dagger:dagger-compiler:$dagger_version\"\n\n    compile 'com.yarolegovich:discrete-scrollview:1.2.0'\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(date 1498482645000)
++++ app/build.gradle	(revision )
+@@ -4,14 +4,14 @@
+ 
+ 
+ android {
+-    compileSdkVersion 26
++    compileSdkVersion 25
+     buildToolsVersion "26.0.0"
+ 
+ 
+     defaultConfig {
+         applicationId "com.lbbento.pitchup"
+         minSdkVersion 19
+-        targetSdkVersion 26
++        targetSdkVersion 25
+         versionCode 1
+         versionName "1.0.0"
+ 

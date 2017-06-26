@@ -10,17 +10,15 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.view_pitchup_note.view.*
 
 
-class PitchUpNoteView(context: Context, attrs: AttributeSet?, defStyle: Int, defStyleRes: Int) :
-        FrameLayout(context, attrs, defStyle, defStyleRes), PitchUpNote {
+class PitchUpNoteView(context: Context, attrs: AttributeSet?, defStyle: Int) :
+        FrameLayout(context, attrs, defStyle), PitchUpNote {
 
-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : this(context, attrs, defStyle, 0)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0, 0)
-
-    constructor(context: Context) : this(context, null, 0, 0)
+    constructor(context: Context) : this(context, null, 0)
 
     private val presenter = PitchUpNoteViewPresenter()
-    private val notesAdapter = NotesAdapter(context)
+    private val notesAdapter = NotesAdapter()
 
     init {
         presenter.onAttachView(this)

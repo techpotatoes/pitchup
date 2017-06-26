@@ -1,0 +1,776 @@
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    package=\"com.lbbento.pitchupapp\">\n\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.WAKE_LOCK\" />\n\n    <application\n        android:name=\".MainApplication\"\n        android:allowBackup=\"true\"\n        android:icon=\"@mipmap/ic_launcher\"\n        android:label=\"@string/app_name\"\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/AppTheme\">\n        <activity android:name=\".main.MainActivity\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n        </activity>\n    </application>\n\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(date 1497959958000)
++++ app/src/main/AndroidManifest.xml	(revision )
+@@ -12,7 +12,6 @@
+         android:allowBackup="true"
+         android:icon="@mipmap/ic_launcher"
+         android:label="@string/app_name"
+-        android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/AppTheme">
+         <activity android:name=".main.MainActivity">
+Index: app/src/main/res/layout/view_pitchup_note.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/view_pitchup_note.xml	(revision )
++++ app/src/main/res/layout/view_pitchup_note.xml	(revision )
+@@ -0,0 +1,12 @@
++<?xml version="1.0" encoding="utf-8"?>
++<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:layout_gravity="center_horizontal">
++
++    <com.yarolegovich.discretescrollview.DiscreteScrollView
++        android:id="@+id/view_pitchup_note_list"
++        android:layout_width="match_parent"
++        android:layout_height="110dp"/>
++
++</FrameLayout>
+\ No newline at end of file
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n    <color name=\"colorPrimary\">#3F51B5</color>\n    <color name=\"colorPrimaryDark\">#303F9F</color>\n    <color name=\"colorAccent\">#FF4081</color>\n</resources>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/colors.xml	(date 1497959958000)
++++ app/src/main/res/values/colors.xml	(revision )
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+-    <color name="colorPrimary">#3F51B5</color>
+-    <color name="colorPrimaryDark">#303F9F</color>
+-    <color name="colorAccent">#FF4081</color>
++    <color name="colorPrimary">#01579b</color>
++    <color name="colorPrimaryDark">#014378</color>
++    <color name="colorAccent">#0894b2</color>
+ </resources>
+Index: app/src/test/kotlin/com/lbbento/pitchupapp/main/MainPresenterTest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchupapp.main\n\nimport com.lbbento.pitchupapp.common.StubAppScheduler\nimport com.lbbento.pitchupapp.util.PermissionHelper\nimport com.lbbento.pitchupcore.TuningStatus.DEFAULT\nimport com.lbbento.pitchupcore.TuningStatus.TOO_LOW\nimport com.lbbento.pitchuptuner.GuitarTunerReactive\nimport com.lbbento.pitchuptuner.service.TunerResult\nimport com.nhaarman.mockito_kotlin.mock\nimport com.nhaarman.mockito_kotlin.never\nimport com.nhaarman.mockito_kotlin.verify\nimport com.nhaarman.mockito_kotlin.whenever\nimport org.junit.Before\nimport org.junit.Test\nimport rx.Observable\nimport rx.Observable.just\nimport rx.Subscription\n\nclass MainPresenterTest {\n\n    val mockPermissionHelper: PermissionHelper = mock()\n    val mockView: MainView = mock()\n    val mockGuitarTunerReactive: GuitarTunerReactive = mock()\n    val mockMapper: TunerServiceMapper = mock()\n    val stubAppSchedulers = StubAppScheduler()\n    val mainPresenter = MainPresenter(stubAppSchedulers, mockPermissionHelper, mockGuitarTunerReactive, mockMapper)\n\n    @Before\n    fun setup() {\n        mainPresenter.onAttachedToWindow(mockView)\n    }\n\n    @Test\n    fun shouldSetupGaugeOnCreate() {\n        mainPresenter.onCreated()\n\n        verify(mockView).setupGauge()\n    }\n\n    @Test\n    fun shouldDoNothingWhenNoAudioPermissions() {\n        whenever(mockPermissionHelper.handleMicrophonePermission()).thenReturn(false)\n\n        mainPresenter.onViewResuming()\n\n        verify(mockPermissionHelper).handleMicrophonePermission()\n        verify(mockGuitarTunerReactive, never()).listenToNotes()\n    }\n\n    @Test\n    fun shouldUpdateToDefaultStatus() {\n        val tunerResult: TunerResult = mock()\n        val tunerViewModel: TunerViewModel = mock {\n            whenever(it.tuningStatus).thenReturn(DEFAULT)\n        }\n\n        whenever(mockPermissionHelper.handleMicrophonePermission()).thenReturn(true)\n        whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))\n        whenever(mockMapper.tunerResultToViewModel(tunerResult)).thenReturn(tunerViewModel)\n\n        mainPresenter.onViewResuming()\n\n        verify(mockView).updateToDefaultStatus()\n    }\n\n    @Test\n    fun shouldUpdateFrequencyIfStatusIsNotDefault() {\n        val tunerResult: TunerResult = mock()\n        val tunerViewModel: TunerViewModel = mock {\n            whenever(it.tuningStatus).thenReturn(TOO_LOW)\n            whenever(it.expectedFrequency).thenReturn(10.0)\n            whenever(it.diffFrequency).thenReturn(1.0)\n            whenever(it.diffInCents).thenReturn(11.0)\n            whenever(it.note).thenReturn(\"A\")\n        }\n        val setFreqTo = (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat()\n\n        whenever(mockPermissionHelper.handleMicrophonePermission()).thenReturn(true)\n        whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(just(tunerResult))\n        whenever(mockMapper.tunerResultToViewModel(tunerResult)).thenReturn(tunerViewModel)\n\n        mainPresenter.onViewResuming()\n\n        verify(mockView).updateIndicator(-11f)\n        verify(mockView).updateNote(tunerViewModel.note)\n        verify(mockView).updateCurrentFrequency(setFreqTo)\n    }\n\n    @Test\n    fun shouldUpdateTunerViewWhenReceivedErrorFromService() {\n        whenever(mockPermissionHelper.handleMicrophonePermission()).thenReturn(true)\n        whenever(mockGuitarTunerReactive.listenToNotes()).thenReturn(Observable.error(IllegalStateException()))\n\n        mainPresenter.onViewResuming()\n\n        verify(mockPermissionHelper).handleMicrophonePermission()\n        verify(mockGuitarTunerReactive).listenToNotes()\n        verify(mockView).informError()\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/test/kotlin/com/lbbento/pitchupapp/main/MainPresenterTest.kt	(date 1497959958000)
++++ app/src/test/kotlin/com/lbbento/pitchupapp/main/MainPresenterTest.kt	(revision )
+@@ -14,7 +14,6 @@
+ import org.junit.Test
+ import rx.Observable
+ import rx.Observable.just
+-import rx.Subscription
+ 
+ class MainPresenterTest {
+ 
+@@ -37,6 +36,13 @@
+         verify(mockView).setupGauge()
+     }
+ 
++    @Test
++    fun shouldSetupNotesListOnCreate() {
++        mainPresenter.onCreated()
++
++//        verify(mockView).setupNotesList(notes)
++    }
++
+     @Test
+     fun shouldDoNothingWhenNoAudioPermissions() {
+         whenever(mockPermissionHelper.handleMicrophonePermission()).thenReturn(false)
+@@ -84,6 +90,7 @@
+         verify(mockView).updateIndicator(-11f)
+         verify(mockView).updateNote(tunerViewModel.note)
+         verify(mockView).updateCurrentFrequency(setFreqTo)
++        verify(mockView).updateCurrentDifferenceInCents(11.0f)
+     }
+ 
+     @Test
+Index: androidgauge/src/main/kotlin/com/lbbento/pitchuptunergauge/view/TunerIndicator.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchuptunergauge.view\n\nimport android.content.Context\nimport android.graphics.*\nimport com.github.anastr.speedviewlib.components.Indicators.Indicator\nimport com.github.anastr.speedviewlib.components.Indicators.LineIndicator\n\nclass TunerIndicator(context: Context) : Indicator<LineIndicator>(context) {\n    private val indicatorPath = Path()\n    val LINE = 1.0f\n    private val mode: Float = LINE\n\n    init {\n        this.updateIndicator()\n    }\n\n    override fun getIndicatorColor(): Int {\n        return super.getIndicatorColor()\n    }\n\n    override fun getDefaultIndicatorWidth(): Float {\n        return this.dpTOpx(3f)\n    }\n\n    override fun draw(canvas: Canvas, degree: Float) {\n        val maxAceptable = 270 + 3f\n        val minAceptable = 270 - 3f\n\n        if (degree in minAceptable..maxAceptable) {\n            indicatorPaint.color = Color.GREEN\n        } else {\n            indicatorPaint.color = Color.parseColor(\"#ffff8800\")\n        }\n\n        canvas.save()\n        canvas.rotate(90.0f + degree, this.centerX, this.centerY)\n        canvas.drawPath(this.indicatorPath, this.indicatorPaint)\n        canvas.restore()\n    }\n\n    override fun updateIndicator() {\n        this.indicatorPath.reset()\n        this.indicatorPath.moveTo(this.centerX, this.padding.toFloat() + 26f)\n        this.indicatorPath.lineTo(this.centerX, this.centerY * this.mode)\n        this.indicatorPaint.style = Paint.Style.STROKE\n        this.indicatorPaint.strokeWidth = this.indicatorWidth\n        this.indicatorPaint.color = this.indicatorColor\n    }\n\n    override fun setWithEffects(withEffects: Boolean) {\n        if (withEffects && !this.isInEditMode) {\n            this.indicatorPaint.maskFilter = BlurMaskFilter(15.0f, BlurMaskFilter.Blur.SOLID)\n        } else {\n            this.indicatorPaint.maskFilter = null as MaskFilter?\n        }\n\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- androidgauge/src/main/kotlin/com/lbbento/pitchuptunergauge/view/TunerIndicator.kt	(date 1497959958000)
++++ androidgauge/src/main/kotlin/com/lbbento/pitchuptunergauge/view/TunerIndicator.kt	(revision )
+@@ -2,8 +2,11 @@
+ 
+ import android.content.Context
+ import android.graphics.*
++import android.graphics.Color.parseColor
+ import com.github.anastr.speedviewlib.components.Indicators.Indicator
+ import com.github.anastr.speedviewlib.components.Indicators.LineIndicator
++import com.lbbento.pitchuptunergauge.view.TunerGauge.Companion.INDICATOR_COLOR
++import com.lbbento.pitchuptunergauge.view.TunerGauge.Companion.TUNED_COLOR
+ 
+ class TunerIndicator(context: Context) : Indicator<LineIndicator>(context) {
+     private val indicatorPath = Path()
+@@ -23,13 +26,13 @@
+     }
+ 
+     override fun draw(canvas: Canvas, degree: Float) {
+-        val maxAceptable = 270 + 3f
+-        val minAceptable = 270 - 3f
++        val maxAceptable = 270 + 2f
++        val minAceptable = 270 - 2f
+ 
+         if (degree in minAceptable..maxAceptable) {
+-            indicatorPaint.color = Color.GREEN
++            indicatorPaint.color = parseColor(TUNED_COLOR)
+         } else {
+-            indicatorPaint.color = Color.parseColor("#ffff8800")
++            indicatorPaint.color = parseColor(INDICATOR_COLOR)
+         }
+ 
+         canvas.save()
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\napply plugin: 'kotlin-android'\napply plugin: 'kotlin-android-extensions'\n\n\nandroid {\n    compileSdkVersion 26\n    buildToolsVersion \"26.0.0\"\n\n\n    defaultConfig {\n        applicationId \"com.lbbento.pitchup\"\n        minSdkVersion 16\n        targetSdkVersion 26\n        versionCode 1\n        versionName \"1.0.0\"\n\n        testInstrumentationRunner \"android.support.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'\n        }\n    }\n\n    packagingOptions {\n        exclude 'META-INF/rxjava.properties'\n    }\n\n    sourceSets {\n        main.java.srcDirs += 'src/main/kotlin'\n        test.java.srcDirs += 'src/test/kotlin'\n    }\n}\n\n\nkapt {\n    generateStubs = true\n}\n\ndependencies {\n    compile project(':tuner')\n    compile project(':androidgauge')\n    compile fileTree(include: ['*.jar'], dir: 'libs')\n\n    wearApp project(path: ':wear2', configuration: 'wear1Release')\n\n    // Tests\n    testCompile \"com.nhaarman:mockito-kotlin:$tests_mockito_kotlin_version\"\n    testCompile \"junit:junit:$tests_junit_version\"\n    testCompile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //Support\n    compile \"com.android.support:appcompat-v7:$support_app_compat_version\"\n    compile \"com.android.support:design:$support_app_compat_version\"\n\n    //kotlin\n    compile \"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version\"\n\n    //RxKotlin\n    compile group: 'io.reactivex', name: 'rxkotlin', version: rx_kotlin\n    compile group: 'io.reactivex', name: 'rxandroid', version: rx_android\n\n    //Dagger\n    compile \"com.google.dagger:dagger:$dagger_version\"\n    kapt \"com.google.dagger:dagger-compiler:$dagger_version\"\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(date 1497959958000)
++++ app/build.gradle	(revision )
+@@ -10,7 +10,7 @@
+ 
+     defaultConfig {
+         applicationId "com.lbbento.pitchup"
+-        minSdkVersion 16
++        minSdkVersion 19
+         targetSdkVersion 26
+         versionCode 1
+         versionName "1.0.0"
+@@ -66,4 +66,7 @@
+     //Dagger
+     compile "com.google.dagger:dagger:$dagger_version"
+     kapt "com.google.dagger:dagger-compiler:$dagger_version"
++
++    compile 'com.yarolegovich:discrete-scrollview:1.2.0'
++    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+ }
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteView.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteView.kt	(revision )
++++ app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteView.kt	(revision )
+@@ -0,0 +1,59 @@
++package com.lbbento.pitchupapp.ui.view
++
++import android.content.Context
++import android.util.AttributeSet
++import android.view.LayoutInflater
++import android.widget.FrameLayout
++import com.lbbento.pitchupapp.R
++import com.yarolegovich.discretescrollview.transform.Pivot
++import com.yarolegovich.discretescrollview.transform.ScaleTransformer
++import kotlinx.android.synthetic.main.view_pitchup_note.view.*
++
++
++class PitchUpNoteView(context: Context, attrs: AttributeSet?, defStyle: Int, defStyleRes: Int) :
++        FrameLayout(context, attrs, defStyle, defStyleRes), PitchUpNote {
++
++    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : this(context, attrs, defStyle, 0)
++
++    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0, 0)
++
++    constructor(context: Context) : this(context, null, 0, 0)
++
++    private val presenter = PitchUpNoteViewPresenter()
++    private val notesAdapter = NotesAdapter(context)
++
++    init {
++        presenter.onAttachView(this)
++
++        (context
++                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
++                .inflate(R.layout.view_pitchup_note, this, true)
++
++        view_pitchup_note_list.setItemTransformer(ScaleTransformer.Builder()
++                .setMaxScale(2.50f)
++                .setMinScale(0.8f)
++                .setPivotX(Pivot.X.CENTER)
++                .setPivotY(Pivot.Y.BOTTOM)
++                .build())
++        view_pitchup_note_list.adapter = notesAdapter
++
++    }
++
++    override fun onFinishInflate() {
++        super.onFinishInflate()
++        presenter.onFinishInflate()
++    }
++
++    override fun showNotesList(notesList: List<Map<String, String>>) {
++        notesAdapter.addAll(notesList)
++    }
++
++    override fun scrollToPosition(position: Int) {
++        view_pitchup_note_list.smoothScrollToPosition(position)
++    }
++
++    fun smoothScrollToNote(note: String) {
++        presenter.onSmoothScrollToNote(note)
++    }
++
++}
+\ No newline at end of file
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNote.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNote.kt	(revision )
++++ app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNote.kt	(revision )
+@@ -0,0 +1,6 @@
++package com.lbbento.pitchupapp.ui.view
++
++internal interface PitchUpNote {
++    fun showNotesList(notesList: List<Map<String, String>>)
++    fun scrollToPosition(position: Int)
++}
+\ No newline at end of file
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\n    <string name=\"app_name\">temporary</string>\n    <string name=\"main_activity_play\">Play!</string>\n    <string name=\"freq_in_hertz\">%.2f Hz</string>\n    <string name=\"error_occurred\">An error has occurred</string>\n\n    <string name=\"permisson_handler_mic_permission\">Sorry. I need access to the microphone to help you getting the perfect tune.</string>\n    <string name=\"permission_handler_mic_permission_button_ok\">OK</string>\n</resources>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(date 1497959958000)
++++ app/src/main/res/values/strings.xml	(revision )
+@@ -1,8 +1,11 @@
+ <resources>
+-    <string name="app_name">temporary</string>
++    <string name="app_name">PitchUp</string>
+     <string name="main_activity_play">Play!</string>
+     <string name="freq_in_hertz">%.2f Hz</string>
++    <string name="number_in_cents">%.1f cents</string>
+     <string name="error_occurred">An error has occurred</string>
++    <string name="freq_in_hertz_initial">0.00 Hz</string>
++    <string name="number_in_cents_initial">0.0 cents</string>
+ 
+     <string name="permisson_handler_mic_permission">Sorry. I need access to the microphone to help you getting the perfect tune.</string>
+     <string name="permission_handler_mic_permission_button_ok">OK</string>
+Index: app/src/test/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteViewPresenterTest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/test/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteViewPresenterTest.kt	(revision )
++++ app/src/test/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteViewPresenterTest.kt	(revision )
+@@ -0,0 +1,48 @@
++package com.lbbento.pitchupapp.ui.view
++
++import com.nhaarman.mockito_kotlin.mock
++import com.nhaarman.mockito_kotlin.never
++import com.nhaarman.mockito_kotlin.verify
++import org.junit.Before
++import org.junit.Test
++import org.mockito.ArgumentMatchers.anyInt
++
++class PitchUpNoteViewPresenterTest {
++
++    val notes: List<String>
++        get() = listOf("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
++
++    val adapterNotes: List<Map<String, String>>
++        get() = notes.map { mapOf("note" to it) }
++
++
++    val pitchUpNoteView: PitchUpNote = mock()
++    val pitchUpNotePresenter = PitchUpNoteViewPresenter()
++
++    @Before
++    fun setUp() {
++        pitchUpNotePresenter.onAttachView(pitchUpNoteView)
++    }
++
++    @Test
++    fun shouldInitializeAdapterOnInflatedWithAllNotes() {
++        pitchUpNotePresenter.onFinishInflate()
++
++        verify(pitchUpNoteView).showNotesList(adapterNotes)
++    }
++
++    @Test
++    fun shouldScrollToPositionIfValid() {
++        pitchUpNotePresenter.onSmoothScrollToNote("D")
++
++        verify(pitchUpNoteView).scrollToPosition(2)
++    }
++
++    @Test
++    fun shouldNotScrollToPositionIfInvalid() {
++        pitchUpNotePresenter.onSmoothScrollToNote("J")
++
++        verify(pitchUpNoteView, never()).scrollToPosition(anyInt())
++    }
++
++}
+\ No newline at end of file
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteViewPresenter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteViewPresenter.kt	(revision )
++++ app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/PitchUpNoteViewPresenter.kt	(revision )
+@@ -0,0 +1,29 @@
++package com.lbbento.pitchupapp.ui.view
++
++internal class PitchUpNoteViewPresenter {
++    val NOTE_PROPERTY = "note"
++
++    val notes: List<String>
++        get() = listOf("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
++
++    val adapterNotes: List<Map<String, String>>
++        get() = notes.map { mapOf(NOTE_PROPERTY to it) }
++
++    lateinit var pitchUpNoteView: PitchUpNote
++
++    fun onAttachView(pitchUpNoteView: PitchUpNote) {
++        this.pitchUpNoteView = pitchUpNoteView
++    }
++
++    fun onFinishInflate() {
++        pitchUpNoteView.showNotesList(adapterNotes)
++    }
++
++    fun onSmoothScrollToNote(note: String) {
++        when {
++            notes.indexOf(note) >= 0 -> {
++                pitchUpNoteView.scrollToPosition(notes.indexOf(note))
++            }
++        }
++    }
++}
+\ No newline at end of file
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/main/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchupapp.main\n\nimport android.os.Bundle\nimport android.widget.Toast.LENGTH_SHORT\nimport android.widget.Toast.makeText\nimport com.lbbento.pitchupapp.R\nimport com.lbbento.pitchupapp.ui.BaseActivity\nimport kotlinx.android.synthetic.main.activity_main.*\n\nclass MainActivity : BaseActivity<MainPresenter>(), MainView {\n\n    override fun setupInjection() {\n        activityComponent.inject(this)\n    }\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n    }\n\n    override fun updateNote(note: String) {\n        main_activity_notetext.text = note\n    }\n\n    override fun updateToDefaultStatus() {\n        main_activity_notetext.text = getString(R.string.main_activity_play)\n    }\n\n    override fun updateIndicator(diffInCents: Float) {\n        main_activity_gauge.speedTo(diffInCents, 600)\n    }\n\n    override fun updateCurrentFrequency(currentFreq: Float) {\n        main_activity_freqtext.text = getString(R.string.freq_in_hertz, currentFreq)\n    }\n\n    override fun getCurrentNote(): String {\n        return main_activity_notetext.text.toString()\n    }\n\n    override fun informError() {\n        makeText(this, R.string.error_occurred, LENGTH_SHORT).show()\n    }\n\n    override fun setupGauge() {\n        main_activity_gauge.maxSpeed = 100\n        main_activity_gauge.minSpeed = -100\n        main_activity_gauge.speedTo(0f, 1000)\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/main/MainActivity.kt	(date 1497959958000)
++++ app/src/main/kotlin/com/lbbento/pitchupapp/main/MainActivity.kt	(revision )
+@@ -19,11 +19,11 @@
+     }
+ 
+     override fun updateNote(note: String) {
+-        main_activity_notetext.text = note
++        main_activity_note_view.smoothScrollToNote(note)
+     }
+ 
+     override fun updateToDefaultStatus() {
+-        main_activity_notetext.text = getString(R.string.main_activity_play)
++//        main_activity_freqtext.text = getString(R.string.main_activity_play)
+     }
+ 
+     override fun updateIndicator(diffInCents: Float) {
+@@ -34,8 +34,8 @@
+         main_activity_freqtext.text = getString(R.string.freq_in_hertz, currentFreq)
+     }
+ 
+-    override fun getCurrentNote(): String {
+-        return main_activity_notetext.text.toString()
++    override fun updateCurrentDifferenceInCents(cents: Float) {
++        main_activity_centstext.text = getString(R.string.number_in_cents, cents)
+     }
+ 
+     override fun informError() {
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/main/MainPresenter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchupapp.main\n\nimport com.lbbento.pitchupapp.AppSchedulers\nimport com.lbbento.pitchupapp.di.ForActivity\nimport com.lbbento.pitchupapp.ui.BasePresenter\nimport com.lbbento.pitchupapp.util.PermissionHelper\nimport com.lbbento.pitchupcore.TuningStatus.DEFAULT\nimport com.lbbento.pitchuptuner.GuitarTunerReactive\nimport javax.inject.Inject\n\n@ForActivity\nclass MainPresenter @Inject constructor(val appSchedulers: AppSchedulers,\n                                        val permissionHelper: PermissionHelper,\n                                        val guitarTunerReactive: GuitarTunerReactive,\n                                        val mapper: TunerServiceMapper) : BasePresenter<MainView>() {\n\n    override fun onCreated() {\n        super.onCreated()\n        mView.setupGauge()\n    }\n\n    override fun onViewResuming() {\n        if (permissionHelper.handleMicrophonePermission()) {\n            guitarTunerReactive.listenToNotes()\n                    .subscribeOn(appSchedulers.computation())\n                    .observeOn(appSchedulers.ui())\n                    .subscribeAndManage(\n                            { tunerResultReceived(mapper.tunerResultToViewModel(it!!)) },\n                            { tunerResultError() })\n        }\n    }\n\n    private fun tunerResultReceived(tunerViewModel: TunerViewModel) =\n            when (tunerViewModel.tuningStatus) {\n                DEFAULT -> mView.updateToDefaultStatus()\n                else -> {\n                    mView.updateNote(tunerViewModel.note)\n                    mView.updateIndicator((tunerViewModel.diffInCents * -1).toFloat())\n                    mView.updateCurrentFrequency(\n                            (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat())\n                }\n            }\n\n    private fun tunerResultError() {\n        mView.informError()\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/main/MainPresenter.kt	(date 1497959958000)
++++ app/src/main/kotlin/com/lbbento/pitchupapp/main/MainPresenter.kt	(revision )
+@@ -38,6 +38,8 @@
+                     mView.updateIndicator((tunerViewModel.diffInCents * -1).toFloat())
+                     mView.updateCurrentFrequency(
+                             (tunerViewModel.expectedFrequency + (tunerViewModel.diffFrequency * -1)).toFloat())
++                    mView.updateCurrentDifferenceInCents(
++                            tunerViewModel.diffInCents.toFloat())
+                 }
+             }
+ 
+Index: androidgauge/src/main/kotlin/com/lbbento/pitchuptunergauge/view/TunerGauge.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchuptunergauge.view\n\nimport android.content.Context\nimport android.graphics.*\nimport android.util.AttributeSet\nimport com.github.anastr.speedviewlib.base.Speedometer\nimport com.github.anastr.speedviewlib.base.SpeedometerDefault\n\nclass TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Speedometer(context, attrs, defStyleAttr) {\n\n    private val markPath: Path\n    private val circlePaint: Paint\n    private val speedometerPaint: Paint\n    private val markPaint: Paint\n    private val middleMarkPaint: Paint\n    private val speedometerRect: RectF\n\n    init {\n        this.markPath = Path()\n        this.circlePaint = Paint(1)\n        this.speedometerPaint = Paint(1)\n        this.markPaint = Paint(1)\n        this.middleMarkPaint = Paint(1)\n        this.speedometerRect = RectF()\n        this.init()\n    }\n\n    constructor(context: Context) : this(context, null, 0)\n\n    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)\n\n    override fun defaultValues() {}\n\n    override fun getSpeedometerDefault(): SpeedometerDefault {\n        val speedometerDefault = SpeedometerDefault()\n        speedometerDefault.indicator = TunerIndicator(this.context)\n        speedometerDefault.backgroundCircleColor = 0\n        return speedometerDefault\n    }\n\n    private fun init() {\n        this.speedometerPaint.style = Paint.Style.STROKE\n        this.markPaint.style = Paint.Style.STROKE\n        this.middleMarkPaint.style = Paint.Style.STROKE\n        this.middleMarkPaint.color = Color.GREEN\n        this.circlePaint.color = Color.parseColor(\"#ffff8800\")\n        this.startDegree = 180\n        this.endDegree = 360\n        this.lowSpeedPercent = 49\n        this.mediumSpeedPercent = 51\n        this.mediumSpeedColor = Color.parseColor(\"#0d47a1\")\n        this.lowSpeedColor = Color.parseColor(\"#0d47a1\")\n        this.highSpeedColor = Color.parseColor(\"#0d47a1\")\n        this.indicatorColor = Color.parseColor(\"#ffff8800\")\n        this.markColor = Color.parseColor(\"#0d47a1\")\n        this.speedTextColor = context.resources.getColor(android.R.color.transparent)\n        this.speedTextTypeface = Typeface.SANS_SERIF\n        this.speedometerWidth = 3f\n        this.textColor = context.resources.getColor(android.R.color.transparent)\n        this.unit = \"Hz\"\n        this.unitTextColor = context.resources.getColor(android.R.color.transparent)\n        this.backgroundCircleColor = context.resources.getColor(android.R.color.transparent)\n    }\n\n    override fun onSizeChanged(w: Int, h: Int, oldW: Int, oldH: Int) {\n        super.onSizeChanged(w, h, oldW, oldH)\n        this.updateBackgroundBitmap()\n    }\n\n    private fun initDraw() {\n        this.speedometerPaint.strokeWidth = this.speedometerWidth\n        this.markPaint.color = this.markColor\n    }\n\n    override fun onDraw(canvas: Canvas) {\n        super.onDraw(canvas)\n        this.initDraw()\n        this.drawSpeedUnitText(canvas)\n        this.drawIndicator(canvas)\n        canvas.drawCircle(this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f, this.widthPa.toFloat() / 20.0f, this.circlePaint)\n        this.drawNotes(canvas)\n    }\n\n    override fun updateBackgroundBitmap() {\n        val c = this.createBackgroundBitmapCanvas()\n        this.initDraw()\n\n        val markH = this.sizePa.toFloat() / 32.0f\n        this.markPath.reset()\n        this.markPath.moveTo((this.size.toFloat()) * 0.5f, this.padding.toFloat())\n        this.markPath.lineTo((this.size.toFloat()) * 0.5f, markH + this.padding.toFloat())\n        this.markPaint.strokeWidth = markH / 5.0f\n\n        val risk = this.speedometerWidth * 0.5f + 30f //markers\n        this.speedometerRect.set(risk, risk, this.size.toFloat() - risk, this.size.toFloat() - risk)\n\n        //draw arc\n        this.speedometerPaint.color = this.highSpeedColor\n        c.drawArc(this.speedometerRect, this.startDegree.toFloat(), (this.endDegree - this.startDegree).toFloat(), false, this.speedometerPaint)\n        this.speedometerPaint.color = this.mediumSpeedColor\n        c.drawArc(this.speedometerRect, this.startDegree.toFloat(), (this.endDegree - this.startDegree).toFloat() * this.mediumSpeedOffset, false, this.speedometerPaint)\n        this.speedometerPaint.color = this.lowSpeedColor\n        c.drawArc(this.speedometerRect, this.startDegree.toFloat(), (this.endDegree - this.startDegree).toFloat() * this.lowSpeedOffset, false, this.speedometerPaint)\n\n        c.save()\n        c.rotate(90.0f + this.startDegree.toFloat(), this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)\n\n        c.rotate(10f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)\n        c.drawPath(this.markPath, this.markPaint)\n\n        this.middleMarkPaint.strokeWidth = indicatorWidth + 20f\n        c.rotate(80f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)\n        c.drawPath(this.markPath, this.middleMarkPaint) //Middle one\n\n        c.rotate(80f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)\n        c.drawPath(this.markPath, this.markPaint)\n\n        c.restore()\n        this.drawDefMinMaxSpeedPosition(c)\n    }\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- androidgauge/src/main/kotlin/com/lbbento/pitchuptunergauge/view/TunerGauge.kt	(date 1497959958000)
++++ androidgauge/src/main/kotlin/com/lbbento/pitchuptunergauge/view/TunerGauge.kt	(revision )
+@@ -2,12 +2,20 @@
+ 
+ import android.content.Context
+ import android.graphics.*
++import android.graphics.Color.*
+ import android.util.AttributeSet
+ import com.github.anastr.speedviewlib.base.Speedometer
+ import com.github.anastr.speedviewlib.base.SpeedometerDefault
+ 
+ class TunerGauge(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Speedometer(context, attrs, defStyleAttr) {
+ 
++    companion object {
++        val INDICATOR_COLOR = "#c6c6c6"
++        val TUNED_COLOR = "#77C577"
++    }
++
++    private val ARC_COLOR = "#c6c6c6"
++
+     private val markPath: Path
+     private val circlePaint: Paint
+     private val speedometerPaint: Paint
+@@ -42,20 +50,20 @@
+         this.speedometerPaint.style = Paint.Style.STROKE
+         this.markPaint.style = Paint.Style.STROKE
+         this.middleMarkPaint.style = Paint.Style.STROKE
+-        this.middleMarkPaint.color = Color.GREEN
+-        this.circlePaint.color = Color.parseColor("#ffff8800")
++        this.middleMarkPaint.color = parseColor(TUNED_COLOR)
++        this.circlePaint.color = parseColor(INDICATOR_COLOR)
+         this.startDegree = 180
+         this.endDegree = 360
+         this.lowSpeedPercent = 49
+         this.mediumSpeedPercent = 51
+-        this.mediumSpeedColor = Color.parseColor("#0d47a1")
+-        this.lowSpeedColor = Color.parseColor("#0d47a1")
+-        this.highSpeedColor = Color.parseColor("#0d47a1")
+-        this.indicatorColor = Color.parseColor("#ffff8800")
+-        this.markColor = Color.parseColor("#0d47a1")
++        this.mediumSpeedColor = parseColor(ARC_COLOR)
++        this.lowSpeedColor = parseColor(ARC_COLOR)
++        this.highSpeedColor = parseColor(ARC_COLOR)
++        this.indicatorColor = parseColor(INDICATOR_COLOR)
++        this.markColor = parseColor(ARC_COLOR)
+         this.speedTextColor = context.resources.getColor(android.R.color.transparent)
+         this.speedTextTypeface = Typeface.SANS_SERIF
+-        this.speedometerWidth = 3f
++        this.speedometerWidth = 10f
+         this.textColor = context.resources.getColor(android.R.color.transparent)
+         this.unit = "Hz"
+         this.unitTextColor = context.resources.getColor(android.R.color.transparent)
+@@ -108,7 +116,7 @@
+         c.rotate(10f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
+         c.drawPath(this.markPath, this.markPaint)
+ 
+-        this.middleMarkPaint.strokeWidth = indicatorWidth + 20f
++        this.middleMarkPaint.strokeWidth = indicatorWidth + 10f
+         c.rotate(80f, this.size.toFloat() * 0.5f, this.size.toFloat() * 0.5f)
+         c.drawPath(this.markPath, this.middleMarkPaint) //Middle one
+ 
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/main/MainView.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.lbbento.pitchupapp.main\n\nimport com.lbbento.pitchupapp.ui.BaseView\n\ninterface MainView : BaseView {\n    fun setupGauge()\n    fun updateNote(note: String)\n    fun updateToDefaultStatus()\n    fun updateIndicator(diffInCents: Float)\n    fun getCurrentNote(): String\n    fun informError()\n    fun updateCurrentFrequency(currentFreq: Float)\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/main/MainView.kt	(date 1497959958000)
++++ app/src/main/kotlin/com/lbbento/pitchupapp/main/MainView.kt	(revision )
+@@ -7,7 +7,7 @@
+     fun updateNote(note: String)
+     fun updateToDefaultStatus()
+     fun updateIndicator(diffInCents: Float)
+-    fun getCurrentNote(): String
+     fun informError()
+     fun updateCurrentFrequency(currentFreq: Float)
++    fun updateCurrentDifferenceInCents(cents: Float)
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:background=\"#212121\">\n\n    <android.support.design.widget.AppBarLayout\n        android:id=\"@+id/main_activity_appbar\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\">\n\n        <android.support.v7.widget.Toolbar\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\" />\n\n    </android.support.design.widget.AppBarLayout>\n\n    <com.lbbento.pitchuptunergauge.view.TunerGauge\n        android:id=\"@+id/main_activity_gauge\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_below=\"@id/main_activity_appbar\"\n        android:layout_margin=\"40dp\"\n        android:padding=\"5dp\" />\n\n    <TextView\n        android:id=\"@+id/main_activity_freqtext\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_below=\"@id/main_activity_gauge\"\n        android:layout_centerHorizontal=\"true\"\n        android:layout_marginTop=\"50dp\"\n        android:textAppearance=\"@style/TextAppearance.AppCompat.Large\"\n        android:textColor=\"@android:color/darker_gray\" />\n\n    <TextView\n        android:id=\"@+id/main_activity_notetext\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_below=\"@id/main_activity_freqtext\"\n        android:layout_centerHorizontal=\"true\"\n        android:layout_marginTop=\"50dp\"\n        android:textAppearance=\"@style/TextAppearance.AppCompat.Headline\"\n        android:textColor=\"@android:color/white\">\n\n    </TextView>\n\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(date 1497959958000)
++++ app/src/main/res/layout/activity_main.xml	(revision )
+@@ -1,48 +1,88 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:background="#212121">
++    android:background="#212121"
++    android:orientation="vertical"
++    tools:layout_editor_absoluteX="0dp"
++    tools:layout_editor_absoluteY="25dp">
+ 
+     <android.support.design.widget.AppBarLayout
+-        android:id="@+id/main_activity_appbar"
++        android:id="@+id/main_activity_appBar"
+         android:layout_width="match_parent"
+-        android:layout_height="wrap_content">
++        android:layout_height="wrap_content"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        tools:layout_editor_absoluteX="0dp"
++        tools:layout_editor_absoluteY="0dp">
+ 
+         <android.support.v7.widget.Toolbar
+             android:layout_width="match_parent"
+-            android:layout_height="wrap_content" />
++            android:layout_height="match_parent"
++            app:title="@string/app_name" />
+ 
+     </android.support.design.widget.AppBarLayout>
+ 
++
+     <com.lbbento.pitchuptunergauge.view.TunerGauge
+         android:id="@+id/main_activity_gauge"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:layout_below="@id/main_activity_appbar"
+-        android:layout_margin="40dp"
+-        android:padding="5dp" />
++        android:layout_width="0dp"
++        android:layout_height="197dp"
++        android:layout_marginBottom="8dp"
++        android:layout_marginEnd="45dp"
++        android:layout_marginStart="45dp"
++        android:layout_marginTop="48dp"
++        android:padding="5dp"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/main_activity_appBar"
++        tools:layout_editor_absoluteX="45dp" />
++
+ 
+     <TextView
+         android:id="@+id/main_activity_freqtext"
+         android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_below="@id/main_activity_gauge"
+-        android:layout_centerHorizontal="true"
+-        android:layout_marginTop="50dp"
+-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+-        android:textColor="@android:color/darker_gray" />
++        android:layout_height="29dp"
++        android:layout_marginTop="24dp"
++        android:text="@string/freq_in_hertz_initial"
++        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
++        android:textColor="@android:color/darker_gray"
++        app:layout_constraintHorizontal_bias="0.501"
++        app:layout_constraintLeft_toLeftOf="parent"
++        app:layout_constraintRight_toRightOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/main_activity_gauge" />
+ 
+     <TextView
+-        android:id="@+id/main_activity_notetext"
++        android:id="@+id/main_activity_centstext"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:layout_below="@id/main_activity_freqtext"
+-        android:layout_centerHorizontal="true"
+-        android:layout_marginTop="50dp"
+-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+-        android:textColor="@android:color/white">
++        android:layout_marginTop="8dp"
++        android:text="@string/number_in_cents_initial"
++        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
++        android:textColor="@android:color/darker_gray"
++        app:layout_constraintLeft_toLeftOf="parent"
++        app:layout_constraintRight_toRightOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/main_activity_freqtext"
++        tools:layout_conversion_absoluteHeight="10dp"
++        tools:layout_conversion_absoluteWidth="54dp"
++        tools:layout_conversion_absoluteX="0dp"
++        tools:layout_conversion_absoluteY="374dp" />
+ 
+-    </TextView>
++
++    <com.lbbento.pitchupapp.ui.view.PitchUpNoteView
++        android:id="@+id/main_activity_note_view"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginBottom="8dp"
++        android:layout_marginTop="8dp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/main_activity_centstext"
++        tools:background="@color/colorPrimary"
++        tools:layout_height="50dp" />
++
+ 
+-</RelativeLayout>
+\ No newline at end of file
++</android.support.constraint.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\n\n    <!-- Base application theme. -->\n    <style name=\"AppTheme\" parent=\"Theme.AppCompat.Light.NoActionBar\">\n        <!-- Customize your theme here. -->\n        <item name=\"colorPrimary\">@color/colorPrimary</item>\n        <item name=\"colorPrimaryDark\">@color/colorPrimaryDark</item>\n        <item name=\"colorAccent\">@color/colorAccent</item>\n    </style>\n\n</resources>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(date 1497959958000)
++++ app/src/main/res/values/styles.xml	(revision )
+@@ -1,7 +1,7 @@
+ <resources>
+ 
+     <!-- Base application theme. -->
+-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
++    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+         <!-- Customize your theme here. -->
+         <item name="colorPrimary">@color/colorPrimary</item>
+         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+Index: app/src/main/res/layout/view_pitchup_note_col.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/view_pitchup_note_col.xml	(revision )
++++ app/src/main/res/layout/view_pitchup_note_col.xml	(revision )
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_height="wrap_content"
++    android:layout_width="90dp"
++    android:gravity="center">
++
++    <TextView
++        android:id="@+id/view_pitchup_note_col_text"
++        android:textAppearance="@style/TextAppearance.AppCompat.Large"
++        android:textColor="@color/colorPrimary"
++        android:textSize="30sp"
++        android:textStyle="bold"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        tools:text="C#"
++        />
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/NotesAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/NotesAdapter.kt	(revision )
++++ app/src/main/kotlin/com/lbbento/pitchupapp/ui/view/NotesAdapter.kt	(revision )
+@@ -0,0 +1,36 @@
++package com.lbbento.pitchupapp.ui.view
++
++import android.content.Context
++import android.support.v7.widget.RecyclerView
++import android.view.LayoutInflater
++import android.view.View
++import android.view.ViewGroup
++import android.widget.TextView
++import com.lbbento.pitchupapp.R
++
++
++class NotesAdapter(context: Context) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
++
++    private val items: ArrayList<Map<String, String>> = ArrayList()
++
++    override fun getItemCount() = items.size
++
++    override fun onBindViewHolder(viewHolder: NotesViewHolder?, position: Int) {
++        viewHolder!!.textNote.text = items[position]["note"]!!
++    }
++
++    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NotesViewHolder {
++        val view = LayoutInflater.from(parent!!.context).inflate(R.layout.view_pitchup_note_col, parent, false)
++
++        return NotesViewHolder(view)
++    }
++
++    fun addAll(notesList: List<Map<String, String>>) {
++        items.addAll(notesList)
++        notifyDataSetChanged()
++    }
++
++    class NotesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
++        val textNote = view.findViewById<TextView>(R.id.view_pitchup_note_col_text)
++    }
++}
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n    <component name=\"ProjectModuleManager\">\n        <modules>\n            <module filepath=\"$PROJECT_DIR$/PitchUp.iml\"\n                fileurl=\"file://$PROJECT_DIR$/PitchUp.iml\" />\n            <module filepath=\"$PROJECT_DIR$/androidgauge/androidgauge.iml\"\n                fileurl=\"file://$PROJECT_DIR$/androidgauge/androidgauge.iml\" />\n            <module filepath=\"$PROJECT_DIR$/app/app.iml\"\n                fileurl=\"file://$PROJECT_DIR$/app/app.iml\" />\n            <module filepath=\"$PROJECT_DIR$/wear2/app.iml\"\n                fileurl=\"file://$PROJECT_DIR$/wear2/app.iml\" />\n            <module filepath=\"$PROJECT_DIR$/core/core.iml\"\n                fileurl=\"file://$PROJECT_DIR$/core/core.iml\" />\n            <module filepath=\"$PROJECT_DIR$/tuner/pitchupandroid.iml\"\n                fileurl=\"file://$PROJECT_DIR$/tuner/pitchupandroid.iml\" />\n            <module filepath=\"$PROJECT_DIR$/androidgauge/pitchupandroidgauge.iml\"\n                fileurl=\"file://$PROJECT_DIR$/androidgauge/pitchupandroidgauge.iml\" />\n            <module filepath=\"$PROJECT_DIR$/core/pitchupcore.iml\"\n                fileurl=\"file://$PROJECT_DIR$/core/pitchupcore.iml\" />\n            <module filepath=\"$PROJECT_DIR$/pitchupandroid/pitchuptuner.iml\"\n                fileurl=\"file://$PROJECT_DIR$/pitchupandroid/pitchuptuner.iml\" />\n            <module filepath=\"$PROJECT_DIR$/pitchupandroidgauge/pitchuptunergauge.iml\"\n                fileurl=\"file://$PROJECT_DIR$/pitchupandroidgauge/pitchuptunergauge.iml\" />\n            <module filepath=\"$PROJECT_DIR$/app/temporary.iml\"\n                fileurl=\"file://$PROJECT_DIR$/app/temporary.iml\" />\n            <module filepath=\"$PROJECT_DIR$/tuner/tuner.iml\"\n                fileurl=\"file://$PROJECT_DIR$/tuner/tuner.iml\" />\n            <module filepath=\"$PROJECT_DIR$/wear2/wear2.iml\"\n                fileurl=\"file://$PROJECT_DIR$/wear2/wear2.iml\" />\n        </modules>\n    </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(date 1497959958000)
++++ .idea/modules.xml	(revision )
+@@ -1,33 +1,20 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-    <component name="ProjectModuleManager">
+-        <modules>
+-            <module filepath="$PROJECT_DIR$/PitchUp.iml"
+-                fileurl="file://$PROJECT_DIR$/PitchUp.iml" />
+-            <module filepath="$PROJECT_DIR$/androidgauge/androidgauge.iml"
+-                fileurl="file://$PROJECT_DIR$/androidgauge/androidgauge.iml" />
+-            <module filepath="$PROJECT_DIR$/app/app.iml"
+-                fileurl="file://$PROJECT_DIR$/app/app.iml" />
+-            <module filepath="$PROJECT_DIR$/wear2/app.iml"
+-                fileurl="file://$PROJECT_DIR$/wear2/app.iml" />
+-            <module filepath="$PROJECT_DIR$/core/core.iml"
+-                fileurl="file://$PROJECT_DIR$/core/core.iml" />
+-            <module filepath="$PROJECT_DIR$/tuner/pitchupandroid.iml"
+-                fileurl="file://$PROJECT_DIR$/tuner/pitchupandroid.iml" />
+-            <module filepath="$PROJECT_DIR$/androidgauge/pitchupandroidgauge.iml"
+-                fileurl="file://$PROJECT_DIR$/androidgauge/pitchupandroidgauge.iml" />
+-            <module filepath="$PROJECT_DIR$/core/pitchupcore.iml"
+-                fileurl="file://$PROJECT_DIR$/core/pitchupcore.iml" />
+-            <module filepath="$PROJECT_DIR$/pitchupandroid/pitchuptuner.iml"
+-                fileurl="file://$PROJECT_DIR$/pitchupandroid/pitchuptuner.iml" />
+-            <module filepath="$PROJECT_DIR$/pitchupandroidgauge/pitchuptunergauge.iml"
+-                fileurl="file://$PROJECT_DIR$/pitchupandroidgauge/pitchuptunergauge.iml" />
+-            <module filepath="$PROJECT_DIR$/app/temporary.iml"
+-                fileurl="file://$PROJECT_DIR$/app/temporary.iml" />
+-            <module filepath="$PROJECT_DIR$/tuner/tuner.iml"
+-                fileurl="file://$PROJECT_DIR$/tuner/tuner.iml" />
+-            <module filepath="$PROJECT_DIR$/wear2/wear2.iml"
+-                fileurl="file://$PROJECT_DIR$/wear2/wear2.iml" />
+-        </modules>
+-    </component>
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/PitchUp.iml" filepath="$PROJECT_DIR$/PitchUp.iml" />
++      <module fileurl="file://$PROJECT_DIR$/androidgauge/androidgauge.iml" filepath="$PROJECT_DIR$/androidgauge/androidgauge.iml" />
++      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
++      <module fileurl="file://$PROJECT_DIR$/wear2/app.iml" filepath="$PROJECT_DIR$/wear2/app.iml" />
++      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
++      <module fileurl="file://$PROJECT_DIR$/tuner/pitchupandroid.iml" filepath="$PROJECT_DIR$/tuner/pitchupandroid.iml" />
++      <module fileurl="file://$PROJECT_DIR$/androidgauge/pitchupandroidgauge.iml" filepath="$PROJECT_DIR$/androidgauge/pitchupandroidgauge.iml" />
++      <module fileurl="file://$PROJECT_DIR$/core/pitchupcore.iml" filepath="$PROJECT_DIR$/core/pitchupcore.iml" />
++      <module fileurl="file://$PROJECT_DIR$/pitchupandroid/pitchuptuner.iml" filepath="$PROJECT_DIR$/pitchupandroid/pitchuptuner.iml" />
++      <module fileurl="file://$PROJECT_DIR$/pitchupandroidgauge/pitchuptunergauge.iml" filepath="$PROJECT_DIR$/pitchupandroidgauge/pitchuptunergauge.iml" />
++      <module fileurl="file://$PROJECT_DIR$/app/temporary.iml" filepath="$PROJECT_DIR$/app/temporary.iml" />
++      <module fileurl="file://$PROJECT_DIR$/tuner/tuner.iml" filepath="$PROJECT_DIR$/tuner/tuner.iml" />
++      <module fileurl="file://$PROJECT_DIR$/wear2/wear2.iml" filepath="$PROJECT_DIR$/wear2/wear2.iml" />
++    </modules>
++  </component>
+ </project>
+\ No newline at end of file

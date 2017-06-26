@@ -30,6 +30,10 @@ abstract class BasePresenter<V : BaseView> : Presenter {
 
     @CallSuper
     override fun onStop() {
+    }
+
+    @CallSuper
+    override fun onDestroy() {
         subscriptions.unsubscribe()
     }
 

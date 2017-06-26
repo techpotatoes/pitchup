@@ -43,5 +43,10 @@ abstract class BaseActivity<P : Presenter> : AppCompatActivity(), BaseView {
         presenter.onStop()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+    }
+
     abstract fun setupInjection()
 }

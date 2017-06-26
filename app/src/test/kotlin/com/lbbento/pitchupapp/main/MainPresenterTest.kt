@@ -6,10 +6,7 @@ import com.lbbento.pitchupcore.TuningStatus.DEFAULT
 import com.lbbento.pitchupcore.TuningStatus.TOO_LOW
 import com.lbbento.pitchuptuner.GuitarTunerReactive
 import com.lbbento.pitchuptuner.service.TunerResult
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.never
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
 import org.junit.Before
 import org.junit.Test
 import rx.Observable
@@ -47,7 +44,7 @@ class MainPresenterTest {
     }
 
     @Test
-    fun shouldUpdateToDefaultStatus() {
+    fun shouldDoNothingOnDefaultStatus() {
         val tunerResult: TunerResult = mock()
         val tunerViewModel: TunerViewModel = mock {
             whenever(it.tuningStatus).thenReturn(DEFAULT)
@@ -59,7 +56,7 @@ class MainPresenterTest {
 
         mainPresenter.onViewResuming()
 
-        verify(mockView).updateToDefaultStatus()
+        verifyNoMoreInteractions(mockView)
     }
 
     @Test
@@ -83,7 +80,7 @@ class MainPresenterTest {
         verify(mockView).updateIndicator(-11f)
         verify(mockView).updateNote(tunerViewModel.note)
         verify(mockView).updateCurrentFrequency(setFreqTo)
-        verify(mockView).updateCurrentDifferenceInCents(11.0f)
+        verify(mockView).updateCurrentDifferenceInCents("-", 11.0f)
     }
 
     @Test

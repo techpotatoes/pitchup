@@ -13,8 +13,8 @@ class BasePresenterTest {
     val presenter = TestBasePresenter(mockSubscription)
 
     @Test
-    fun shouldUnsubscribeOnStop() {
-        presenter.onStop()
+    fun shouldUnsubscribeOnDestroy() {
+        presenter.onDestroy()
 
         verify(mockSubscription).unsubscribe()
     }
