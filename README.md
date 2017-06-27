@@ -2,6 +2,7 @@
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 ![Travis-ci](https://travis-ci.org/lbbento/pitchup.svg)
+<br><br><a href='https://play.google.com/store/apps/details?id=com.lbbento.pitchup'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/badge_new.png'/></a>
 
 # PitchUp
 PitchUp is an open source project that provides a tuner for instruments(for now only guitars) based on pitch using the smartphone or smartwatch microphone.
@@ -11,7 +12,7 @@ The project consists of 4 main components:
 
 * The PitchUp core library which is the responsible for getting a raw pitch and return the note correspondent to it depending on the kind of instrument.
 * The PitchUp android tuner module which wraps the logic to record audio on android based devices and uses the core library internally.
-* The Android app also available in google play: [coming soon!]
+* The Android app also available in [Google Play](https://play.google.com/store/apps/details?id=com.lbbento.pitchup)
 * The Wear App that is shipped with the Android App, but is also available as a standalone WearApp in the playstore. [coming soon!]
 
 ## PitchUp Core  <a href='https://bintray.com/lbbento/pitchup/core/_latestVersion'><img src='https://api.bintray.com/packages/lbbento/pitchup/core/images/download.svg'></a></h2>
