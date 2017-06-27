@@ -108,6 +108,10 @@ expectedFrequency|Double|The expected frequency for the closer note given the pi
 diffFrequency|Double|Difference from the pitch given to the expected frequency.
 diffCents|Double|Difference in cents from the current frequency to the expected frequency. 
 
+### Contributing
+
+Please, drop me an email if you have any suggestions, problems or feedback. Feel free to submit a pull request if you improved the library and want to share it. 
+
 ### Privacy Policy
 
 This page informs you of our policies regarding the collection, use and disclosure of Personal Information when you use our Service.
